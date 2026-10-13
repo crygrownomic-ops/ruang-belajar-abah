@@ -1,4 +1,4 @@
-/* Custom Styles for Ruang Belajar Abah */
+/* Custom Styles for Ruang Belajar Abah Ceria */
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -9,26 +9,47 @@ body {
 }
 
 .nav-btn.active {
-    background-color: #3730a3; /* Indigo 800 */
-    font-weight: 700;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 2px solid #fde047; /* Yellow 300 */
+    font-weight: 800;
 }
 
 .phase-btn.active {
-    background-color: #4f46e5; /* Indigo 600 */
+    background-color: #6366f1; /* Indigo 500 */
     color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .subject-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-6px) rotate(1deg);
 }
 
-/* Format Khusus untuk Cetak Rapor (Print Rules) */
+/* Animasi Mengapung & Berputar Pelan */
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(3deg); }
+}
+
+.float-anim {
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spin-slow {
+    animation: spinSlow 12s linear infinite;
+}
+
+/* Format khusus Cetak Rapor (Print Rules) */
 @media print {
     .no-print {
         display: none !important;
     }
     body {
-        background-color: white !important;
+        background: white !important;
         color: black !important;
     }
     main {
