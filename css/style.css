@@ -8,6 +8,7 @@ body {
     font-family: 'Fredoka', cursive;
 }
 
+/* Navigasi & Tombol Aktif */
 .nav-btn.active {
     background-color: rgba(255, 255, 255, 0.3) !important;
     border: 2px solid #fde047; /* Yellow 300 */
@@ -24,7 +25,56 @@ body {
     transform: translateY(-6px) rotate(1deg);
 }
 
-/* Print Rules for Rapor, LKPD, and Modul Ajar */
+/* ==========================================
+   EFEK ANIMASI LENGKAP BERMAIN & CERIA
+   ========================================== */
+
+/* 1. Animasi Mengapung (Floating Rocket / Mascot) */
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-12px) rotate(4deg); 
+    }
+}
+
+.float-anim {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* 2. Animasi Berputar Pelan (Spinning Star / Badge) */
+@keyframes spinSlow {
+    from { 
+        transform: rotate(0deg); 
+    }
+    to { 
+        transform: rotate(360deg); 
+    }
+}
+
+.spin-slow {
+    animation: spinSlow 12s linear infinite;
+}
+
+/* 3. Animasi Denyut Ceria (Pulse Effect) */
+@keyframes pulseSlow {
+    0%, 100% { 
+        transform: scale(1); 
+    }
+    50% { 
+        transform: scale(1.05); 
+    }
+}
+
+.pulse-anim {
+    animation: pulseSlow 3s ease-in-out infinite;
+}
+
+
+/* ==========================================
+   FORMAT KHUSUS CETAK (PRINT RULES)
+   ========================================== */
 @media print {
     .no-print {
         display: none !important;
