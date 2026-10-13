@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruang Belajar Abah - Aplikasi Pembelajaran SD Interaktif</title>
+    <title>Ruang Belajar Ayah Bunda - Aplikasi Pembelajaran SD Interaktif</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -24,7 +24,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-extrabold text-indigo-900 font-fredoka tracking-wide">Ruang Belajar Abah</h1>
+                    <h1 class="text-xl font-extrabold text-indigo-900 font-fredoka tracking-wide">Ruang Belajar Ayah Bunda</h1>
                     <p class="text-xs text-indigo-500 font-medium">Pembelajaran Interaktif SD - Kurikulum Merdeka</p>
                 </div>
             </div>
@@ -196,7 +196,7 @@
                     <!-- Populated dynamically -->
                 </div>
 
-                <!-- Explanation Box (Appears after answer) -->
+                <!-- Explanation Box -->
                 <div id="quiz-explanation" class="hidden p-4 rounded-xl text-sm border space-y-1">
                     <!-- Explanation content -->
                 </div>
@@ -213,7 +213,6 @@
         <!-- SECTION 4: TANYA AI NINNA -->
         <section id="sec-ai" class="hidden space-y-6">
             <div class="bg-white rounded-2xl border shadow-sm max-w-3xl mx-auto flex flex-col h-[550px]">
-                <!-- Chat Header -->
                 <div class="p-4 border-b flex items-center space-x-3 bg-indigo-50 rounded-t-2xl">
                     <div class="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
                         <i class="fa-solid fa-robot"></i>
@@ -224,7 +223,6 @@
                     </div>
                 </div>
 
-                <!-- Chat History Window -->
                 <div id="chat-window" class="flex-grow p-4 overflow-y-auto space-y-4">
                     <div class="flex items-start space-x-2">
                         <div class="bg-indigo-100 text-indigo-900 p-3.5 rounded-2xl rounded-tl-none max-w-md text-sm leading-relaxed">
@@ -233,7 +231,6 @@
                     </div>
                 </div>
 
-                <!-- Chat Input Box -->
                 <div class="p-3 border-t flex items-center space-x-2">
                     <input type="text" id="chat-input" placeholder="Ketik pertanyaanmu di sini... (Tekan Enter)" class="flex-grow border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <button onclick="handleSendChat()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-bold transition flex items-center space-x-1">
@@ -257,7 +254,7 @@
                 <div class="space-y-4 text-sm">
                     <div>
                         <label class="block font-semibold mb-1 text-slate-700">Mata Pelajaran</label>
-                        <select id="gen-subject" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500">
+                        <select id="gen-subject" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500 bg-white">
                             <option value="Matematika">Matematika</option>
                             <option value="IPAS">IPAS</option>
                             <option value="Bahasa Indonesia">Bahasa Indonesia</option>
@@ -267,7 +264,7 @@
 
                     <div>
                         <label class="block font-semibold mb-1 text-slate-700">Fase Kelas</label>
-                        <select id="gen-phase" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500">
+                        <select id="gen-phase" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500 bg-white">
                             <option value="Fase A (Kelas 1-2 SD)">Fase A (Kelas 1-2 SD)</option>
                             <option value="Fase B (Kelas 3-4 SD)">Fase B (Kelas 3-4 SD)</option>
                             <option value="Fase C (Kelas 5-6 SD)">Fase C (Kelas 5-6 SD)</option>
@@ -284,7 +281,6 @@
                     </button>
                 </div>
 
-                <!-- Generated Quiz Output Area -->
                 <div id="gen-result-area" class="hidden border-t pt-4 space-y-3">
                     <h3 class="font-bold text-slate-800">Hasil Kuis Buatan AI:</h3>
                     <div id="gen-questions-list" class="space-y-3 text-xs bg-slate-50 p-4 rounded-xl max-h-60 overflow-y-auto"></div>
@@ -295,7 +291,7 @@
             </div>
         </section>
 
-        <!-- SECTION 6: RAPOR DIGITAL (PRINTABLE) -->
+        <!-- SECTION 6: RAPOR DIGITAL -->
         <section id="sec-rapor" class="hidden space-y-6">
             <div class="max-w-4xl mx-auto">
                 <div class="no-print flex justify-end mb-4">
@@ -304,15 +300,12 @@
                     </button>
                 </div>
 
-                <!-- Printable Paper Container -->
                 <div class="rapor-paper bg-white p-8 md:p-12 rounded-2xl border shadow-lg space-y-6 text-slate-800">
-                    <!-- Rapor Header -->
                     <div class="text-center border-b-2 border-indigo-900 pb-4">
                         <h2 class="text-2xl font-black font-fredoka uppercase tracking-wider text-indigo-900">Rapor Digital Pembelajaran SD</h2>
-                        <p class="text-xs font-semibold text-slate-500 uppercase">Aplikasi Ruang Belajar Abah - Kurikulum Merdeka</p>
+                        <p class="text-xs font-semibold text-slate-500 uppercase">Ruang Belajar Ayah Bunda - Kurikulum Merdeka</p>
                     </div>
 
-                    <!-- Student Metadata -->
                     <div class="grid grid-cols-2 gap-4 text-sm font-medium border-b pb-4">
                         <div>
                             <p><span class="text-slate-500">Nama Siswa:</span> <strong id="rap-nama" class="text-indigo-900 text-base">---</strong></p>
@@ -324,7 +317,6 @@
                         </div>
                     </div>
 
-                    <!-- Scores Table -->
                     <div>
                         <h3 class="font-bold text-sm text-indigo-900 uppercase tracking-wider mb-2">Nilai Perkembangan Kuis</h3>
                         <table class="w-full border-collapse border border-slate-300 text-sm">
@@ -342,7 +334,6 @@
                         </table>
                     </div>
 
-                    <!-- Badges Earned -->
                     <div>
                         <h3 class="font-bold text-sm text-indigo-900 uppercase tracking-wider mb-2">Lencana Prestasi</h3>
                         <div id="rap-badges-list" class="flex flex-wrap gap-2">
@@ -350,10 +341,9 @@
                         </div>
                     </div>
 
-                    <!-- Signature Area for Print -->
                     <div class="pt-8 grid grid-cols-2 text-center text-xs font-semibold">
                         <div>
-                            <p class="mb-12">Mengetahui,<br>Orang Tua / Wali (Abah/Bunda)</p>
+                            <p class="mb-12">Mengetahui,<br>Orang Tua / Wali (Ayah/Bunda)</p>
                             <p class="border-t border-slate-400 w-3/4 mx-auto pt-1">( ......................................... )</p>
                         </div>
                         <div>
@@ -375,10 +365,9 @@
                 <button onclick="closeStudentModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
 
-            <!-- Existing Students Dropdown -->
             <div class="space-y-2">
                 <label class="block text-xs font-semibold text-slate-600">Pilih Siswa Aktif:</label>
-                <select id="student-select" onchange="changeActiveStudent()" class="w-full border rounded-xl p-2 text-sm">
+                <select id="student-select" onchange="changeActiveStudent()" class="w-full border rounded-xl p-2 text-sm bg-white">
                     <!-- Options populated by JS -->
                 </select>
             </div>
@@ -395,7 +384,15 @@
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block mb-1 font-semibold">Kelas / Fase</label>
-                        <input type="text" id="input-kelas" required placeholder="Kelas 2 SD / Fase A" class="w-full border rounded-xl p-2">
+                        <!-- CHANGED TO DROPDOWN SELECT -->
+                        <select id="input-kelas" required class="w-full border rounded-xl p-2 bg-white">
+                            <option value="Kelas 1 SD / Fase A">Kelas 1 SD / Fase A</option>
+                            <option value="Kelas 2 SD / Fase A">Kelas 2 SD / Fase A</option>
+                            <option value="Kelas 3 SD / Fase B">Kelas 3 SD / Fase B</option>
+                            <option value="Kelas 4 SD / Fase B">Kelas 4 SD / Fase B</option>
+                            <option value="Kelas 5 SD / Fase C">Kelas 5 SD / Fase C</option>
+                            <option value="Kelas 6 SD / Fase C">Kelas 6 SD / Fase C</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block mb-1 font-semibold">No. Absen / NISN</label>
@@ -423,7 +420,7 @@
                 <button onclick="closeApiKeyModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             <p class="text-xs text-slate-600 leading-relaxed">
-                Masukkan Google Gemini API Key milik Abah untuk mengaktifkan fitur <strong>Tanya AI</strong> dan <strong>Generator Soal Otomatis</strong>. API Key disimpan secara lokal di browser Abah.
+                Masukkan Gemini API Key untuk mengaktifkan fitur <strong>Tanya AI</strong> dan <strong>Generator Soal Otomatis</strong>. API Key disimpan secara lokal di browser Ayah/Bunda.
             </p>
             <input type="password" id="input-api-key" placeholder="AIzaSy..." class="w-full border rounded-xl p-2.5 text-sm">
             <div class="flex justify-end space-x-2">
@@ -433,7 +430,6 @@
         </div>
     </div>
 
-    <!-- JavaScript Modular Files -->
     <script src="js/data.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/audio.js"></script>
