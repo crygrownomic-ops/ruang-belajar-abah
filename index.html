@@ -3,2069 +3,441 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ninna Belajar Pintar - Aplikasi Edukasi Anak SD Kurikulum Merdeka</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Ruang Belajar Abah - Aplikasi Pembelajaran SD Interaktif</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Fredoka & Nunito for child-friendly typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Canvas Confetti Library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            orange: '#FF7E36',
-                            yellow: '#FFC72C',
-                            blue: '#3B82F6',
-                            green: '#10B981',
-                            purple: '#8B5CF6',
-                            pink: '#EC4899',
-                            bg: '#F3F4F6'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Nunito', 'sans-serif'],
-                        display: ['Fredoka', 'cursive']
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #F8FAFC;
-            background-image: radial-gradient(#E2E8F0 1.5px, transparent 1.5px);
-            background-size: 24px 24px;
-        }
-
-        .font-display {
-            font-family: 'Fredoka', cursive;
-        }
-
-        .btn-bounce {
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease;
-        }
-        .btn-bounce:hover {
-            transform: translateY(-3px) scale(1.02);
-        }
-        .btn-bounce:active {
-            transform: translateY(2px) scale(0.98);
-        }
-
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(2deg); }
-        }
-        .animate-float {
-            animation: floatSlow 3.5s ease-in-out infinite;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(255, 199, 44, 0.5); }
-            50% { box-shadow: 0 0 25px rgba(255, 199, 44, 0.9); }
-        }
-        .glow-star {
-            animation: pulseGlow 2s infinite;
-        }
-
-        /* Custom Scrollbar for playful feel */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #F1F5F9;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #CBD5E1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94A3B8;
-        }
-
-        @media print {
-            .no-print { display: none !important; }
-            .print-only { display: block !important; }
-            body { background: white !important; }
-        }
-    </style>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="text-slate-800 min-h-screen flex flex-col justify-between selection:bg-yellow-200">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- Top Header Bar -->
-    <header class="no-print bg-white/90 backdrop-blur-md border-b-4 border-yellow-300 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between flex-wrap gap-3">
-            
-            <!-- Logo & Brand -->
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
-                <div class="w-12 h-12 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg text-2xl animate-float">
-                    🎓
+    <!-- HEADER / NAVIGATION -->
+    <header class="no-print bg-white shadow-md border-b border-slate-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showSection('beranda')">
+                <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-indigo-200">
+                    <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <div>
-                    <h1 class="font-display text-xl sm:text-2xl font-bold text-slate-800 tracking-wide flex items-center gap-1.5">
-                        <span>Ninna Belajar Pintar</span>
-                        <span class="text-xs font-sans font-extrabold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full border border-amber-300">SD</span>
-                    </h1>
-                    <p class="text-xs text-slate-500 font-semibold">Kurikulum Merdeka Interaktif</p>
+                    <h1 class="text-xl font-extrabold text-indigo-900 font-fredoka tracking-wide">Ruang Belajar Abah</h1>
+                    <p class="text-xs text-indigo-500 font-medium">Pembelajaran Interaktif SD - Kurikulum Merdeka</p>
                 </div>
             </div>
 
-            <!-- Student Active Profile & Quick Audio Settings -->
-            <div class="flex items-center gap-3">
-                
-                <!-- Stars Counter -->
-                <div class="bg-amber-50 border-2 border-amber-300 px-3 py-1.5 rounded-2xl flex items-center gap-1.5 shadow-sm">
-                    <span class="text-xl">⭐</span>
-                    <span id="userStarsCount" class="font-display font-bold text-amber-800 text-lg">0</span>
-                </div>
-
-                <!-- Profile Switcher / Quick Edit -->
-                <button onclick="openProfileModal()" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 px-3 py-1.5 rounded-2xl transition btn-bounce text-left">
-                    <span id="headerAvatar" class="text-2xl">🐱</span>
-                    <div class="hidden sm:block">
-                        <div id="headerName" class="font-bold text-xs text-slate-700 leading-tight">Adik Pintar</div>
-                        <div id="headerGrade" class="text-[10px] text-indigo-600 font-extrabold uppercase">Kelas 1-2 (Fase A)</div>
-                    </div>
-                    <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+            <!-- Active Student Selector & Nav Actions -->
+            <div class="flex items-center space-x-3 flex-wrap">
+                <!-- Select Active Student Button -->
+                <button onclick="openStudentModal()" class="flex items-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-xl border border-indigo-200 text-sm font-semibold transition">
+                    <i class="fa-solid fa-user-graduate text-indigo-600"></i>
+                    <span id="active-student-display">Pilih Siswa</span>
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
                 </button>
 
-                <!-- Audio Settings Toggle -->
-                <button id="soundToggleBtn" onclick="toggleSound()" title="Efek Suara On/Off" class="w-10 h-10 rounded-2xl border-2 border-slate-300 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 flex items-center justify-center text-lg btn-bounce">
-                    <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+                <!-- API Key Config Button -->
+                <button onclick="openApiKeyModal()" title="Pengaturan AI Gemini" class="bg-amber-50 hover:bg-amber-100 text-amber-700 p-2 rounded-xl border border-amber-200 transition">
+                    <i class="fa-solid fa-key"></i>
                 </button>
             </div>
         </div>
+
+        <!-- Main Navigation Bar -->
+        <nav class="bg-indigo-900 text-white px-4 py-2">
+            <div class="max-w-7xl mx-auto flex items-center justify-start space-x-1 overflow-x-auto text-sm font-medium">
+                <button onclick="showSection('beranda')" class="nav-btn active px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-800 transition whitespace-nowrap" id="nav-beranda">
+                    <i class="fa-solid fa-house"></i> <span>Beranda</span>
+                </button>
+                <button onclick="showSection('materi')" class="nav-btn px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-800 transition whitespace-nowrap" id="nav-materi">
+                    <i class="fa-solid fa-book-open"></i> <span>Materi Pembelajaran</span>
+                </button>
+                <button onclick="showSection('kuis')" class="nav-btn px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-800 transition whitespace-nowrap" id="nav-kuis">
+                    <i class="fa-solid fa-gamepad"></i> <span>Kuis Interaktif</span>
+                </button>
+                <button onclick="showSection('ai')" class="nav-btn px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-800 transition whitespace-nowrap" id="nav-ai">
+                    <i class="fa-solid fa-robot"></i> <span>Tanya AI Ninna</span>
+                </button>
+                <button onclick="showSection('generator')" class="nav-btn px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-800 transition whitespace-nowrap" id="nav-generator">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Generator Soal AI</span>
+                </button>
+                <button onclick="showSection('rapor')" class="nav-btn px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-800 transition whitespace-nowrap" id="nav-rapor">
+                    <i class="fa-solid fa-award"></i> <span>Rapor Digital</span>
+                </button>
+            </div>
+        </nav>
     </header>
 
-    <!-- Navigation Bar -->
-    <nav class="no-print bg-amber-400 border-b-4 border-amber-500 shadow-md">
-        <div class="max-w-6xl mx-auto px-2 flex justify-around sm:justify-center sm:gap-4 overflow-x-auto">
-            <button onclick="switchTab('home')" id="tab-home" class="nav-btn px-4 py-3 font-display font-bold text-slate-800 border-b-4 border-transparent hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                <span>🏠</span> Beranda
-            </button>
-            <button onclick="switchTab('materi')" id="tab-materi" class="nav-btn px-4 py-3 font-display font-bold text-slate-800 border-b-4 border-transparent hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                <span>📚</span> Materi
-            </button>
-            <button onclick="switchTab('kuis')" id="tab-kuis" class="nav-btn px-4 py-3 font-display font-bold text-slate-800 border-b-4 border-transparent hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                <span>✏️</span> Kuis & Evaluasi
-            </button>
-            <button onclick="switchTab('rapor')" id="tab-rapor" class="nav-btn px-4 py-3 font-display font-bold text-slate-800 border-b-4 border-transparent hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                <span>🏆</span> Rapor & Lencana
-            </button>
-            <button onclick="switchTab('ai')" id="tab-ai" class="nav-btn px-4 py-3 font-display font-bold text-slate-800 border-b-4 border-transparent hover:text-white flex items-center gap-2 transition whitespace-nowrap">
-                <span>🤖</span> Tanya Ninna AI
-            </button>
-        </div>
-    </nav>
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
 
-    <!-- Main Application Container -->
-    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
-
-        <!-- ================= TAB 1: BERANDA ================= -->
-        <section id="sec-home" class="tab-content space-y-6">
-            
-            <!-- Hero Welcome Card -->
-            <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+        <!-- SECTION 1: BERANDA -->
+        <section id="sec-beranda" class="space-y-6">
+            <!-- Welcome Banner -->
+            <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden">
                 <div class="relative z-10 max-w-2xl">
-                    <div class="inline-block bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
-                        ✨ Halo Anak Hebat Indonesia!
-                    </div>
-                    <h2 class="font-display text-3xl sm:text-4xl font-bold mb-2">
-                        Selamat Datang, <span id="heroStudentName" class="text-amber-300">Adik Pintar</span>! 👋
-                    </h2>
-                    <p class="text-indigo-100 text-sm sm:text-base leading-relaxed mb-6">
-                        Mari belajar sambil bermain hari ini. Pilih mata pelajaran favoritmu, baca materi ringkasnya, lalu uji kemampuanmu lewat kuis seru!
-                    </p>
-
-                    <div class="flex flex-wrap gap-3">
-                        <button onclick="switchTab('materi')" class="bg-amber-400 hover:bg-amber-300 text-amber-950 font-display font-bold px-6 py-3 rounded-2xl shadow-lg border-b-4 border-amber-600 btn-bounce flex items-center gap-2">
-                            <span>🚀</span> Mulai Belajar Now
+                    <span class="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Selamat Datang!</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold font-fredoka mt-2" id="welcome-heading">Halo Anak Pintar! 👋</h2>
+                    <p class="mt-2 text-indigo-100 text-sm md:text-base">Mari belajar Matematika, IPAS, Bahasa Indonesia, dan Bahasa Inggris dengan menyenangkan. Kumpulkan bintang dan raih lencana prestasi!</p>
+                    <div class="mt-5 flex flex-wrap gap-3">
+                        <button onclick="showSection('kuis')" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-950 font-bold px-5 py-2.5 rounded-xl shadow-md transition flex items-center space-x-2">
+                            <i class="fa-solid fa-play"></i> <span>Mulai Kuis</span>
                         </button>
-                        <button onclick="switchTab('kuis')" class="bg-white/20 hover:bg-white/30 text-white font-display font-bold px-6 py-3 rounded-2xl backdrop-blur-md border border-white/40 btn-bounce flex items-center gap-2">
-                            <span>🎯</span> Langsung Kuis
+                        <button onclick="openStudentModal()" class="bg-white/20 hover:bg-white/30 text-white font-semibold px-4 py-2.5 rounded-xl transition flex items-center space-x-2">
+                            <i class="fa-solid fa-users"></i> <span>Kelola Siswa</span>
                         </button>
                     </div>
-                </div>
-
-                <!-- Visual Mascot Decoration -->
-                <div class="absolute -right-6 -bottom-8 text-9xl opacity-30 sm:opacity-80 select-none pointer-events-none animate-float">
-                    🐱
                 </div>
             </div>
 
             <!-- Subject Cards Grid -->
             <div>
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-display text-2xl font-bold text-slate-800 flex items-center gap-2">
-                        <span>📖</span> Pilih Mata Pelajaran
-                    </h3>
-                    <span id="homeGradeBadge" class="text-xs font-extrabold bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full border border-indigo-300">
-                        Kelas 1-2 (Fase A)
-                    </span>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    
-                    <!-- Math -->
-                    <div onclick="selectSubjectAndNavigate('math')" class="bg-white rounded-3xl p-5 border-2 border-emerald-200 hover:border-emerald-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce group relative overflow-hidden">
-                        <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl font-display font-bold mb-4 group-hover:scale-110 transition">
-                            ➕
+                <h3 class="text-xl font-bold font-fredoka text-slate-800 mb-4">Pilih Mata Pelajaran</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- MTK -->
+                    <div onclick="selectSubject('mtk')" class="subject-card bg-sky-50 border-2 border-sky-200 hover:border-sky-400 p-5 rounded-2xl cursor-pointer transition shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 bg-sky-500 text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-3">
+                            <i class="fa-solid fa-calculator"></i>
                         </div>
-                        <h4 class="font-display font-bold text-xl text-slate-800 mb-1">Matematika</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed mb-4">Penjumlahan, Perkalian, Bangun Datar, & Soal Cerita.</p>
-                        <div class="flex items-center text-emerald-600 font-bold text-xs group-hover:translate-x-1 transition">
-                            <span>Buka Materi & Kuis</span> <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </div>
+                        <h4 class="font-bold text-lg text-sky-900 font-fredoka">Matematika</h4>
+                        <p class="text-xs text-sky-700 mt-1">Hitung-hitungan, geometri, & pemecahan masalah sederhana.</p>
                     </div>
-
                     <!-- IPAS -->
-                    <div onclick="selectSubjectAndNavigate('ipas')" class="bg-white rounded-3xl p-5 border-2 border-sky-200 hover:border-sky-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce group relative overflow-hidden">
-                        <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-3xl font-display font-bold mb-4 group-hover:scale-110 transition">
-                            🔬
+                    <div onclick="selectSubject('ipas')" class="subject-card bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-400 p-5 rounded-2xl cursor-pointer transition shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-3">
+                            <i class="fa-solid fa-leaf"></i>
                         </div>
-                        <h4 class="font-display font-bold text-xl text-slate-800 mb-1">IPAS</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed mb-4">Panca Indera, Wujud Benda, Daur Hidup & Tata Surya.</p>
-                        <div class="flex items-center text-sky-600 font-bold text-xs group-hover:translate-x-1 transition">
-                            <span>Buka Materi & Kuis</span> <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </div>
+                        <h4 class="font-bold text-lg text-emerald-900 font-fredoka">IPAS</h4>
+                        <p class="text-xs text-emerald-700 mt-1">Ilmu Pengetahuan Alam & Sosial, tubuh manusia, & alam sekitar.</p>
                     </div>
-
                     <!-- Bahasa Indonesia -->
-                    <div onclick="selectSubjectAndNavigate('indo')" class="bg-white rounded-3xl p-5 border-2 border-amber-200 hover:border-amber-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce group relative overflow-hidden">
-                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-3xl font-display font-bold mb-4 group-hover:scale-110 transition">
-                            🇮🇩
+                    <div onclick="selectSubject('indo')" class="subject-card bg-amber-50 border-2 border-amber-200 hover:border-amber-400 p-5 rounded-2xl cursor-pointer transition shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 bg-amber-500 text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-3">
+                            <i class="fa-solid fa-book text-2xl"></i>
                         </div>
-                        <h4 class="font-display font-bold text-xl text-slate-800 mb-1">Bahasa Indonesia</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed mb-4">Kata Tanya (5W1H), Membaca, Puisi & Kata Baku.</p>
-                        <div class="flex items-center text-amber-600 font-bold text-xs group-hover:translate-x-1 transition">
-                            <span>Buka Materi & Kuis</span> <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </div>
+                        <h4 class="font-bold text-lg text-amber-900 font-fredoka">Bahasa Indonesia</h4>
+                        <p class="text-xs text-amber-700 mt-1">Literasi, kosakata, membaca pemahaman, & puisi cilik.</p>
                     </div>
-
-                    <!-- English -->
-                    <div onclick="selectSubjectAndNavigate('english')" class="bg-white rounded-3xl p-5 border-2 border-purple-200 hover:border-purple-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce group relative overflow-hidden">
-                        <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-3xl font-display font-bold mb-4 group-hover:scale-110 transition">
-                            🔤
+                    <!-- Bahasa Inggris -->
+                    <div onclick="selectSubject('inggris')" class="subject-card bg-purple-50 border-2 border-purple-200 hover:border-purple-400 p-5 rounded-2xl cursor-pointer transition shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 bg-purple-500 text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-3">
+                            <i class="fa-solid fa-language"></i>
                         </div>
-                        <h4 class="font-display font-bold text-xl text-slate-800 mb-1">English for Kids</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed mb-4">Animals, Colors, School Objects, & Daily Verbs.</p>
-                        <div class="flex items-center text-purple-600 font-bold text-xs group-hover:translate-x-1 transition">
-                            <span>Buka Materi & Kuis</span> <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </div>
+                        <h4 class="font-bold text-lg text-purple-900 font-fredoka">Bahasa Inggris</h4>
+                        <p class="text-xs text-purple-700 mt-1">Basic vocabulary, greetings, numbers, & fun phrases.</p>
                     </div>
-
                 </div>
             </div>
-
-            <!-- Quick Stats & Parent Note -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                
-                <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl">
-                        🏅
-                    </div>
-                    <div>
-                        <div class="text-xs font-bold text-slate-400 uppercase">Lencana Diraih</div>
-                        <div id="homeBadgesUnlockedCount" class="font-display text-2xl font-bold text-slate-800">0 / 6 Lencana</div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl">
-                        📋
-                    </div>
-                    <div>
-                        <div class="text-xs font-bold text-slate-400 uppercase">Kuis Dikerjakan</div>
-                        <div id="homeTotalQuizzesCount" class="font-display text-2xl font-bold text-slate-800">0 Kali</div>
-                    </div>
-                </div>
-
-                <div class="bg-amber-50 rounded-3xl p-5 border border-amber-200 shadow-sm flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center text-2xl">
-                        👨‍👩‍👧
-                    </div>
-                    <div>
-                        <div class="text-xs font-bold text-amber-800 uppercase">Catatan Abah & Bunda</div>
-                        <div class="text-xs text-amber-900 leading-snug">Kurikulum Merdeka mengedepankan pemahaman bermakna dan minat belajar anak.</div>
-                    </div>
-                </div>
-
-            </div>
-
         </section>
 
-        <!-- ================= TAB 2: MATERI BELAJAR ================= -->
-        <section id="sec-materi" class="tab-content hidden space-y-6">
-            
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+        <!-- SECTION 2: MATERI -->
+        <section id="sec-materi" class="hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4">
                 <div>
-                    <h2 class="font-display text-2xl font-bold text-slate-800 flex items-center gap-2">
-                        <span>📚</span> Ringkasan Materi & Kartu Edukasi
-                    </h2>
-                    <p class="text-xs sm:text-sm text-slate-500">
-                        Baca dulu materinya sebelum mencoba kuis agar kamu bisa mendapatkan nilai bintang 3!
-                    </p>
+                    <h2 class="text-2xl font-extrabold font-fredoka text-indigo-900">Materi Pembelajaran</h2>
+                    <p class="text-sm text-slate-600">Pilih Fase Kurikulum Merdeka dan mata pelajaran yang ingin dipelajari.</p>
                 </div>
-
-                <!-- Subject Selector Buttons -->
-                <div class="flex flex-wrap gap-2 w-full sm:w-auto">
-                    <button onclick="filterMateriSubject('math')" id="matSubject-math" class="mat-subj-btn bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-xs btn-bounce">
-                        Matematika
-                    </button>
-                    <button onclick="filterMateriSubject('ipas')" id="matSubject-ipas" class="mat-subj-btn bg-slate-100 text-slate-600 font-bold px-4 py-2 rounded-xl text-xs hover:bg-slate-200 btn-bounce">
-                        IPAS
-                    </button>
-                    <button onclick="filterMateriSubject('indo')" id="matSubject-indo" class="mat-subj-btn bg-slate-100 text-slate-600 font-bold px-4 py-2 rounded-xl text-xs hover:bg-slate-200 btn-bounce">
-                        B. Indonesia
-                    </button>
-                    <button onclick="filterMateriSubject('english')" id="matSubject-english" class="mat-subj-btn bg-slate-100 text-slate-600 font-bold px-4 py-2 rounded-xl text-xs hover:bg-slate-200 btn-bounce">
-                        English
-                    </button>
+                <!-- Phase Filter -->
+                <div class="flex bg-slate-200 p-1 rounded-xl text-sm font-semibold">
+                    <button onclick="setPhase('faseA')" id="btn-faseA" class="phase-btn active px-3 py-1.5 rounded-lg transition">Fase A (Kl 1-2)</button>
+                    <button onclick="setPhase('faseB')" id="btn-faseB" class="phase-btn px-3 py-1.5 rounded-lg transition">Fase B (Kl 3-4)</button>
+                    <button onclick="setPhase('faseC')" id="btn-faseC" class="phase-btn px-3 py-1.5 rounded-lg transition">Fase C (Kl 5-6)</button>
                 </div>
             </div>
 
-            <!-- Grade Filter Info -->
-            <div class="flex items-center justify-between bg-indigo-50 border border-indigo-200 px-4 py-2.5 rounded-2xl text-xs text-indigo-800">
-                <span class="font-bold flex items-center gap-1.5">
-                    <i class="fa-solid fa-layer-group"></i> Materi Ditampilkan Untuk: <span id="materiGradeLabel" class="underline font-extrabold">Fase A (Kelas 1-2)</span>
-                </span>
-                <button onclick="openProfileModal()" class="text-indigo-600 hover:text-indigo-900 font-bold underline">Ubah Kelas</button>
+            <!-- Material Content Display -->
+            <div id="materi-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Sidebar Topik -->
+                <div class="bg-white p-4 rounded-2xl border shadow-sm space-y-2" id="materi-topic-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+                <!-- Reader Content Card -->
+                <div class="md:col-span-2 bg-white p-6 rounded-2xl border shadow-sm relative min-h-[300px]">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="text-xl font-bold text-indigo-900 font-fredoka" id="materi-title">Pilih Topik Materi</h3>
+                        <button onclick="readAloudMateri()" title="Dengarkan Suara" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-xl text-sm font-semibold flex items-center space-x-2">
+                            <i class="fa-solid fa-volume-high"></i> <span>Bacakan</span>
+                        </button>
+                    </div>
+                    <div id="materi-body" class="prose max-w-none text-slate-700 space-y-3 leading-relaxed">
+                        <p class="text-slate-400 italic">Silakan klik salah satu topik di sebelah kiri untuk membaca materi.</p>
+                    </div>
+                </div>
             </div>
-
-            <!-- Flashcards Cards Grid -->
-            <div id="materiCardsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Dynamically Populated by JS -->
-            </div>
-
         </section>
 
-        <!-- ================= TAB 3: KUIS & EVALUASI ================= -->
-        <section id="sec-kuis" class="tab-content hidden space-y-6">
-            
-            <!-- Quiz Selection Hub View -->
-            <div id="quizSelectionHub" class="space-y-6">
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
-                    <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3">
-                        🎯
-                    </div>
-                    <h2 class="font-display text-2xl font-bold text-slate-800 mb-1">Evaluasi Kuis Interaktif</h2>
-                    <p class="text-xs text-slate-500 mb-6">Pilih mata pelajaran untuk mulai mengerjakan soal. Tunjukkan kemampuan terbaikmu!</p>
+        <!-- SECTION 3: KUIS INTERAKTIF -->
+        <section id="sec-kuis" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border shadow-sm max-w-2xl mx-auto space-y-5">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <span class="text-sm font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full" id="quiz-subject-tag">Matematika - Fase A</span>
+                    <span class="text-xs text-slate-500 font-semibold" id="quiz-progress-num">Soal 1 dari 5</span>
+                </div>
 
-                    <div class="grid grid-cols-2 gap-4 text-left">
-                        <button onclick="startQuiz('math')" class="p-4 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-300 rounded-2xl btn-bounce transition flex flex-col justify-between">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-2xl">➕</span>
-                                <span class="text-[10px] font-bold bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-md">5 Soal</span>
-                            </div>
-                            <div class="font-display font-bold text-slate-800">Kuis Matematika</div>
-                        </button>
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div id="quiz-progress-bar" class="bg-indigo-600 h-full w-1/5 transition-all duration-300"></div>
+                </div>
 
-                        <button onclick="startQuiz('ipas')" class="p-4 bg-sky-50 hover:bg-sky-100 border-2 border-sky-300 rounded-2xl btn-bounce transition flex flex-col justify-between">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-2xl">🔬</span>
-                                <span class="text-[10px] font-bold bg-sky-200 text-sky-800 px-2 py-0.5 rounded-md">5 Soal</span>
-                            </div>
-                            <div class="font-display font-bold text-slate-800">Kuis IPAS</div>
-                        </button>
-
-                        <button onclick="startQuiz('indo')" class="p-4 bg-amber-50 hover:bg-amber-100 border-2 border-amber-300 rounded-2xl btn-bounce transition flex flex-col justify-between">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-2xl">🇮🇩</span>
-                                <span class="text-[10px] font-bold bg-amber-200 text-amber-800 px-2 py-0.5 rounded-md">5 Soal</span>
-                            </div>
-                            <div class="font-display font-bold text-slate-800">Kuis B. Indonesia</div>
-                        </button>
-
-                        <button onclick="startQuiz('english')" class="p-4 bg-purple-50 hover:bg-purple-100 border-2 border-purple-300 rounded-2xl btn-bounce transition flex flex-col justify-between">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-2xl">🔤</span>
-                                <span class="text-[10px] font-bold bg-purple-200 text-purple-800 px-2 py-0.5 rounded-md">5 Soal</span>
-                            </div>
-                            <div class="font-display font-bold text-slate-800">Kuis B. Inggris</div>
+                <!-- Question Text -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-start gap-2">
+                        <h3 id="quiz-question" class="text-lg font-bold text-slate-800 font-fredoka leading-snug">Loading Soal...</h3>
+                        <button onclick="readAloudQuiz()" title="Dengarkan Soal" class="text-indigo-600 hover:text-indigo-800 p-2">
+                            <i class="fa-solid fa-volume-high text-xl"></i>
                         </button>
                     </div>
+                </div>
+
+                <!-- Answer Choices -->
+                <div id="quiz-options" class="space-y-2.5">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Explanation Box (Appears after answer) -->
+                <div id="quiz-explanation" class="hidden p-4 rounded-xl text-sm border space-y-1">
+                    <!-- Explanation content -->
+                </div>
+
+                <!-- Footer Navigation -->
+                <div class="flex justify-end pt-2">
+                    <button id="btn-next-quiz" onclick="nextQuestion()" disabled class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold px-6 py-2.5 rounded-xl transition flex items-center space-x-2">
+                        <span>Berikutnya</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
-
-            <!-- Active Quiz Runner Screen -->
-            <div id="quizRunnerScreen" class="hidden max-w-3xl mx-auto space-y-6">
-                
-                <!-- Quiz Header & Progress Bar -->
-                <div class="bg-white p-4 sm:p-6 rounded-3xl shadow-md border border-slate-200 space-y-3">
-                    <div class="flex justify-between items-center text-xs font-extrabold text-slate-500">
-                        <span id="quizSubjectTitle" class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full uppercase">Kuis Matematika</span>
-                        <span id="quizQuestionCounter">Soal 1 dari 5</span>
-                    </div>
-
-                    <!-- Progress Bar -->
-                    <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200">
-                        <div id="quizProgressBar" class="bg-gradient-to-r from-amber-400 to-emerald-500 h-full w-1/5 transition-all duration-300"></div>
-                    </div>
-                </div>
-
-                <!-- Question Card -->
-                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-amber-200 space-y-6 relative">
-                    
-                    <div class="flex items-start justify-between gap-4">
-                        <h3 id="quizQuestionText" class="font-display text-xl sm:text-2xl font-bold text-slate-800 leading-snug">
-                            Berapakah hasil dari 5 + 3 = ...?
-                        </h3>
-
-                        <!-- Read Aloud TTS Button -->
-                        <button onclick="readCurrentQuestionTTS()" title="Dengarkan Soal" class="shrink-0 w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 hover:bg-amber-200 flex items-center justify-center text-xl btn-bounce">
-                            🔊
-                        </button>
-                    </div>
-
-                    <!-- Optional Illustration / Graphic Emoji Container -->
-                    <div id="quizGraphicContainer" class="text-center text-6xl py-3 bg-amber-50/50 rounded-2xl border border-amber-100 hidden">
-                        🍎🍎🍎🍎🍎 + 🍎🍎🍎
-                    </div>
-
-                    <!-- Answer Options -->
-                    <div id="quizOptionsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Options generated dynamically -->
-                    </div>
-
-                    <!-- Instant Feedback & Pembahasan Box -->
-                    <div id="quizFeedbackBox" class="hidden p-5 rounded-2xl border-2 space-y-2 animate-fadeIn">
-                        <div id="quizFeedbackStatus" class="font-display font-bold text-lg flex items-center gap-2">
-                            <!-- Correct/Incorrect header -->
-                        </div>
-                        <p id="quizExplanationText" class="text-xs sm:text-sm leading-relaxed text-slate-700">
-                            <!-- Scientific / logical explanation here -->
-                        </p>
-                        <button onclick="nextQuizQuestion()" class="mt-2 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-6 py-2.5 rounded-xl text-xs btn-bounce float-right">
-                            Lanjut Ke Soal Berikutnya <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </button>
-                        <div class="clear-both"></div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Quiz Result & Assessment Summary Screen -->
-            <div id="quizResultScreen" class="hidden max-w-2xl mx-auto space-y-6">
-                <div class="bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-300 text-center space-y-6">
-                    
-                    <div id="resultCelebrationIcon" class="text-7xl animate-bounce">
-                        🎉
-                    </div>
-
-                    <div>
-                        <span id="resultPredicateBadge" class="bg-amber-100 text-amber-800 text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                            Sangat Hebat!
-                        </span>
-                        <h2 class="font-display text-3xl font-bold text-slate-800 mt-2">Hasil Evaluasi Kuis</h2>
-                        <p id="resultSubjectName" class="text-xs text-slate-500 font-semibold">Matematika - Fase A</p>
-                    </div>
-
-                    <!-- Stars Earned Animation Container -->
-                    <div id="resultStarsContainer" class="flex justify-center gap-3 text-5xl">
-                        <span class="opacity-30">⭐</span>
-                        <span class="opacity-30">⭐</span>
-                        <span class="opacity-30">⭐</span>
-                    </div>
-
-                    <!-- Score Showcase -->
-                    <div class="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200 rounded-3xl p-6 flex justify-around items-center">
-                        <div>
-                            <div class="text-xs text-slate-500 font-bold uppercase">Nilai Skor</div>
-                            <div id="resultScoreDisplay" class="font-display text-5xl font-extrabold text-amber-600">100</div>
-                        </div>
-                        <div class="h-12 w-0.5 bg-amber-200"></div>
-                        <div>
-                            <div class="text-xs text-slate-500 font-bold uppercase">Predikat Huruf</div>
-                            <div id="resultGradeLetter" class="font-display text-5xl font-extrabold text-emerald-600">A+</div>
-                        </div>
-                        <div class="h-12 w-0.5 bg-amber-200"></div>
-                        <div>
-                            <div class="text-xs text-slate-500 font-bold uppercase">Jawaban Benar</div>
-                            <div id="resultCorrectCount" class="font-display text-2xl font-bold text-slate-800">5 / 5</div>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                        <button onclick="switchTab('rapor')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-6 py-3 rounded-2xl shadow-md border-b-4 border-emerald-700 btn-bounce flex items-center justify-center gap-2">
-                            <span>🏆</span> Lihat Rapor & Lencana
-                        </button>
-                        <button onclick="resetQuizRunner()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-display font-bold px-6 py-3 rounded-2xl border border-slate-300 btn-bounce flex items-center justify-center gap-2">
-                            <span>🔄</span> Coba Kuis Lagi
-                        </button>
-                    </div>
-                </div>
-            </div>
-
         </section>
 
-        <!-- ================= TAB 4: RAPOR DIGITAL & LENCANA ================= -->
-        <section id="sec-rapor" class="tab-content hidden space-y-6">
-            
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h2 class="font-display text-2xl font-bold text-slate-800 flex items-center gap-2">
-                        <span>🏆</span> Rapor Digital & Ruang Abah/Bunda
-                    </h2>
-                    <p class="text-xs text-slate-500">
-                        Pantau riwayat belajar, nilai evaluasi, dan lencana prestasi yang berhasil dikumpulkan.
-                    </p>
-                </div>
-
-                <div class="flex gap-2">
-                    <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 btn-bounce">
-                        <i class="fa-solid fa-print"></i> Cetak Rapor
-                    </button>
-                    <button onclick="openResetModal()" class="bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold px-3 py-2.5 rounded-xl border border-rose-200 flex items-center gap-1.5 btn-bounce">
-                        <i class="fa-solid fa-trash"></i> Reset Data
-                    </button>
-                </div>
-            </div>
-
-            <!-- Student Profile Summary Card in Report -->
-            <div class="bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-200 rounded-3xl p-6 text-amber-950 shadow-md border-2 border-amber-300">
-                <div class="flex items-center gap-4">
-                    <div id="raporAvatar" class="text-6xl bg-white/60 p-3 rounded-3xl shadow-inner">
-                        🐱
+        <!-- SECTION 4: TANYA AI NINNA -->
+        <section id="sec-ai" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl border shadow-sm max-w-3xl mx-auto flex flex-col h-[550px]">
+                <!-- Chat Header -->
+                <div class="p-4 border-b flex items-center space-x-3 bg-indigo-50 rounded-t-2xl">
+                    <div class="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-robot"></i>
                     </div>
                     <div>
-                        <h3 id="raporStudentName" class="font-display text-2xl font-bold">Adik Pintar</h3>
-                        <p id="raporGradePhase" class="text-xs font-bold text-amber-800 uppercase">Fase A - Kelas 1-2 Sekolah Dasar</p>
-                        <div class="mt-2 flex flex-wrap gap-2 text-xs font-extrabold">
-                            <span class="bg-white/80 px-3 py-1 rounded-full shadow-sm">⭐ Total Bintang: <span id="raporTotalStars">0</span></span>
-                            <span class="bg-white/80 px-3 py-1 rounded-full shadow-sm">🎯 Kuis Selesai: <span id="raporTotalQuizzes">0</span></span>
-                        </div>
+                        <h3 class="font-bold text-indigo-900 font-fredoka">Ninna AI - Guru Pintar</h3>
+                        <p class="text-xs text-slate-500">Tanyakan pelajaran apa saja, Ninna siap bantu menjelaskan dengan mudah!</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Unlocked Badges Shelf -->
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
-                <h3 class="font-display text-xl font-bold text-slate-800 flex items-center gap-2">
-                    <span>🏅</span> Lencana Penghargaan & Prestasi
-                </h3>
-
-                <div id="badgesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                    <!-- Badges render dynamically -->
-                </div>
-            </div>
-
-            <!-- History Evaluation Log Table -->
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
-                <h3 class="font-display text-xl font-bold text-slate-800 flex items-center gap-2">
-                    <span>📜</span> Riwayat Evaluasi Belajar
-                </h3>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs sm:text-sm">
-                        <thead>
-                            <tr class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
-                                <th class="p-3 rounded-l-xl">Tanggal</th>
-                                <th class="p-3">Mata Pelajaran</th>
-                                <th class="p-3">Jenjang</th>
-                                <th class="p-3">Skor</th>
-                                <th class="p-3">Nilai</th>
-                                <th class="p-3 rounded-r-xl">Predikat</th>
-                            </tr>
-                        </thead>
-                        <tbody id="quizHistoryTableBody" class="divide-y divide-slate-100 font-medium">
-                            <!-- Log rows populated dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- ================= TAB 5: TANYA AI NINNA ================= -->
-        <section id="sec-ai" class="tab-content hidden space-y-6">
-            
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h2 class="font-display text-2xl font-bold text-slate-800 flex items-center gap-2">
-                        <span>🤖</span> Tutor AI & Pembuat Soal Otomatis (Gemini API)
-                    </h2>
-                    <p class="text-xs text-slate-500">
-                        Tanyakan apa saja kepada Ninna AI atau minta Ninna membuatkan soal kuis baru sesuai topik pilihanmu!
-                    </p>
-                </div>
-
-                <!-- Toggle AI Mode -->
-                <div class="flex bg-slate-100 p-1 rounded-2xl border border-slate-200 text-xs font-bold">
-                    <button onclick="switchAiSubTab('chat')" id="aiSubTab-chat" class="px-4 py-2 rounded-xl bg-amber-400 text-amber-950 shadow-sm btn-bounce">
-                        💬 Tanya Ninna
-                    </button>
-                    <button onclick="switchAiSubTab('quizGen')" id="aiSubTab-quizGen" class="px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 btn-bounce">
-                        ✨ Generator Soal AI
-                    </button>
-                </div>
-            </div>
-
-            <!-- SUB-TAB 1: CHAT WITH TUTOR AI -->
-            <div id="aiChatContainer" class="bg-white rounded-3xl shadow-sm border border-slate-200 flex flex-col h-[500px]">
-                
                 <!-- Chat History Window -->
-                <div id="chatMessagesBox" class="flex-grow p-4 sm:p-6 overflow-y-auto space-y-4">
-                    
-                    <!-- Welcome AI Message -->
-                    <div class="flex items-start gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-amber-400 flex items-center justify-center text-xl shrink-0">
-                            🐱
-                        </div>
-                        <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl rounded-tl-none max-w-xl text-xs sm:text-sm text-slate-700 leading-relaxed">
-                            Halo! Aku Ninna, sahabat belajarmu! 🌟 Kamu bisa tanya apa saja, misalnya: <i>"Kenapa langit berwarna biru?"</i>, <i>"Bagaimana cara mudah menghitung perkalian 9?"</i>, atau <i>"Apa bedanya hewan herbivora dan karnivora?"</i>. Yuk tanyakan!
+                <div id="chat-window" class="flex-grow p-4 overflow-y-auto space-y-4">
+                    <div class="flex items-start space-x-2">
+                        <div class="bg-indigo-100 text-indigo-900 p-3.5 rounded-2xl rounded-tl-none max-w-md text-sm leading-relaxed">
+                            Halo! Saya Ninna Guru AI. Ada yang ingin ditanyakan tentang Matematika, IPAS, atau Bahasa hari ini? 😊
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Chat Input Box -->
-                <div class="p-4 border-t border-slate-200 bg-slate-50/50 rounded-b-3xl flex gap-2">
-                    <input type="text" id="aiChatInput" placeholder="Ketik pertanyaanmu di sini..." class="flex-grow px-4 py-3 rounded-2xl border border-slate-300 focus:outline-none focus:border-amber-400 text-xs sm:text-sm">
-                    <button onclick="sendAiChatMessage()" id="aiChatSendBtn" class="bg-amber-400 hover:bg-amber-500 text-amber-950 font-display font-bold px-6 py-3 rounded-2xl btn-bounce flex items-center gap-1.5 shrink-0">
-                        <span>Kirim</span> <i class="fa-solid fa-paper-plane"></i>
+                <div class="p-3 border-t flex items-center space-x-2">
+                    <input type="text" id="chat-input" placeholder="Ketik pertanyaanmu di sini... (Tekan Enter)" class="flex-grow border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button onclick="handleSendChat()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-bold transition flex items-center space-x-1">
+                        <i class="fa-solid fa-paper-plane"></i>
                     </button>
                 </div>
             </div>
+        </section>
 
-            <!-- SUB-TAB 2: AI QUIZ GENERATOR -->
-            <div id="aiQuizGenContainer" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                
-                <div class="max-w-xl mx-auto space-y-4 text-center">
-                    <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl mx-auto">
-                        🪄
-                    </div>
-                    <h3 class="font-display text-xl font-bold text-slate-800">Buat Kuis Baru Dengan AI</h3>
-                    <p class="text-xs text-slate-500">Masukkan topik favorit anak (misal: Dinosaurus, Tata Surya, Pecahan Sederhana, Pahlawan Nasional), lalu AI akan membuatkan kuis khusus!</p>
-
-                    <div class="space-y-3 text-left">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Topik Kuis:</label>
-                            <input type="text" id="aiQuizTopicInput" placeholder="Contoh: Dinosaurus T-Rex & Masa Prasejarah" class="w-full px-4 py-3 rounded-2xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:border-purple-400">
-                        </div>
-
-                        <button onclick="generateCustomAiQuiz()" id="aiQuizGenBtn" class="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-display font-bold py-3.5 rounded-2xl shadow-md btn-bounce flex items-center justify-center gap-2">
-                            <span>✨ Buat 5 Soal Kuis Sekarang</span>
-                        </button>
-                    </div>
+        <!-- SECTION 5: GENERATOR SOAL AI -->
+        <section id="sec-generator" class="hidden space-y-6">
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl border shadow-sm space-y-5">
+                <div class="border-b pb-3">
+                    <h2 class="text-xl font-bold font-fredoka text-indigo-900 flex items-center space-x-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i>
+                        <span>Generator Soal AI Otomatis</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-1">Buat kuis latihan baru secara otomatis berdasarkan topik pembelajaran khusus.</p>
                 </div>
 
-            </div>
+                <div class="space-y-4 text-sm">
+                    <div>
+                        <label class="block font-semibold mb-1 text-slate-700">Mata Pelajaran</label>
+                        <select id="gen-subject" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500">
+                            <option value="Matematika">Matematika</option>
+                            <option value="IPAS">IPAS</option>
+                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                            <option value="Bahasa Inggris">Bahasa Inggris</option>
+                        </select>
+                    </div>
 
+                    <div>
+                        <label class="block font-semibold mb-1 text-slate-700">Fase Kelas</label>
+                        <select id="gen-phase" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500">
+                            <option value="Fase A (Kelas 1-2 SD)">Fase A (Kelas 1-2 SD)</option>
+                            <option value="Fase B (Kelas 3-4 SD)">Fase B (Kelas 3-4 SD)</option>
+                            <option value="Fase C (Kelas 5-6 SD)">Fase C (Kelas 5-6 SD)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold mb-1 text-slate-700">Topik Khusus</label>
+                        <input type="text" id="gen-topic" placeholder="Contoh: Pecahan Senilai / Ekosistem Hutan" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <button onclick="handleGenerateQuiz()" id="btn-generate-ai" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-md">
+                        <i class="fa-solid fa-gears"></i> <span>Buat Kuis Sekarang</span>
+                    </button>
+                </div>
+
+                <!-- Generated Quiz Output Area -->
+                <div id="gen-result-area" class="hidden border-t pt-4 space-y-3">
+                    <h3 class="font-bold text-slate-800">Hasil Kuis Buatan AI:</h3>
+                    <div id="gen-questions-list" class="space-y-3 text-xs bg-slate-50 p-4 rounded-xl max-h-60 overflow-y-auto"></div>
+                    <button onclick="startCustomGeneratedQuiz()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition">
+                        Mainkan Kuis Ini
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: RAPOR DIGITAL (PRINTABLE) -->
+        <section id="sec-rapor" class="hidden space-y-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="no-print flex justify-end mb-4">
+                    <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2 rounded-xl flex items-center space-x-2 shadow-md transition">
+                        <i class="fa-solid fa-print"></i> <span>Cetak Rapor (PDF)</span>
+                    </button>
+                </div>
+
+                <!-- Printable Paper Container -->
+                <div class="rapor-paper bg-white p-8 md:p-12 rounded-2xl border shadow-lg space-y-6 text-slate-800">
+                    <!-- Rapor Header -->
+                    <div class="text-center border-b-2 border-indigo-900 pb-4">
+                        <h2 class="text-2xl font-black font-fredoka uppercase tracking-wider text-indigo-900">Rapor Digital Pembelajaran SD</h2>
+                        <p class="text-xs font-semibold text-slate-500 uppercase">Aplikasi Ruang Belajar Abah - Kurikulum Merdeka</p>
+                    </div>
+
+                    <!-- Student Metadata -->
+                    <div class="grid grid-cols-2 gap-4 text-sm font-medium border-b pb-4">
+                        <div>
+                            <p><span class="text-slate-500">Nama Siswa:</span> <strong id="rap-nama" class="text-indigo-900 text-base">---</strong></p>
+                            <p><span class="text-slate-500">Kelas / Fase:</span> <strong id="rap-kelas">---</strong></p>
+                        </div>
+                        <div class="text-right">
+                            <p><span class="text-slate-500">No. Absen / NISN:</span> <strong id="rap-nisn">---</strong></p>
+                            <p><span class="text-slate-500">Sekolah:</span> <strong id="rap-sekolah">---</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Scores Table -->
+                    <div>
+                        <h3 class="font-bold text-sm text-indigo-900 uppercase tracking-wider mb-2">Nilai Perkembangan Kuis</h3>
+                        <table class="w-full border-collapse border border-slate-300 text-sm">
+                            <thead>
+                                <tr class="bg-indigo-50 text-indigo-900">
+                                    <th class="border border-slate-300 px-3 py-2 text-left">Mata Pelajaran</th>
+                                    <th class="border border-slate-300 px-3 py-2 text-center">Skor Terakhir</th>
+                                    <th class="border border-slate-300 px-3 py-2 text-center">Bintang</th>
+                                    <th class="border border-slate-300 px-3 py-2 text-center">Predikat</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rap-scores-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Badges Earned -->
+                    <div>
+                        <h3 class="font-bold text-sm text-indigo-900 uppercase tracking-wider mb-2">Lencana Prestasi</h3>
+                        <div id="rap-badges-list" class="flex flex-wrap gap-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Signature Area for Print -->
+                    <div class="pt-8 grid grid-cols-2 text-center text-xs font-semibold">
+                        <div>
+                            <p class="mb-12">Mengetahui,<br>Orang Tua / Wali (Abah/Bunda)</p>
+                            <p class="border-t border-slate-400 w-3/4 mx-auto pt-1">( ......................................... )</p>
+                        </div>
+                        <div>
+                            <p class="mb-12">Guru / Pengajar</p>
+                            <p class="border-t border-slate-400 w-3/4 mx-auto pt-1">( ......................................... )</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
     </main>
 
-    <!-- Modal: Profile Setup & Edit -->
-    <div id="profileModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl border-4 border-amber-300 animate-fadeIn">
-            
-            <div class="text-center space-y-1">
-                <h3 class="font-display text-2xl font-bold text-slate-800">Profil Belajar Anak</h3>
-                <p class="text-xs text-slate-500">Pilih nama, avatar, dan kelas sesuai jenjang SD.</p>
+    <!-- MODAL: KELOLA NAMA SISWA -->
+    <div id="modal-siswa" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4 shadow-xl">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="font-bold text-lg text-indigo-900 font-fredoka">Kelola Daftar Siswa</h3>
+                <button onclick="closeStudentModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
 
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Panggilan Anak:</label>
-                    <input type="text" id="inputStudentName" value="Adik Pintar" class="w-full px-4 py-2.5 rounded-2xl border border-slate-300 text-sm font-bold focus:outline-none focus:border-amber-400">
-                </div>
+            <!-- Existing Students Dropdown -->
+            <div class="space-y-2">
+                <label class="block text-xs font-semibold text-slate-600">Pilih Siswa Aktif:</label>
+                <select id="student-select" onchange="changeActiveStudent()" class="w-full border rounded-xl p-2 text-sm">
+                    <!-- Options populated by JS -->
+                </select>
+            </div>
 
+            <hr>
+
+            <!-- Add New Student Form -->
+            <form onsubmit="handleSaveStudent(event)" class="space-y-3 text-xs">
+                <h4 class="font-bold text-slate-700 text-sm">Tambah Siswa Baru</h4>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Avatar Lucu:</label>
-                    <div id="avatarPickerGrid" class="grid grid-cols-6 gap-2 text-2xl text-center">
-                        <!-- Rendered by JS -->
+                    <label class="block mb-1 font-semibold">Nama Lengkap Anak</label>
+                    <input type="text" id="input-nama" required placeholder="Contoh: Budi Santoso" class="w-full border rounded-xl p-2">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block mb-1 font-semibold">Kelas / Fase</label>
+                        <input type="text" id="input-kelas" required placeholder="Kelas 2 SD / Fase A" class="w-full border rounded-xl p-2">
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-semibold">No. Absen / NISN</label>
+                        <input type="text" id="input-nisn" placeholder="05" class="w-full border rounded-xl p-2">
                     </div>
                 </div>
-
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Jenjang Kelas (Kurikulum Merdeka):</label>
-                    <select id="selectStudentGrade" class="w-full px-4 py-2.5 rounded-2xl border border-slate-300 text-xs font-bold bg-white focus:outline-none focus:border-amber-400">
-                        <option value="faseA">Kelas 1 - 2 (Fase A)</option>
-                        <option value="faseB">Kelas 3 - 4 (Fase B)</option>
-                        <option value="faseC">Kelas 5 - 6 (Fase C)</option>
-                    </select>
+                    <label class="block mb-1 font-semibold">Nama Sekolah</label>
+                    <input type="text" id="input-sekolah" placeholder="SD Negeri 1 Merdeka" class="w-full border rounded-xl p-2">
                 </div>
-            </div>
-
-            <div class="flex gap-2">
-                <button onclick="saveProfileModal()" class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-display font-bold py-3 rounded-2xl btn-bounce">
-                    Simpan Profil
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-xl transition">
+                    Simpan Siswa Baru
                 </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: SETTING API KEY GEMINI -->
+    <div id="modal-apikey" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4 shadow-xl">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="font-bold text-lg text-amber-700 font-fredoka flex items-center space-x-2">
+                    <i class="fa-solid fa-key"></i> <span>Pengaturan API Key Gemini</span>
+                </h3>
+                <button onclick="closeApiKeyModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Masukkan Google Gemini API Key milik Abah untuk mengaktifkan fitur <strong>Tanya AI</strong> dan <strong>Generator Soal Otomatis</strong>. API Key disimpan secara lokal di browser Abah.
+            </p>
+            <input type="password" id="input-api-key" placeholder="AIzaSy..." class="w-full border rounded-xl p-2.5 text-sm">
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeApiKeyModal()" class="px-4 py-2 text-xs font-semibold text-slate-500">Batal</button>
+                <button onclick="handleSaveApiKey()" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Simpan API Key</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal: Confirmation Reset Data (No native alert/confirm) -->
-    <div id="resetModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-6 space-y-4 text-center shadow-2xl">
-            <div class="text-5xl">⚠️</div>
-            <h3 class="font-display text-xl font-bold text-slate-800">Hapus Seluruh Riwayat?</h3>
-            <p class="text-xs text-slate-500">Semua bintang, lencana, dan riwayat nilai kuis akan direset dari awal.</p>
-            <div class="flex gap-3">
-                <button onclick="confirmResetAllData()" class="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold py-2.5 rounded-xl text-xs btn-bounce">
-                    Ya, Reset
-                </button>
-                <button onclick="closeResetModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs btn-bounce">
-                    Batal
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="no-print bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-8">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div>
-                © 2026 <span class="font-bold text-slate-700">Ninna Belajar Pintar SD</span> • Berdasarkan Penelitian Kurikulum Merdeka
-            </div>
-            <div class="flex items-center gap-3">
-                <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">Fase A, B, & C</span>
-                <span>Dibuat Khusus Untuk Anak SD & Abah/Bunda ❤️</span>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        /* ==========================================================================
-           1. GLOBAL STATE & LOCAL STORAGE DATABASE
-           ========================================================================== */
-        
-        const AVATARS = ['🐱', '🐰', '🐻', '🦊', '🦁', '🤖', '🦸‍♂️', '👨‍🚀', '🦖', '🦄', '🐬', '🦉'];
-
-        let appState = {
-            studentName: 'Adik Pintar',
-            avatar: '🐱',
-            gradePhase: 'faseA', // faseA (1-2), faseB (3-4), faseC (5-6)
-            stars: 0,
-            soundEnabled: true,
-            quizHistory: [],
-            unlockedBadges: [],
-            currentSubject: 'math',
-            activeQuizQuestions: [],
-            currentQuestionIdx: 0,
-            quizScore: 0,
-            userAnswers: []
-        };
-
-        /* Sound Effects Synthesizer using Web Audio API (No external sound files required) */
-        let audioCtx = null;
-
-        function getAudioContext() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            return audioCtx;
-        }
-
-        function playSound(type) {
-            if (!appState.soundEnabled) return;
-            try {
-                const ctx = getAudioContext();
-                const now = ctx.currentTime;
-
-                if (type === 'correct') {
-                    // Happy chord arpeggio
-                    const freqs = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-                    freqs.forEach((freq, idx) => {
-                        const osc = ctx.createOscillator();
-                        const gain = ctx.createGain();
-                        osc.type = 'triangle';
-                        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
-                        gain.gain.setValueAtTime(0.15, now + idx * 0.08);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
-                        osc.connect(gain);
-                        gain.connect(ctx.destination);
-                        osc.start(now + idx * 0.08);
-                        osc.stop(now + idx * 0.08 + 0.3);
-                    });
-                } else if (type === 'wrong') {
-                    // Low buzz thud
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(180, now);
-                    osc.frequency.linearRampToValueAtTime(110, now + 0.25);
-                    gain.gain.setValueAtTime(0.2, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(now);
-                    osc.stop(now + 0.25);
-                } else if (type === 'click') {
-                    // Soft pop
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(400, now);
-                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
-                    gain.gain.setValueAtTime(0.1, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(now);
-                    osc.stop(now + 0.05);
-                } else if (type === 'fanfare') {
-                    // Victory melody
-                    const notes = [523.25, 659.25, 783.99, 1046.50, 880, 1046.50];
-                    notes.forEach((freq, idx) => {
-                        const osc = ctx.createOscillator();
-                        const gain = ctx.createGain();
-                        osc.type = 'square';
-                        osc.frequency.setValueAtTime(freq, now + idx * 0.12);
-                        gain.gain.setValueAtTime(0.1, now + idx * 0.12);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.25);
-                        osc.connect(gain);
-                        gain.connect(ctx.destination);
-                        osc.start(now + idx * 0.12);
-                        osc.stop(now + idx * 0.12 + 0.25);
-                    });
-                }
-            } catch (e) {
-                console.log("Audio play error:", e);
-            }
-        }
-
-        /* Read-Aloud Text-To-Speech Web Speech API */
-        function speakText(text) {
-            if (!('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel(); // stop active
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'id-ID';
-            utterance.rate = 0.9; // clear for children
-            utterance.pitch = 1.1; // energetic pitch
-            window.speechSynthesis.speak(utterance);
-        }
-
-        /* ==========================================================================
-           2. MATERI BELAJAR & FLASHCARDS DATABASE (Kurikulum Merdeka SD)
-           ========================================================================== */
-        
-        const MATERI_DB = {
-            faseA: { // Kelas 1 - 2
-                math: [
-                    { title: "Penjumlahan Sederhana", emoji: "🍎", content: "Penjumlahan artinya menggabungkan dua kelompok benda. Contoh: 3 apel ditambahi 2 apel menjadi 5 apel (3 + 2 = 5).", example: "4 + 3 = 7" },
-                    { title: "Pengurangan Sederhana", emoji: "🍪", content: "Pengurangan artinya mengambil atau memakan beberapa benda dari kelompoknya. Contoh: Punya 5 kue dimakan 2, sisa 3 kue (5 - 2 = 3).", example: "8 - 3 = 5" },
-                    { title: "Bentuk Bangun Datar", emoji: "📐", content: "Bangun datar adalah bentuk 2 dimensi. Lingkaran (seperti bola), Segitiga (punya 3 sisi), dan Persegi (punya 4 sisi sama panjang).", example: "Roda itu Lingkaran, Atap Rumah itu Segitiga." }
-                ],
-                ipas: [
-                    { title: "5 Panca Indera", emoji: "👀", content: "Manusia punya 5 indera: Mata (Melihat), Telinga (Mendengar), Hidung (Mencium Bau), Lidah (Mengecap Rasa), dan Kulit (Meraba).", example: "Lidah merasakan gula manis dan garam asin." },
-                    { title: "Benda Padat & Cair", emoji: "🧊", content: "Benda padat bentuknya tetap (Pensil, Batu). Benda cair mengalir dan berubah bentuk mengikuti wadahnya (Air, Susu, Sirup).", example: "Air di dalam botol berbentuk seperti botol." }
-                ],
-                indo: [
-                    { title: "Kata Tanya Utama", emoji: "❓", content: "Untuk bertanya kita gunakan: APA (menanyakan benda), SIAPA (orang), DI MANA (tempat), KAPAN (waktu), dan MENGAPA (alasan).", example: "Siapa namamu? Di mana sekolahmu?" },
-                    { title: "Lawan Kata (Antonim)", emoji: "↔️", content: "Lawan kata adalah kata yang artinya berlawanan. Besar lawan katanya Kecil. Tinggi lawan katanya Pendek. Tinggi vs Pendek, Bersih vs Kotor.", example: "Gajah itu BESAR, Semut itu KECIL." }
-                ],
-                english: [
-                    { title: "Nama Hewan (Animals)", emoji: "🐶", content: "Dog = Anjing, Cat = Kucing, Bird = Burung, Fish = Ikan, Elephant = Gajah, Duck = Bebek.", example: "A Cat says Meow! A Dog says Woof!" },
-                    { title: "Warna (Colors)", emoji: "🎨", content: "Red = Merah, Blue = Biru, Yellow = Kuning, Green = Hijau, White = Putih, Black = Hitam.", example: "The sky is Blue, Grass is Green." }
-                ]
-            },
-            faseB: { // Kelas 3 - 4
-                math: [
-                    { title: "Perkalian Sebagai Penjumlahan Berulang", emoji: "✖️", content: "Perkalian adalah penjumlahan angka yang sama secara berulang. 3 x 4 artinya 4 + 4 + 4 = 12.", example: "5 x 3 = 3 + 3 + 3 + 3 + 3 = 15" },
-                    { title: "Keliling Bangun Datar", emoji: "⏹️", content: "Keliling adalah jumlah panjang seluruh sisi bangun datar. Keliling Persegi = 4 x Sisi.", example: "Persegi sisi 5 cm, Kelilingnya = 5+5+5+5 = 20 cm." }
-                ],
-                ipas: [
-                    { title: "Daur Hidup Kupu-Kupu", emoji: "🦋", content: "Metamorfosis Kupu-Kupu: Telur ➡️ Ulat (Larva) ➡️ Kepompong (Pupa) ➡️ Kupu-Kupu Cantik.", example: "Ulat memakan daun sebelum jadi kepompong." },
-                    { title: "Bagian Tumbuhan & Fungsi", emoji: "🌱", content: "Akar (Menyerap air & zat hara dari tanah), Batang (Menopang & menyalurkan air), Daun (Tempat Fotosintesis/membuat makanan).", example: "Daun berwarna hijau karena punya Klorofil." }
-                ],
-                indo: [
-                    { title: "Gagasan Utama & Paragraf", emoji: "📖", content: "Gagasan utama adalah ide pokok yang menjadi inti pembahasan dalam sebuah paragraf.", example: "Biasanya terletak di awal atau akhir paragraf." },
-                    { title: "Kalimat Aktif & Pasif", emoji: "✍️", content: "Kalimat Aktif: Subjek melakukan aksi (Budi membaca buku). Kalimat Pasif: Subjek dikenai aksi (Buku dibaca Budi).", example: "Aktif: Kucing memakan ikan. Pasif: Ikan dimakan kucing." }
-                ],
-                english: [
-                    { title: "Benda di Sekolah (School Objects)", emoji: "🎒", content: "Book = Buku, Pencil = Pensil, Ruler = Penggaris, Eraser = Penghapus, Bag = Tas, Chair = Kursi.", example: "I put my book inside my bag." },
-                    { title: "Anggota Keluarga (Family)", emoji: "👨‍👩‍👧", content: "Father = Ayah, Mother = Ibu, Brother = Saudara Laki-laki, Sister = Saudara Perempuan, Grandfather = Kakek.", example: "My mother cooks delicious soup." }
-                ]
-            },
-            faseC: { // Kelas 5 - 6
-                math: [
-                    { title: "Pecahan Sederhana & Desimal", emoji: "🍰", content: "Pecahan menunjukkan bagian dari keseluruhan. 1/2 artinya 1 bagian dari 2 potong kue sama besar. Dalam desimal 1/2 = 0,5.", example: "3/4 dalam persen adalah 75%." },
-                    { title: "Volume Bangun Ruang (Kubus & Balok)", emoji: "📦", content: "Volume adalah isi ruang. Volume Kubus = Sisi x Sisi x Sisi (s³). Volume Balok = Panjang x Lebar x Tinggi (p x l x t).", example: "Kubus rusuk 3 cm -> Volume = 3x3x3 = 27 cm³." }
-                ],
-                ipas: [
-                    { title: "Sistem Tata Surya", emoji: "🪐", content: "Pusat Tata Surya adalah Matahari. Planet berurut dari yang terdekat: Merkurius, Venus, Bumi, Mars, Yupiter, Saturnus, Uranus, Neptunus.", example: "Yupiter adalah planet terbesar di Tata Surya." },
-                    { title: "Rantai Makanan & Ekosistem", emoji: "🦅", content: "Produsen (Tumbuhan hijau) ➡️ Konsumen I (Belalang/Kelinci) ➡️ Konsumen II (Ular) ➡️ Pengurai (Jamur/Bakteri).", example: "Padi dimakan tikus, tikus dimakan ular." }
-                ],
-                indo: [
-                    { title: "Unsur Intrinsik Cerita", emoji: "🎭", content: "Cerita memiliki: Tema (Ide dasar), Tokoh (Pemeran), Watak (Sifat tokoh), Latar (Tempat/Waktu), dan Amanat (Pesan moral).", example: "Amanat cerita Malin Kundang: Harus berbakti pada orang tua." },
-                    { title: "Kata Baku & Tidak Baku", emoji: "📝", content: "Kata baku sesuai pedoman Bahasa Indonesia. Contoh: Apotek (baku) vs Apotik, Apresiasi vs Apresiasi, Cuma vs Cuma.", example: "Ibu membeli obat di Apotek (baku)." }
-                ],
-                english: [
-                    { title: "Daily Verbs (Kata Kerja)", emoji: "🏃‍♂️", content: "Eat = Makan, Drink = Minum, Sleep = Tidur, Study = Belajar, Play = Bermain, Write = Menulis.", example: "I study English every morning." },
-                    { title: "Comparative Adjectives", emoji: "📏", content: "Gunakan '-er than' untuk membandingkan 2 hal. Taller than = Lebih tinggi dari, Bigger than = Lebih besar dari.", example: "An Elephant is bigger than a Rabbit." }
-                ]
-            }
-        };
-
-        /* ==========================================================================
-           3. KUIS & EVALUASI DATABASE (5 Soal per Kuis + Pembahasan)
-           ========================================================================== */
-        
-        const QUIZ_DB = {
-            faseA: {
-                math: [
-                    {
-                        question: "Berapakah hasil dari 4 + 5 = ...?",
-                        options: ["7", "8", "9", "10"],
-                        correctIndex: 2,
-                        explanation: "Jika kita menggabungkan 4 benda dengan 5 benda, jumlah keseluruhannya menjadi 9 benda.",
-                        graphic: "🍎🍎🍎🍎 + 🍎🍎🍎🍎🍎"
-                    },
-                    {
-                        question: "Adik punya 8 kue, lalu dimakan 3 kue. Sisa kue Adik sekarang adalah ...?",
-                        options: ["5 kue", "4 kue", "6 kue", "3 kue"],
-                        correctIndex: 0,
-                        explanation: "8 dikurangi 3 hasilnya adalah 5 kue (8 - 3 = 5).",
-                        graphic: "🍪🍪🍪🍪🍪🍪🍪🍪"
-                    },
-                    {
-                        question: "Bentuk bangun datar apakah yang terlihat seperti Roda Mobil atau Uang Logam?",
-                        options: ["Segitiga", "Persegi", "Lingkaran", "Trapesium"],
-                        correctIndex: 2,
-                        explanation: "Roda mobil dan uang logam berbentuk bulat tidak bersudut, yaitu Lingkaran.",
-                        graphic: "⚪"
-                    },
-                    {
-                        question: "Manakah angka yang LEBIH BESAR antara 12 dan 19?",
-                        options: ["12", "19", "Sama Besar", "Tidak Tahu"],
-                        correctIndex: 1,
-                        explanation: "Pada urutan angka, 19 terletak setelah 12, jadi 19 lebih besar dari 12.",
-                        graphic: "🔢"
-                    },
-                    {
-                        question: "Berapakah hasil dari 10 - 4 = ...?",
-                        options: ["5", "6", "7", "8"],
-                        correctIndex: 1,
-                        explanation: "10 dikurangi 4 sama dengan 6.",
-                        graphic: "✋✋ - 4"
-                    }
-                ],
-                ipas: [
-                    {
-                        question: "Panca indera yang kita gunakan untuk mendengarkan suara musik merdu adalah ...",
-                        options: ["Mata", "Hidung", "Telinga", "Lidah"],
-                        correctIndex: 2,
-                        explanation: "Telinga berfungsi sebagai indera pendengar untuk mendengarkan berbagai bunyi.",
-                        graphic: "👂"
-                    },
-                    {
-                        question: "Manakah di bawah ini yang termasuk contoh Benda Cair?",
-                        options: ["Pensil", "Air Minum", "Batu", "Buku"],
-                        correctIndex: 1,
-                        explanation: "Air minum adalah benda cair yang bentuknya mengikuti wadah/gelasnya.",
-                        graphic: "🧃"
-                    },
-                    {
-                        question: "Bagian tubuh manakah yang digunakan untuk mengecap rasa manisnya es krim?",
-                        options: ["Lidah", "Kulit", "Mata", "Telinga"],
-                        correctIndex: 0,
-                        explanation: "Lidah adalah indera pengecap yang bisa merasakan manis, asin, asam, dan pahit.",
-                        graphic: "👅"
-                    },
-                    {
-                        question: "Hewan yang hidupnya di air dan bernapas menggunakan insang adalah ...",
-                        options: ["Kucing", "Ikan", "Ayam", "Burung"],
-                        correctIndex: 1,
-                        explanation: "Ikan berenang di air dan bernapas memakai insang.",
-                        graphic: "🐟"
-                    },
-                    {
-                        question: "Matahari terbit di sebelah mana pada pagi hari?",
-                        options: ["Barat", "Timur", "Utara", "Selatan"],
-                        correctIndex: 1,
-                        explanation: "Matahari selalu terbit di sebelah Timur pada pagi hari dan terbenam di Barat.",
-                        graphic: "🌅"
-                    }
-                ],
-                indo: [
-                    {
-                        question: "Kata tanya yang digunakan untuk menanyakan NAMA SESEORANG adalah ...",
-                        options: ["Di mana", "Siapa", "Kapan", "Berapa"],
-                        correctIndex: 1,
-                        explanation: "Kata 'Siapa' digunakan khusus untuk menanyakan nama orang.",
-                        graphic: "❓"
-                    },
-                    {
-                        question: "Apakah LAWAN KATA (antonim) dari kata 'TINGGI'?",
-                        options: ["Besar", "Pendek", "Panjang", "Kecil"],
-                        correctIndex: 1,
-                        explanation: "Lawan kata dari TINGGI adalah PENDEK.",
-                        graphic: "📏"
-                    },
-                    {
-                        question: "'Ibu membeli buah di pasar.' Kata yang menunjukkan TEMPAT pada kalimat di atas adalah ...",
-                        options: ["Ibu", "Membeli", "Buah", "Di pasar"],
-                        correctIndex: 3,
-                        explanation: "'Di pasar' menjelaskan keterangan tempat di mana kegiatan terjadi.",
-                        graphic: "🧺"
-                    },
-                    {
-                        question: "Tanda baca yang dipasang di AKHIR kalimat berita/penyataan adalah ...",
-                        options: ["Tanda Tanya (?)", "Tanda Titik (.)", "Tanda Seru (!)", "Tanda Koma (,)"],
-                        correctIndex: 1,
-                        explanation: "Kalimat berita/penyataan selalu diakhiri dengan Tanda Titik (.).",
-                        graphic: "🖊️"
-                    },
-                    {
-                        question: "Persamaan kata (sinonim) dari kata 'PINTAR' adalah ...",
-                        options: ["Pandai", "Rajin", "Malas", "Sedih"],
-                        correctIndex: 0,
-                        explanation: "Pintar memiliki arti yang sama dengan Pandai/Cerdas.",
-                        graphic: "💡"
-                    }
-                ],
-                english: [
-                    {
-                        question: "What is the English word for 'KUCING'?",
-                        options: ["Dog", "Cat", "Bird", "Rabbit"],
-                        correctIndex: 1,
-                        explanation: "Cat artinya Kucing dalam bahasa Indonesia.",
-                        graphic: "🐱"
-                    },
-                    {
-                        question: "Apa warna daun pohon pada umumnya dalam Bahasa Inggris?",
-                        options: ["Red", "Blue", "Green", "Yellow"],
-                        correctIndex: 2,
-                        explanation: "Green artinya warna Hijau.",
-                        graphic: "🍃"
-                    },
-                    {
-                        question: "What is the English word for number '5'?",
-                        options: ["Three", "Four", "Five", "Six"],
-                        correctIndex: 2,
-                        explanation: "Five adalah angka 5 dalam bahasa Inggris.",
-                        graphic: "5️⃣"
-                    },
-                    {
-                        question: "'Book' dalam bahasa Indonesia artinya adalah ...",
-                        options: ["Pensil", "Buku", "Tas", "Penggaris"],
-                        correctIndex: 1,
-                        explanation: "Book artinya Buku.",
-                        graphic: "📖"
-                    },
-                    {
-                        question: "How do you say 'Selamat Pagi' in English?",
-                        options: ["Good Morning", "Good Night", "Good Afternoon", "Good Bye"],
-                        correctIndex: 0,
-                        explanation: "Good Morning digunakan untuk mengucapkan Selamat Pagi.",
-                        graphic: "☀️"
-                    }
-                ]
-            },
-            faseB: {
-                math: [
-                    {
-                        question: "Berapakah hasil dari perkalian 6 x 7 = ...?",
-                        options: ["36", "42", "48", "54"],
-                        correctIndex: 1,
-                        explanation: "6 dikali 7 sama dengan penjumlahan angka 7 sebanyak 6 kali (7+7+7+7+7+7 = 42).",
-                        graphic: "✖️"
-                    },
-                    {
-                        question: "Sebuah persegi memiliki panjang sisi 6 cm. Berapakah KELILING persegi tersebut?",
-                        options: ["24 cm", "36 cm", "12 cm", "18 cm"],
-                        correctIndex: 0,
-                        explanation: "Keliling Persegi = 4 x Sisi = 4 x 6 cm = 24 cm.",
-                        graphic: "⏹️"
-                    },
-                    {
-                        question: "Berapakah hasil dari 45 : 5 = ...?",
-                        options: ["7", "8", "9", "10"],
-                        correctIndex: 2,
-                        explanation: "45 dibagi 5 hasilnya 9, karena 9 x 5 = 45.",
-                        graphic: "➗"
-                    },
-                    {
-                        question: "Ibu membeli 3 kg apel. Jika 1 kg berisi 8 buah apel, berapa total seluruh apel Ibu?",
-                        options: ["18 buah", "24 buah", "21 buah", "30 buah"],
-                        correctIndex: 1,
-                        explanation: "Total apel = 3 kg x 8 buah = 24 buah apel.",
-                        graphic: "🍎"
-                    },
-                    {
-                        question: "Jam menunjukkan pukul 07.30. Jika 2 jam lagi Budi akan belajar, pukul berapakah Budi belajar?",
-                        options: ["08.30", "09.30", "10.00", "09.00"],
-                        correctIndex: 1,
-                        explanation: "Pukul 07.30 ditambah 2 jam menjadi Pukul 09.30.",
-                        graphic: "⏰"
-                    }
-                ],
-                ipas: [
-                    {
-                        question: "Tahapan perubahan bentuk hewan dari telur hingga dewasa disebut ...",
-                        options: ["Fotosintesis", "Metamorfosis", "Respirasi", "Evaporasi"],
-                        correctIndex: 1,
-                        explanation: "Metamorfosis adalah proses perubahan bentuk tubuh hewan secara bertahap.",
-                        graphic: "🐛➡️🦋"
-                    },
-                    {
-                        question: "Bagian tumbuhan yang berfungsi menyerap air dan zat hara dari dalam tanah adalah ...",
-                        options: ["Daun", "Batang", "Akar", "Bunga"],
-                        correctIndex: 2,
-                        explanation: "Akar tumbuh di bawah tanah untuk menyerap air dan mengokohkan tanaman.",
-                        graphic: "🌱"
-                    },
-                    {
-                        question: "Proses tumbuhan hijau membuat makanannya sendiri dengan bantuan cahaya matahari disebut ...",
-                        options: ["Metamorfosis", "Fotosintesis", "Adaptasi", "Penguapan"],
-                        correctIndex: 1,
-                        explanation: "Fotosintesis terjadi di daun yang mengandung klorofil dengan cahaya matahari.",
-                        graphic: "☀️🌱"
-                    },
-                    {
-                        question: "Hewan pemakan tumbuhan (seperti Sapi dan Kelinci) dikelompokkan ke dalam hewan ...",
-                        options: ["Karnivora", "Herbivora", "Omnivora", "Insectivora"],
-                        correctIndex: 1,
-                        explanation: "Herbivora adalah sebutan untuk hewan pemakan tumbuh-tumbuhan.",
-                        graphic: "🐄"
-                    },
-                    {
-                        question: "Benda gas di sekeliling kita yang kita hirup saat bernapas adalah ...",
-                        options: ["Oksigen", "Karbon Dioksida", "Nitrogen", "Hidrogen"],
-                        correctIndex: 0,
-                        explanation: "Manusia menghirup Oksigen saat bernapas untuk metabolisme tubuh.",
-                        graphic: "💨"
-                    }
-                ],
-                indo: [
-                    {
-                        question: "Ide pokok atau masalah utama yang dibahas dalam sebuah paragraf disebut ...",
-                        options: ["Kalimat penjelas", "Gagasan utama", "Judul", "Amanat"],
-                        correctIndex: 1,
-                        explanation: "Gagasan utama adalah gagasan/ide yang menjadi inti pengembangan paragraf.",
-                        graphic: "💡"
-                    },
-                    {
-                        question: "Manakah di bawah ini yang merupakan bentuk KALIMAT PASIF?",
-                        options: ["Budi menendang bola.", "Ibu memasak nasi.", "Bola ditendang Budi.", "Kucing mengejar tikus."],
-                        correctIndex: 2,
-                        explanation: "'Bola ditendang Budi' adalah kalimat pasif karena subjeknya (Bola) dikenai tindakan.",
-                        graphic: "⚽"
-                    },
-                    {
-                        question: "Lawan kata (antonim) dari kata 'HEMAT' adalah ...",
-                        options: ["Pelit", "Boros", "Rajin", "Kaya"],
-                        correctIndex: 1,
-                        explanation: "Lawan kata dari Hemat adalah Boros.",
-                        graphic: "💰"
-                    },
-                    {
-                        question: "Kata sambung (konjungsi) yang digunakan untuk menyatakan SEBAB-AKIBAT adalah ...",
-                        options: ["Dan", "Tetapi", "Karena", "Atau"],
-                        correctIndex: 2,
-                        explanation: "Kata 'Karena' menjelaskan alasan atau sebab terjadinya sesuatu.",
-                        graphic: "🔗"
-                    },
-                    {
-                        question: "Amanat dalam sebuah cerita adalah ...",
-                        options: ["Tempat kejadian cerita", "Pesan moral yang ingin disampaikan pengarang", "Nama tokoh utama", "Judul buku"],
-                        correctIndex: 1,
-                        explanation: "Amanat adalah ajaran/pesan kebaikan yang dapat dipetik dari isi cerita.",
-                        graphic: "📜"
-                    }
-                ],
-                english: [
-                    {
-                        question: "What is the English word for 'PERUSAHAAN / SEKOLAH' object: 'PENGGARIS'?",
-                        options: ["Pencil", "Ruler", "Eraser", "Scissors"],
-                        correctIndex: 1,
-                        explanation: "Ruler artinya Penggaris.",
-                        graphic: "📏"
-                    },
-                    {
-                        question: "'My father's mother is my ...'",
-                        options: ["Aunt", "Sister", "Grandmother", "Mother"],
-                        correctIndex: 2,
-                        explanation: "Ibu dari ayah saya adalah Nenek (Grandmother).",
-                        graphic: "👵"
-                    },
-                    {
-                        question: "Choose the correct verb: 'I ... an apple every morning.'",
-                        options: ["eat", "drink", "sleep", "fly"],
-                        correctIndex: 0,
-                        explanation: "Eat (makan) adalah kata kerja yang tepat untuk makanan seperti apel.",
-                        graphic: "🍎"
-                    },
-                    {
-                        question: "Opposite of 'BIG' is ...?",
-                        options: ["Tall", "Small", "Long", "Short"],
-                        correctIndex: 1,
-                        explanation: "Lawan kata dari Big (Besar) adalah Small (Kecil).",
-                        graphic: "🐘 vs 🐭"
-                    },
-                    {
-                        question: "What day comes after Monday?",
-                        options: ["Sunday", "Tuesday", "Wednesday", "Friday"],
-                        correctIndex: 1,
-                        explanation: "Tuesday (Selasa) adalah hari setelah Monday (Senin).",
-                        graphic: "📅"
-                    }
-                ]
-            },
-            faseC: {
-                math: [
-                    {
-                        question: "Bentuk desimal dari pecahan 3/4 adalah ...",
-                        options: ["0,25", "0,50", "0,75", "0,80"],
-                        correctIndex: 2,
-                        explanation: "3 dibagi 4 = 0,75.",
-                        graphic: "🍰"
-                    },
-                    {
-                        question: "Sebuah kubus memiliki panjang rusuk 5 cm. Berapakah VOLUME kubus tersebut?",
-                        options: ["25 cm³", "100 cm³", "125 cm³", "150 cm³"],
-                        correctIndex: 2,
-                        explanation: "Volume Kubus = s x s x s = 5 x 5 x 5 = 125 cm³.",
-                        graphic: "📦"
-                    },
-                    {
-                        question: "FPB (Faktor Persekutuan Terbesar) dari angka 12 dan 18 adalah ...",
-                        options: ["2", "3", "6", "12"],
-                        correctIndex: 2,
-                        explanation: "Faktor 12 = 1,2,3,4,6,12. Faktor 18 = 1,2,3,6,9,18. Faktor terbesar yang sama adalah 6.",
-                        graphic: "🔢"
-                    },
-                    {
-                        question: "Hasil dari 2,5 + 1,75 adalah ...",
-                        options: ["3,25", "4,25", "4,15", "3,75"],
-                        correctIndex: 1,
-                        explanation: "2,50 + 1,75 = 4,25.",
-                        graphic: "➕"
-                    },
-                    {
-                        question: "Suatu segitiga memiliki alas 10 cm dan tinggi 8 cm. Berapakah LUAS segitiga tersebut?",
-                        options: ["80 cm²", "40 cm²", "20 cm²", "50 cm²"],
-                        correctIndex: 1,
-                        explanation: "Luas Segitiga = 1/2 x alas x tinggi = 1/2 x 10 x 8 = 40 cm².",
-                        graphic: "📐"
-                    }
-                ],
-                ipas: [
-                    {
-                        question: "Planet terdekat dari Matahari sekaligus planet terkecil di Tata Surya kita adalah ...",
-                        options: ["Venus", "Mars", "Merkurius", "Bumi"],
-                        correctIndex: 2,
-                        explanation: "Merkurius adalah planet urutan pertama yang paling dekat dengan Matahari.",
-                        graphic: "☀️🪐"
-                    },
-                    {
-                        question: "Dalam rantai makanan, tumbuhan hijau berperan sebagai ...",
-                        options: ["Konsumen I", "Produsen", "Pengurai", "Konsumen II"],
-                        correctIndex: 1,
-                        explanation: "Tumbuhan hijau bertindak sebagai Produsen karena dapat menghasilkan makanan sendiri melalui fotosintesis.",
-                        graphic: "🌾"
-                    },
-                    {
-                        question: "Perubahan wujud benda dari padat menjadi gas (seperti kapur barus yang makin mengecil) disebut ...",
-                        options: ["Mencair", "Menguap", "Menyublim", "Mengkristal"],
-                        correctIndex: 2,
-                        explanation: "Menyublim adalah perubahan wujud langsung dari padat menjadi gas.",
-                        graphic: "🧊➡️💨"
-                    },
-                    {
-                        question: "Organ utama manusia yang berfungsi memompa darah ke seluruh tubuh adalah ...",
-                        options: ["Paru-paru", "Jantung", "Lambung", "Hati"],
-                        correctIndex: 1,
-                        explanation: "Jantung berdetak tanpa henti untuk memompa darah yang kaya oksigen ke seluruh bagian tubuh.",
-                        graphic: "🫀"
-                    },
-                    {
-                        question: "Komponen ekosistem yang tergolong benda tak hidup (seperti air, udara, tanah) disebut komponen ...",
-                        options: ["Biotik", "Abiotik", "Organik", "Symbiosis"],
-                        correctIndex: 1,
-                        explanation: "Abiotik berarti komponen tidak hidup, sedangkan Biotik adalah makhluk hidup.",
-                        graphic: "🏜️"
-                    }
-                ],
-                indo: [
-                    {
-                        question: "Manakah penulisan KATA BAKU yang benar di bawah ini sesuai PUEBI/KBBI?",
-                        options: ["Apotik", "Apotek", "Apotekh", "Apotique"],
-                        correctIndex: 1,
-                        explanation: "Kata yang baku menurut KBBI adalah 'Apotek' (menggunakan huruf e).",
-                        graphic: "🏥"
-                    },
-                    {
-                        question: "Karya sastra yang terikat oleh bait, baris, dan irama indah disebut ...",
-                        options: ["Prosa", "Puisi", "Drama", "Novel"],
-                        correctIndex: 1,
-                        explanation: "Puisi adalah karya sastra pendek bersajak indah yang disusun dalam bait-bait.",
-                        graphic: "📜"
-                    },
-                    {
-                        question: "Kata hubung yang menyatakan PILIHAN adalah ...",
-                        options: ["Dan", "Tetapi", "Atau", "Sehingga"],
-                        correctIndex: 2,
-                        explanation: "Kata 'Atau' digunakan saat harus memilih di antara dua hal.",
-                        graphic: "🔀"
-                    },
-                    {
-                        question: "Watak tokoh cerita yang baik dan suka menolong disebut tokoh ...",
-                        options: ["Antagonis", "Protagonis", "Tritagonis", "Figuran"],
-                        correctIndex: 1,
-                        explanation: "Protagonis adalah sebutan untuk tokoh utama berwatak baik.",
-                        graphic: "😇"
-                    },
-                    {
-                        question: "Kalimat berikut yang merupakan KALIMAT MAJEMUK SETARA adalah ...",
-                        options: ["Budi membaca dan Ani menulis.", "Adik tidur nyenyak.", "Ibu pergi ke pasar.", "Kucing makan ikan."],
-                        correctIndex: 0,
-                        explanation: "Kalimat pertama terdiri dari dua klausa yang dihubungkan kata 'dan'.",
-                        graphic: "✍️"
-                    }
-                ],
-                english: [
-                    {
-                        question: "Complete the sentence: 'An elephant is ... than a mouse.'",
-                        options: ["smaller", "bigger", "faster", "shorter"],
-                        correctIndex: 1,
-                        explanation: "Bigger artinya lebih besar. Gajah lebih besar dari tikus.",
-                        graphic: "🐘 vs 🐭"
-                    },
-                    {
-                        question: "Which one is a HEALTHY food?",
-                        options: ["Candy", "Apple", "Soda", "French fries"],
-                        correctIndex: 1,
-                        explanation: "Apple (Buah apel) adalah makanan sehat kaya serat dan vitamin.",
-                        graphic: "🍎"
-                    },
-                    {
-                        question: "'We learn about numbers and shapes in ... class.'",
-                        options: ["Science", "Math", "History", "English"],
-                        correctIndex: 1,
-                        explanation: "Math (Matematika) mempelajari angka dan bangun datar/ruang.",
-                        graphic: "🔢"
-                    },
-                    {
-                        question: "Past tense of 'go' is ...?",
-                        options: ["goed", "went", "going", "gone"],
-                        correctIndex: 1,
-                        explanation: "Bentuk kata kerja masa lalu (V2) dari 'go' adalah 'went'.",
-                        graphic: "🚶‍♂️"
-                    },
-                    {
-                        question: "What does 'Library' mean in Indonesian?",
-                        options: ["Laboratorium", "Perpustakaan", "Kantin", "Lapangan"],
-                        correctIndex: 1,
-                        explanation: "Library artinya Perpustakaan.",
-                        graphic: "📚"
-                    }
-                ]
-            }
-        };
-
-        /* ==========================================================================
-           4. INITIALIZATION & STORAGE MANAGEMENT
-           ========================================================================== */
-        
-        window.onload = function() {
-            loadStateFromStorage();
-            renderHeaderAndProfile();
-            renderAvatarPicker();
-            renderMateriSection();
-            renderRaporAndBadges();
-            switchTab('home');
-        };
-
-        function saveStateToStorage() {
-            localStorage.setItem('ninna_app_state', JSON.stringify(appState));
-        }
-
-        function loadStateFromStorage() {
-            const saved = localStorage.getItem('ninna_app_state');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    appState = { ...appState, ...parsed };
-                } catch(e) {
-                    console.error("Error parsing stored data:", e);
-                }
-            }
-        }
-
-        function switchTab(tabId) {
-            playSound('click');
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('text-white', 'border-white', 'bg-amber-500/30');
-            });
-
-            const targetSec = document.getElementById(`sec-${tabId}`);
-            if (targetSec) targetSec.classList.remove('hidden');
-
-            const targetBtn = document.getElementById(`tab-${tabId}`);
-            if (targetBtn) {
-                targetBtn.classList.add('text-white', 'border-white', 'bg-amber-500/30');
-            }
-
-            if (tabId === 'rapor') {
-                renderRaporAndBadges();
-            } else if (tabId === 'materi') {
-                renderMateriSection();
-            }
-        }
-
-        function renderHeaderAndProfile() {
-            document.getElementById('headerAvatar').innerText = appState.avatar;
-            document.getElementById('headerName').innerText = appState.studentName;
-            document.getElementById('heroStudentName').innerText = appState.studentName;
-            document.getElementById('userStarsCount').innerText = appState.stars;
-
-            let phaseText = "Kelas 1-2 (Fase A)";
-            if (appState.gradePhase === 'faseB') phaseText = "Kelas 3-4 (Fase B)";
-            if (appState.gradePhase === 'faseC') phaseText = "Kelas 5-6 (Fase C)";
-
-            document.getElementById('headerGrade').innerText = phaseText;
-            document.getElementById('homeGradeBadge').innerText = phaseText;
-            document.getElementById('materiGradeLabel').innerText = phaseText;
-
-            // Stats
-            document.getElementById('homeBadgesUnlockedCount').innerText = `${appState.unlockedBadges.length} / 6 Lencana`;
-            document.getElementById('homeTotalQuizzesCount').innerText = `${appState.quizHistory.length} Kali`;
-        }
-
-        function toggleSound() {
-            appState.soundEnabled = !appState.soundEnabled;
-            saveStateToStorage();
-            const icon = document.getElementById('soundIcon');
-            const btn = document.getElementById('soundToggleBtn');
-            if (appState.soundEnabled) {
-                icon.className = 'fa-solid fa-volume-high';
-                btn.className = 'w-10 h-10 rounded-2xl border-2 border-slate-300 bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg btn-bounce';
-                playSound('click');
-            } else {
-                icon.className = 'fa-solid fa-volume-xmark';
-                btn.className = 'w-10 h-10 rounded-2xl border-2 border-slate-300 bg-rose-50 text-rose-500 flex items-center justify-center text-lg btn-bounce';
-            }
-        }
-
-        /* Profile Modal Logic */
-        function openProfileModal() {
-            playSound('click');
-            document.getElementById('inputStudentName').value = appState.studentName;
-            document.getElementById('selectStudentGrade').value = appState.gradePhase;
-            document.getElementById('profileModal').classList.remove('hidden');
-        }
-
-        function renderAvatarPicker() {
-            const grid = document.getElementById('avatarPickerGrid');
-            grid.innerHTML = '';
-            AVATARS.forEach(av => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = `p-2 rounded-2xl border-2 hover:bg-amber-100 transition btn-bounce ${appState.avatar === av ? 'border-amber-500 bg-amber-100 scale-110' : 'border-slate-200'}`;
-                btn.innerText = av;
-                btn.onclick = () => {
-                    appState.avatar = av;
-                    renderAvatarPicker();
-                };
-                grid.appendChild(btn);
-            });
-        }
-
-        function saveProfileModal() {
-            const name = document.getElementById('inputStudentName').value.trim();
-            if (name) appState.studentName = name;
-            appState.gradePhase = document.getElementById('selectStudentGrade').value;
-            saveStateToStorage();
-            renderHeaderAndProfile();
-            renderMateriSection();
-            document.getElementById('profileModal').classList.add('hidden');
-            playSound('correct');
-        }
-
-        /* ==========================================================================
-           5. MATERI BELAJAR SECTION
-           ========================================================================== */
-        
-        function filterMateriSubject(subject) {
-            playSound('click');
-            appState.currentSubject = subject;
-            document.querySelectorAll('.mat-subj-btn').forEach(btn => {
-                btn.className = 'mat-subj-btn bg-slate-100 text-slate-600 font-bold px-4 py-2 rounded-xl text-xs hover:bg-slate-200 btn-bounce';
-            });
-            const activeBtn = document.getElementById(`matSubject-${subject}`);
-            if (activeBtn) {
-                let colorClass = 'bg-emerald-500';
-                if (subject === 'ipas') colorClass = 'bg-sky-500';
-                if (subject === 'indo') colorClass = 'bg-amber-500';
-                if (subject === 'english') colorClass = 'bg-purple-500';
-                activeBtn.className = `mat-subj-btn ${colorClass} text-white font-bold px-4 py-2 rounded-xl text-xs btn-bounce`;
-            }
-            renderMateriSection();
-        }
-
-        function renderMateriSection() {
-            const grid = document.getElementById('materiCardsGrid');
-            grid.innerHTML = '';
-
-            const phase = appState.gradePhase || 'faseA';
-            const subject = appState.currentSubject || 'math';
-            const items = MATERI_DB[phase]?.[subject] || [];
-
-            items.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-3xl p-6 border-2 border-slate-200 shadow-sm hover:shadow-md transition space-y-3 relative overflow-hidden';
-                
-                card.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <div class="text-4xl p-2 bg-amber-50 rounded-2xl border border-amber-200">${item.emoji}</div>
-                        <div>
-                            <h3 class="font-display text-xl font-bold text-slate-800">${item.title}</h3>
-                            <span class="text-[10px] font-extrabold bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full uppercase">Kartu Ringkasan</span>
-                        </div>
-                    </div>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${item.content}</p>
-                    <div class="bg-amber-50/80 p-3 rounded-2xl border border-amber-200 text-xs font-semibold text-amber-900">
-                        💡 <b>Contoh:</b> ${item.example}
-                    </div>
-                    <button onclick="speakText('${item.title}. ${item.content}')" class="w-full bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 text-xs font-bold py-2 rounded-xl transition btn-bounce flex items-center justify-center gap-2">
-                        🔊 Dengarkan Suara Pembaca
-                    </button>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function selectSubjectAndNavigate(subject) {
-            appState.currentSubject = subject;
-            filterMateriSubject(subject);
-            switchTab('materi');
-        }
-
-        /* ==========================================================================
-           6. KUIS & EVALUASI RUNNER LOGIC
-           ========================================================================== */
-        
-        function startQuiz(subject) {
-            playSound('click');
-            appState.currentSubject = subject;
-            const phase = appState.gradePhase || 'faseA';
-            const questions = QUIZ_DB[phase]?.[subject] || [];
-
-            if (questions.length === 0) return;
-
-            appState.activeQuizQuestions = JSON.parse(JSON.stringify(questions));
-            appState.currentQuestionIdx = 0;
-            appState.quizScore = 0;
-            appState.userAnswers = [];
-
-            document.getElementById('quizSelectionHub').classList.add('hidden');
-            document.getElementById('quizResultScreen').classList.add('hidden');
-            document.getElementById('quizRunnerScreen').classList.remove('hidden');
-
-            renderQuizQuestion();
-        }
-
-        function renderQuizQuestion() {
-            const total = appState.activeQuizQuestions.length;
-            const idx = appState.currentQuestionIdx;
-            const q = appState.activeQuizQuestions[idx];
-
-            let subjTitle = "Kuis Matematika";
-            if (appState.currentSubject === 'ipas') subjTitle = "Kuis IPAS";
-            if (appState.currentSubject === 'indo') subjTitle = "Kuis Bahasa Indonesia";
-            if (appState.currentSubject === 'english') subjTitle = "Kuis Bahasa Inggris";
-
-            document.getElementById('quizSubjectTitle').innerText = subjTitle;
-            document.getElementById('quizQuestionCounter').innerText = `Soal ${idx + 1} dari ${total}`;
-            
-            const pct = ((idx + 1) / total) * 100;
-            document.getElementById('quizProgressBar').style.width = `${pct}%`;
-
-            document.getElementById('quizQuestionText').innerText = q.question;
-
-            const graphicBox = document.getElementById('quizGraphicContainer');
-            if (q.graphic) {
-                graphicBox.innerText = q.graphic;
-                graphicBox.classList.remove('hidden');
-            } else {
-                graphicBox.classList.add('hidden');
-            }
-
-            // Options
-            const grid = document.getElementById('quizOptionsGrid');
-            grid.innerHTML = '';
-
-            q.options.forEach((opt, optIdx) => {
-                const btn = document.createElement('button');
-                btn.className = 'opt-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50 hover:bg-amber-50 hover:border-amber-400 font-display font-bold text-left text-sm text-slate-800 transition btn-bounce flex items-center justify-between';
-                btn.innerHTML = `
-                    <span>${opt}</span>
-                    <span class="w-7 h-7 rounded-full bg-white border border-slate-300 text-xs font-bold text-slate-400 flex items-center justify-center shrink-0">
-                        ${String.fromCharCode(65 + optIdx)}
-                    </span>
-                `;
-                btn.onclick = () => handleAnswerSelect(optIdx);
-                grid.appendChild(btn);
-            });
-
-            document.getElementById('quizFeedbackBox').classList.add('hidden');
-
-            // Auto Speech Read Question
-            if (appState.soundEnabled) {
-                speakText(q.question);
-            }
-        }
-
-        function readCurrentQuestionTTS() {
-            const q = appState.activeQuizQuestions[appState.currentQuestionIdx];
-            if (q) speakText(q.question);
-        }
-
-        function handleAnswerSelect(selectedIdx) {
-            const q = appState.activeQuizQuestions[appState.currentQuestionIdx];
-            const isCorrect = (selectedIdx === q.correctIndex);
-
-            // Disable option buttons
-            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
-                btn.disabled = true;
-                if (idx === q.correctIndex) {
-                    btn.className = 'opt-btn p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-100 font-display font-bold text-left text-sm text-emerald-900 flex items-center justify-between';
-                } else if (idx === selectedIdx && !isCorrect) {
-                    btn.className = 'opt-btn p-4 rounded-2xl border-2 border-rose-500 bg-rose-100 font-display font-bold text-left text-sm text-rose-900 flex items-center justify-between';
-                }
-            });
-
-            if (isCorrect) {
-                playSound('correct');
-                appState.quizScore += 20; // 5 questions total = 100 points
-            } else {
-                playSound('wrong');
-            }
-
-            appState.userAnswers.push({ question: q.question, selected: selectedIdx, correct: q.correctIndex });
-
-            // Show explanation
-            const fbBox = document.getElementById('quizFeedbackBox');
-            const fbHeader = document.getElementById('quizFeedbackStatus');
-            const fbText = document.getElementById('quizExplanationText');
-
-            if (isCorrect) {
-                fbBox.className = 'p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50 space-y-2 animate-fadeIn';
-                fbHeader.className = 'font-display font-bold text-lg text-emerald-700 flex items-center gap-2';
-                fbHeader.innerHTML = '<span>🎉 Jawabanmu Benar! Hebat Sekali!</span>';
-            } else {
-                fbBox.className = 'p-5 rounded-2xl border-2 border-rose-300 bg-rose-50 space-y-2 animate-fadeIn';
-                fbHeader.className = 'font-display font-bold text-lg text-rose-700 flex items-center gap-2';
-                fbHeader.innerHTML = '<span>💡 Jawaban Belum Tepat. Yuk Pelajari!</span>';
-            }
-
-            fbText.innerText = q.explanation;
-            fbBox.classList.remove('hidden');
-        }
-
-        function nextQuizQuestion() {
-            playSound('click');
-            appState.currentQuestionIdx++;
-            if (appState.currentQuestionIdx < appState.activeQuizQuestions.length) {
-                renderQuizQuestion();
-            } else {
-                finishQuizEvaluation();
-            }
-        }
-
-        function finishQuizEvaluation() {
-            document.getElementById('quizRunnerScreen').classList.add('hidden');
-            document.getElementById('quizResultScreen').classList.remove('hidden');
-
-            const score = appState.quizScore;
-            let starsEarned = 1;
-            let letterGrade = 'C';
-            let predicate = 'Tetap Semangat Belajar!';
-            let celebrationIcon = '🌱';
-
-            if (score >= 100) {
-                starsEarned = 3;
-                letterGrade = 'A+';
-                predicate = 'Sangat Luar Biasa & Perfect!';
-                celebrationIcon = '🏆';
-            } else if (score >= 80) {
-                starsEarned = 3;
-                letterGrade = 'A';
-                predicate = 'Sangat Pintar & Cerdas!';
-                celebrationIcon = '🎉';
-            } else if (score >= 60) {
-                starsEarned = 2;
-                letterGrade = 'B';
-                predicate = 'Bagus Sekali! Coba Lagi Biar Bintang 3!';
-                celebrationIcon = '⭐';
-            }
-
-            // Confetti effect if high score
-            if (score >= 80 && typeof confetti === 'function') {
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                playSound('fanfare');
-            } else {
-                playSound('correct');
-            }
-
-            // Earn stars
-            appState.stars += starsEarned;
-
-            // Render Stars
-            const starsContainer = document.getElementById('resultStarsContainer');
-            starsContainer.innerHTML = '';
-            for (let i = 0; i < 3; i++) {
-                const s = document.createElement('span');
-                s.innerText = '⭐';
-                s.className = (i < starsEarned) ? 'glow-star animate-bounce' : 'opacity-20 grayscale';
-                starsContainer.appendChild(s);
-            }
-
-            document.getElementById('resultCelebrationIcon').innerText = celebrationIcon;
-            document.getElementById('resultPredicateBadge').innerText = predicate;
-            document.getElementById('resultScoreDisplay').innerText = score;
-            document.getElementById('resultGradeLetter').innerText = letterGrade;
-            document.getElementById('resultCorrectCount').innerText = `${score / 20} / 5`;
-
-            let subjName = "Matematika";
-            if (appState.currentSubject === 'ipas') subjName = "IPAS";
-            if (appState.currentSubject === 'indo') subjName = "Bahasa Indonesia";
-            if (appState.currentSubject === 'english') subjName = "Bahasa Inggris";
-
-            document.getElementById('resultSubjectName').innerText = `${subjName} - ${appState.gradePhase.toUpperCase()}`;
-
-            // Save to Quiz History
-            const historyEntry = {
-                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
-                subject: subjName,
-                phase: appState.gradePhase.toUpperCase(),
-                score: score,
-                grade: letterGrade,
-                predicate: predicate
-            };
-
-            appState.quizHistory.unshift(historyEntry);
-
-            // Check & Unlock Badges
-            checkAndAwardBadges(score);
-
-            saveStateToStorage();
-            renderHeaderAndProfile();
-        }
-
-        function resetQuizRunner() {
-            playSound('click');
-            document.getElementById('quizResultScreen').classList.add('hidden');
-            document.getElementById('quizSelectionHub').classList.remove('hidden');
-        }
-
-        /* ==========================================================================
-           7. BADGES & RAPOR DIGITAL LOGIC
-           ========================================================================== */
-        
-        const BADGES_MASTER = [
-            { id: 'math_master', title: 'Juara Matematika', icon: '➕', desc: 'Selesaikan kuis Matematika dengan nilai A/A+' },
-            { id: 'ipas_detective', title: 'Detektif IPAS', icon: '🔬', desc: 'Selesaikan kuis IPAS dengan nilai A/A+' },
-            { id: 'bahasa_master', title: 'Master Bahasa', icon: '🇮🇩', desc: 'Selesaikan kuis B. Indonesia dengan nilai A/A+' },
-            { id: 'english_star', title: 'Bintang Inggris', icon: '🔤', desc: 'Selesaikan kuis English dengan nilai A/A+' },
-            { id: 'star_collector', title: 'Kolektor Bintang', icon: '⭐', desc: 'Kumpulkan total 10 Bintang' },
-            { id: 'ai_explorer', title: 'Penjelajah AI', icon: '🤖', desc: 'Gunakan fitur Tanya Ninna AI' }
-        ];
-
-        function checkAndAwardBadges(score) {
-            if (score >= 80) {
-                if (appState.currentSubject === 'math' && !appState.unlockedBadges.includes('math_master')) appState.unlockedBadges.push('math_master');
-                if (appState.currentSubject === 'ipas' && !appState.unlockedBadges.includes('ipas_detective')) appState.unlockedBadges.push('ipas_detective');
-                if (appState.currentSubject === 'indo' && !appState.unlockedBadges.includes('bahasa_master')) appState.unlockedBadges.push('bahasa_master');
-                if (appState.currentSubject === 'english' && !appState.unlockedBadges.includes('english_star')) appState.unlockedBadges.push('english_star');
-            }
-            if (appState.stars >= 10 && !appState.unlockedBadges.includes('star_collector')) {
-                appState.unlockedBadges.push('star_collector');
-            }
-        }
-
-        function renderRaporAndBadges() {
-            document.getElementById('raporAvatar').innerText = appState.avatar;
-            document.getElementById('raporStudentName').innerText = appState.studentName;
-            
-            let phaseText = "Fase A - Kelas 1-2 Sekolah Dasar";
-            if (appState.gradePhase === 'faseB') phaseText = "Fase B - Kelas 3-4 Sekolah Dasar";
-            if (appState.gradePhase === 'faseC') phaseText = "Fase C - Kelas 5-6 Sekolah Dasar";
-            document.getElementById('raporGradePhase').innerText = phaseText;
-
-            document.getElementById('raporTotalStars').innerText = appState.stars;
-            document.getElementById('raporTotalQuizzes').innerText = appState.quizHistory.length;
-
-            // Render Badges Shelf
-            const bGrid = document.getElementById('badgesGrid');
-            bGrid.innerHTML = '';
-
-            BADGES_MASTER.forEach(badge => {
-                const isUnlocked = appState.unlockedBadges.includes(badge.id);
-                const item = document.createElement('div');
-                item.className = `p-4 rounded-2xl border-2 text-center flex flex-col items-center justify-between transition ${
-                    isUnlocked 
-                    ? 'bg-amber-50/80 border-amber-300 shadow-sm' 
-                    : 'bg-slate-50 border-slate-200 opacity-40 grayscale'
-                }`;
-
-                item.innerHTML = `
-                    <div class="text-4xl mb-1">${badge.icon}</div>
-                    <div class="font-display font-bold text-xs text-slate-800">${badge.title}</div>
-                    <div class="text-[10px] text-slate-500 leading-tight mt-1">${badge.desc}</div>
-                    <div class="mt-2 text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full ${isUnlocked ? 'bg-amber-200 text-amber-900' : 'bg-slate-200 text-slate-600'}">
-                        ${isUnlocked ? 'Terbuka 🔓' : 'Terkunci 🔒'}
-                    </div>
-                `;
-                bGrid.appendChild(item);
-            });
-
-            // Render Quiz Log Table
-            const tbody = document.getElementById('quizHistoryTableBody');
-            tbody.innerHTML = '';
-
-            if (appState.quizHistory.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400 italic">Belum ada riwayat kuis dikerjakan. Ayo coba kuis pertama!</td></tr>`;
-            } else {
-                appState.quizHistory.forEach(row => {
-                    const tr = document.createElement('tr');
-                    tr.className = 'hover:bg-slate-50 transition';
-                    tr.innerHTML = `
-                        <td class="p-3 font-semibold text-slate-600">${row.date}</td>
-                        <td class="p-3 font-bold text-slate-800">${row.subject}</td>
-                        <td class="p-3 text-xs text-slate-500">${row.phase}</td>
-                        <td class="p-3 font-display font-bold text-amber-600 text-base">${row.score}</td>
-                        <td class="p-3 font-display font-bold text-emerald-600">${row.grade}</td>
-                        <td class="p-3 text-xs text-slate-600">${row.predicate}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }
-        }
-
-        function openResetModal() {
-            playSound('click');
-            document.getElementById('resetModal').classList.remove('hidden');
-        }
-        function closeResetModal() {
-            playSound('click');
-            document.getElementById('resetModal').classList.add('hidden');
-        }
-        function confirmResetAllData() {
-            localStorage.removeItem('ninna_app_state');
-            appState = {
-                studentName: 'Adik Pintar',
-                avatar: '🐱',
-                gradePhase: 'faseA',
-                stars: 0,
-                soundEnabled: true,
-                quizHistory: [],
-                unlockedBadges: [],
-                currentSubject: 'math'
-            };
-            saveStateToStorage();
-            renderHeaderAndProfile();
-            renderRaporAndBadges();
-            closeResetModal();
-            playSound('correct');
-        }
-
-        /* ==========================================================================
-           8. GEMINI AI TUTOR & QUIZ GENERATOR INTEGRATION
-           ========================================================================== */
-        
-        function switchAiSubTab(mode) {
-            playSound('click');
-            if (mode === 'chat') {
-                document.getElementById('aiChatContainer').classList.remove('hidden');
-                document.getElementById('aiQuizGenContainer').classList.add('hidden');
-                document.getElementById('aiSubTab-chat').className = 'px-4 py-2 rounded-xl bg-amber-400 text-amber-950 shadow-sm btn-bounce';
-                document.getElementById('aiSubTab-quizGen').className = 'px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 btn-bounce';
-            } else {
-                document.getElementById('aiChatContainer').classList.add('hidden');
-                document.getElementById('aiQuizGenContainer').classList.remove('hidden');
-                document.getElementById('aiSubTab-chat').className = 'px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 btn-bounce';
-                document.getElementById('aiSubTab-quizGen').className = 'px-4 py-2 rounded-xl bg-purple-500 text-white shadow-sm btn-bounce';
-            }
-        }
-
-        async function sendAiChatMessage() {
-            const inputEl = document.getElementById('aiChatInput');
-            const query = inputEl.value.trim();
-            if (!query) return;
-
-            playSound('click');
-            if (!appState.unlockedBadges.includes('ai_explorer')) {
-                appState.unlockedBadges.push('ai_explorer');
-                saveStateToStorage();
-            }
-
-            const box = document.getElementById('chatMessagesBox');
-            
-            // Append User Msg
-            const userDiv = document.createElement('div');
-            userDiv.className = 'flex items-start gap-3 justify-end';
-            userDiv.innerHTML = `
-                <div class="bg-indigo-600 text-white p-4 rounded-2xl rounded-tr-none max-w-xl text-xs sm:text-sm leading-relaxed shadow-sm">
-                    ${escapeHtml(query)}
-                </div>
-                <div class="w-10 h-10 rounded-2xl bg-indigo-100 flex items-center justify-center text-xl shrink-0">
-                    ${appState.avatar}
-                </div>
-            `;
-            box.appendChild(userDiv);
-            inputEl.value = '';
-            box.scrollTop = box.scrollHeight;
-
-            // Append AI Thinking Placeholder
-            const aiDiv = document.createElement('div');
-            aiDiv.className = 'flex items-start gap-3';
-            aiDiv.innerHTML = `
-                <div class="w-10 h-10 rounded-2xl bg-amber-400 flex items-center justify-center text-xl shrink-0 animate-bounce">
-                    🐱
-                </div>
-                <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl rounded-tl-none max-w-xl text-xs sm:text-sm text-slate-600 italic">
-                    Ninna sedang berpikir... 💭
-                </div>
-            `;
-            box.appendChild(aiDiv);
-            box.scrollTop = box.scrollHeight;
-
-            // Call Gemini API
-            const systemPrompt = `Kamu adalah Ninna, tutor belajar anak SD (Sekolah Dasar) Kurikulum Merdeka yang ramah, hangat, penuh semangat, dan sabar. 
-Siswa yang sedang diajak bicara bernama ${appState.studentName} (${appState.gradePhase}).
-Aturan jawaban:
-1. Gunakan bahasa Indonesia yang sangat ramah, sederhana, bernada ceria.
-2. Gunakan emoji lucu di pertengahan kalimat.
-3. Jawab ringkas maksimal 2-3 paragraf pendek agar anak tidak bosan membaca.
-4. Berikan analogi sederhana yang dekat dengan kehidupan anak.`;
-
-            try {
-                const apiKey = ""; // Canvas runtime automatically supplies valid key
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: query }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
-                });
-
-                const data = await response.json();
-                const aiResponseText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Wah, Ninna tadi agak melamun. Boleh ulangi pertanyaannya lagi, Dik?";
-
-                aiDiv.querySelector('.text-slate-600').className = 'bg-amber-50 border border-amber-200 p-4 rounded-2xl rounded-tl-none max-w-xl text-xs sm:text-sm text-slate-800 leading-relaxed';
-                aiDiv.querySelector('.text-slate-800').innerHTML = formatAiResponse(aiResponseText);
-                box.scrollTop = box.scrollHeight;
-
-                playSound('correct');
-            } catch (e) {
-                aiDiv.querySelector('.text-slate-600').innerText = "Maaf ya, koneksi Ninna sedang ada kendala. Coba tanyakan lagi ya!";
-            }
-        }
-
-        async function generateCustomAiQuiz() {
-            const topicInput = document.getElementById('aiQuizTopicInput');
-            const topic = topicInput.value.trim();
-            if (!topic) return;
-
-            playSound('click');
-            const btn = document.getElementById('aiQuizGenBtn');
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Ninna sedang membuat 5 Soal Kuis...`;
-
-            const promptText = `Buatkan 5 soal pilihan ganda interaktif untuk anak Sekolah Dasar (${appState.gradePhase}) tentang topik: "${topic}".
-Sajikan dalam format JSON persis sesuai struktur berikut:
-[
-  {
-    "question": "teks pertanyaan...",
-    "options": ["pilihan A", "pilihan B", "pilihan C", "pilihan D"],
-    "correctIndex": 0,
-    "explanation": "penjelasan ramah anak mengapa jawaban ini benar"
-  }
-]`;
-
-            try {
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: promptText }] }],
-                        generationConfig: {
-                            responseMimeType: "application/json",
-                            responseSchema: {
-                                type: "ARRAY",
-                                items: {
-                                    type: "OBJECT",
-                                    properties: {
-                                        "question": { "type": "STRING" },
-                                        "options": {
-                                            "type": "ARRAY",
-                                            "items": { "type": "STRING" }
-                                        },
-                                        "correctIndex": { "type": "INTEGER" },
-                                        "explanation": { "type": "STRING" }
-                                    },
-                                    "propertyOrdering": ["question", "options", "correctIndex", "explanation"]
-                                }
-                            }
-                        }
-                    })
-                });
-
-                const data = await response.json();
-                const jsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-                
-                if (jsonText) {
-                    const generatedQuestions = JSON.parse(jsonText);
-                    if (Array.isArray(generatedQuestions) && generatedQuestions.length > 0) {
-                        appState.activeQuizQuestions = generatedQuestions;
-                        appState.currentQuestionIdx = 0;
-                        appState.quizScore = 0;
-                        appState.userAnswers = [];
-                        appState.currentSubject = 'ai_custom';
-
-                        switchTab('kuis');
-                        document.getElementById('quizSelectionHub').classList.add('hidden');
-                        document.getElementById('quizResultScreen').classList.add('hidden');
-                        document.getElementById('quizRunnerScreen').classList.remove('hidden');
-
-                        renderQuizQuestion();
-                        playSound('fanfare');
-                    }
-                }
-            } catch (e) {
-                console.error("AI Quiz error:", e);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<span>✨ Buat 5 Soal Kuis Sekarang</span>`;
-            }
-        }
-
-        // Helper string formatting
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
-        function formatAiResponse(text) {
-            return text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-        }
-    </script>
+    <!-- JavaScript Modular Files -->
+    <script src="js/data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
