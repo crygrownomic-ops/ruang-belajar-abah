@@ -81,6 +81,14 @@
         <!-- SECTION 1: BERANDA CERIA -->
         <section id="sec-beranda" class="space-y-8">
             <div class="bg-gradient-to-r from-amber-400 via-pink-500 to-indigo-600 rounded-3xl p-6 md:p-10 text-white shadow-2xl relative overflow-hidden border-4 border-white">
+                <!-- Elemen Hiasan Latar Belakang Animasi -->
+                <div class="absolute -right-6 -bottom-6 opacity-20 text-9xl text-white select-none pointer-events-none">
+                    <i class="fa-solid fa-rocket float-anim"></i>
+                </div>
+                <div class="absolute left-1/2 top-2 opacity-20 text-6xl text-yellow-200 select-none pointer-events-none">
+                    <i class="fa-solid fa-star spin-slow"></i>
+                </div>
+
                 <div class="relative z-10 max-w-2xl">
                     <span class="inline-flex items-center gap-2 bg-yellow-300 text-indigo-950 font-extrabold text-xs px-4 py-1.5 rounded-full shadow-md uppercase tracking-wider mb-2">
                         <i class="fa-solid fa-sparkles"></i> Selamat Datang Pendidik & Siswa!
@@ -485,7 +493,7 @@
 
     </main>
 
-    <!-- MODALS -->
+    <!-- MODAL: KELOLA NAMA SISWA -->
     <div id="modal-siswa" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md rounded-3xl p-6 space-y-4 shadow-2xl border-4 border-yellow-400">
             <div class="flex justify-between items-center border-b pb-2">
@@ -537,6 +545,7 @@
         </div>
     </div>
 
+    <!-- MODAL: SETTING API KEY GEMINI -->
     <div id="modal-apikey" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md rounded-3xl p-6 space-y-4 shadow-2xl border-4 border-purple-400">
             <div class="flex justify-between items-center border-b pb-2">
@@ -556,7 +565,7 @@
         </div>
     </div>
 
-    <!-- MODAL REMEDIAL / PENGAYAAN AI -->
+    <!-- MODAL: REMEDIAL / PENGAYAAN AI -->
     <div id="modal-remedial" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-lg rounded-3xl p-6 space-y-4 shadow-2xl border-4 border-indigo-400">
             <div class="flex justify-between items-center border-b pb-2">
