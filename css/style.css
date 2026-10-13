@@ -1,4 +1,4 @@
-/* Custom Styles for Ruang Belajar Abah Ceria */
+/* Custom Styles for Ruang Belajar Abah Ceria & Portal Pendidik */
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -24,26 +24,7 @@ body {
     transform: translateY(-6px) rotate(1deg);
 }
 
-/* Animasi Mengapung & Berputar Pelan */
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(3deg); }
-}
-
-.float-anim {
-    animation: float 4s ease-in-out infinite;
-}
-
-@keyframes spinSlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.spin-slow {
-    animation: spinSlow 12s linear infinite;
-}
-
-/* Format khusus Cetak Rapor (Print Rules) */
+/* Print Rules for Rapor, LKPD, and Modul Ajar */
 @media print {
     .no-print {
         display: none !important;
@@ -56,12 +37,12 @@ body {
         max-width: 100% !important;
         padding: 0 !important;
     }
-    .rapor-paper {
+    .rapor-paper, #modul-output-container, #lkpd-print-area {
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
     }
-    #sec-rapor {
+    #sec-rapor, #sec-modul-ai, #lkpd-print-area {
         display: block !important;
     }
 }
