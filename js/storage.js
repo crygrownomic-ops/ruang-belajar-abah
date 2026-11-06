@@ -10,10 +10,16 @@ const STORAGE_KEYS = {
     HISTORY: 'rba_quiz_history',
     CUSTOM_QUESTIONS: 'rba_custom_questions',
     API_KEY: 'rba_gemini_api_key',
-    SETTINGS: 'rba_settings'
+    SETTINGS: 'rba_settings',
+    GAMIFICATION: 'rba_gamification_profiles',
+    JOURNAL: 'rba_teaching_journal',
+    ITEM_STATS: 'rba_item_stats',
+    LESSON_PLANS: 'rba_lesson_plans',
+    ACCESSIBILITY: 'rba_accessibility_settings',
+    ADVENTURE: 'rba_adventure_progress'
 };
 
-const STORAGE_VERSION = 2;
+const STORAGE_VERSION = 3;
 const memoryStore = new Map();
 
 function makeId(prefix = 'id') {
@@ -337,7 +343,158 @@ function saveSettings(patch) {
 }
 
 // ------------------------------------------------------------
-// 5. Ekspor / Impor / Reset
+// 5. Gamifikasi, Jurnal, Statistik Soal, Paket Modul, Aksesibilitas
+// ------------------------------------------------------------
+function readJsonArray(key) {
+    const parsed = safeParse(readRaw(key), []);
+    return Array.isArray(parsed) ? parsed.filter((item) => item && typeof item === 'object') : [];
+}
+
+function getGamificationData() {
+    return safeReadObject(STORAGE_KEYS.GAMIFICATION, {});
+}
+
+function saveGamificationData(data) {
+    writeRaw(STORAGE_KEYS.GAMIFICATION, JSON.stringify(data && typeof data === 'object' ? data : {}));
+}
+
+function getAdventureProgress() {
+    return safeReadObject(STORAGE_KEYS.ADVENTURE, {});
+}
+
+function saveAdventureProgress(data) {
+    writeRaw(STORAGE_KEYS.ADVENTURE, JSON.stringify(data && typeof data === 'object' ? data : {}));
+}
+
+function getJournalEntries() {
+    return readJsonArray(STORAGE_KEYS.JOURNAL)
+        .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+}
+
+function saveJournalEntry(entry) {
+    const list = getJournalEntries();
+    const normalized = {
+        id: String(entry.id || makeId('j')),
+        date: String(entry.date || new Date().toISOString().slice(0, 10)),
+        studentId: String(entry.studentId || ''),
+        type: String(entry.type || 'jurnal'),
+        title: String(entry.title || '').trim() || 'Catatan belajar',
+        topic: String(entry.topic || '').trim(),
+        activity: String(entry.activity || '').trim(),
+        reflection: String(entry.reflection || '').trim(),
+        followUp: String(entry.followUp || '').trim(),
+        mood: String(entry.mood || ''),
+        minutes: Math.max(0, Number(entry.minutes) || 0),
+        createdAt: Number(entry.createdAt) || Date.now()
+    };
+
+    const index = list.findIndex((item) => item.id === normalized.id);
+    if (index >= 0) list[index] = normalized;
+    else list.unshift(normalized);
+
+    writeRaw(STORAGE_KEYS.JOURNAL, JSON.stringify(list.slice(0, 500)));
+    return normalized;
+}
+
+function deleteJournalEntry(entryId) {
+    const list = getJournalEntries();
+    const next = list.filter((item) => item.id !== entryId);
+    if (next.length === list.length) return false;
+    writeRaw(STORAGE_KEYS.JOURNAL, JSON.stringify(next));
+    return true;
+}
+
+function hashString(value) {
+    let hash = 5381;
+    const text = String(value || '');
+    for (let i = 0; i < text.length; i += 1) {
+        hash = ((hash << 5) + hash) ^ text.charCodeAt(i);
+    }
+    return (hash >>> 0).toString(36);
+}
+
+function getQuestionKey(questionText) {
+    return `q_${hashString(String(questionText || '').trim().toLowerCase())}`;
+}
+
+function getItemStats() {
+    return safeReadObject(STORAGE_KEYS.ITEM_STATS, {});
+}
+
+function recordQuestionAttempt(question, isCorrect, meta = {}) {
+    if (!question || !question.q) return null;
+
+    const stats = getItemStats();
+    const key = getQuestionKey(question.q);
+    const previous = stats[key] && typeof stats[key] === 'object' ? stats[key] : {};
+    const entry = {
+        id: key,
+        q: String(question.q),
+        subject: String(meta.subject || previous.subject || 'mtk'),
+        phase: String(meta.phase || previous.phase || 'faseA'),
+        attempts: (Number(previous.attempts) || 0) + 1,
+        correct: (Number(previous.correct) || 0) + (isCorrect ? 1 : 0),
+        lastAt: Date.now()
+    };
+
+    stats[key] = entry;
+    writeRaw(STORAGE_KEYS.ITEM_STATS, JSON.stringify(stats));
+    return entry;
+}
+
+function getLessonPlans() {
+    return readJsonArray(STORAGE_KEYS.LESSON_PLANS)
+        .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+}
+
+function saveLessonPlan(plan) {
+    const list = getLessonPlans();
+    const normalized = {
+        id: String(plan.id || makeId('lp')),
+        title: String(plan.title || 'Modul Ajar').trim() || 'Modul Ajar',
+        subject: String(plan.subject || 'mtk'),
+        phase: String(plan.phase || 'faseA'),
+        topic: String(plan.topic || '').trim(),
+        html: String(plan.html || ''),
+        createdAt: Number(plan.createdAt) || Date.now()
+    };
+
+    const index = list.findIndex((item) => item.id === normalized.id);
+    if (index >= 0) list[index] = normalized;
+    else list.unshift(normalized);
+
+    writeRaw(STORAGE_KEYS.LESSON_PLANS, JSON.stringify(list.slice(0, 100)));
+    return normalized;
+}
+
+function deleteLessonPlan(planId) {
+    const list = getLessonPlans();
+    const next = list.filter((item) => item.id !== planId);
+    if (next.length === list.length) return false;
+    writeRaw(STORAGE_KEYS.LESSON_PLANS, JSON.stringify(next));
+    return true;
+}
+
+function getAccessibilitySettings() {
+    const saved = safeReadObject(STORAGE_KEYS.ACCESSIBILITY, {});
+    return {
+        largeText: Boolean(saved.largeText),
+        dyslexiaFont: Boolean(saved.dyslexiaFont),
+        highContrast: Boolean(saved.highContrast),
+        reduceMotion: Boolean(saved.reduceMotion),
+        autoRead: Boolean(saved.autoRead),
+        language: saved.language === 'en' ? 'en' : 'id'
+    };
+}
+
+function saveAccessibilitySettings(patch) {
+    const next = { ...getAccessibilitySettings(), ...(patch || {}) };
+    writeRaw(STORAGE_KEYS.ACCESSIBILITY, JSON.stringify(next));
+    return next;
+}
+
+// ------------------------------------------------------------
+// 6. Ekspor / Impor / Reset
 // ------------------------------------------------------------
 function exportAllData() {
     return {
@@ -349,7 +506,13 @@ function exportAllData() {
         scores: getScores(),
         history: getHistory(),
         customQuestions: getCustomQuestions(),
-        settings: getSettings()
+        settings: getSettings(),
+        gamification: getGamificationData(),
+        adventure: getAdventureProgress(),
+        journal: getJournalEntries(),
+        itemStats: getItemStats(),
+        lessonPlans: getLessonPlans(),
+        accessibility: getAccessibilitySettings()
     };
 }
 
@@ -373,6 +536,25 @@ function importAllData(data) {
     writeRaw(STORAGE_KEYS.HISTORY, JSON.stringify(history));
     writeRaw(STORAGE_KEYS.CUSTOM_QUESTIONS, JSON.stringify(customQuestions.map((question, index) => normalizeQuestion(question, index))));
     writeRaw(STORAGE_KEYS.SETTINGS, JSON.stringify({ ...getSettings(), ...settings }));
+
+    if (data.gamification && typeof data.gamification === 'object') {
+        writeRaw(STORAGE_KEYS.GAMIFICATION, JSON.stringify(data.gamification));
+    }
+    if (data.adventure && typeof data.adventure === 'object') {
+        writeRaw(STORAGE_KEYS.ADVENTURE, JSON.stringify(data.adventure));
+    }
+    if (Array.isArray(data.journal)) {
+        writeRaw(STORAGE_KEYS.JOURNAL, JSON.stringify(data.journal));
+    }
+    if (data.itemStats && typeof data.itemStats === 'object') {
+        writeRaw(STORAGE_KEYS.ITEM_STATS, JSON.stringify(data.itemStats));
+    }
+    if (Array.isArray(data.lessonPlans)) {
+        writeRaw(STORAGE_KEYS.LESSON_PLANS, JSON.stringify(data.lessonPlans));
+    }
+    if (data.accessibility && typeof data.accessibility === 'object') {
+        writeRaw(STORAGE_KEYS.ACCESSIBILITY, JSON.stringify(data.accessibility));
+    }
 
     const activeId = students.some((student) => student.id === data.activeStudentId)
         ? data.activeStudentId
