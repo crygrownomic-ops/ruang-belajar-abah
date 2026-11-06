@@ -3,25 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ruang Belajar Abah - aplikasi pembelajaran interaktif SD Kurikulum Merdeka dengan kuis, modul ajar AI, bank soal guru, LKPD cetak, dan rapor digital.">
+    <meta name="theme-color" content="#4f46e5">
+    <meta property="og:title" content="Ruang Belajar Abah - Belajar Ceria & Portal Pendidik Merdeka">
+    <meta property="og:description" content="Kuis interaktif, materi Fase A-C, AI Ninna, modul ajar otomatis, bank soal, dan rapor digital dalam satu aplikasi.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎈</text></svg>">
     <title>Ruang Belajar Abah - Aplikasi Pembelajaran SD Interaktif</title>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'cursive'],
+                        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Ceria -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2.1.0">
 </head>
-<body class="bg-gradient-to-b from-amber-50 via-sky-50 to-pink-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-gradient-to-b from-amber-50 via-sky-50 to-pink-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-pink-200">
+
+    <a href="#sec-beranda" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-white focus:text-indigo-700 focus:px-4 focus:py-2 focus:rounded-xl focus:shadow-lg focus:font-bold">Lewati ke konten utama</a>
 
     <!-- HEADER / NAVIGATION WARNA-WARNI -->
     <header class="no-print bg-white/90 backdrop-blur-md shadow-lg border-b-4 border-yellow-400 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
             <!-- Logo & Title -->
-            <div class="flex items-center space-x-3 cursor-pointer group" onclick="showSection('beranda')">
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="showSection('beranda')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('beranda');}">
                 <div class="w-12 h-12 bg-gradient-to-tr from-yellow-400 via-pink-500 to-indigo-500 rounded-3xl flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-pink-200 group-hover:rotate-12 transition transform">
-                    <i class="fa-solid fa-face-smile-beam"></i>
+                    <i class="fa-solid fa-face-smile-beam" aria-hidden="true"></i>
                 </div>
                 <div>
                     <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-pink-600 to-amber-500 font-fredoka tracking-wide">Ruang Belajar Abah 🎈</h1>
@@ -32,44 +53,45 @@
             </div>
 
             <!-- Active Student Selector & Nav Actions -->
-            <div class="flex items-center space-x-3 flex-wrap">
+            <div class="flex items-center space-x-2 sm:space-x-3 flex-wrap">
                 <!-- Select Active Student Button -->
-                <button onclick="openStudentModal()" class="flex items-center space-x-2 bg-gradient-to-r from-amber-100 to-yellow-200 hover:from-amber-200 hover:to-yellow-300 text-amber-900 px-4 py-2 rounded-2xl border-2 border-yellow-400 text-sm font-bold shadow-sm transition transform active:scale-95">
-                    <i class="fa-solid fa-child-reaching text-amber-600 text-lg"></i>
-                    <span id="active-student-display">Pilih Siswa</span>
-                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                <button onclick="openStudentModal()" title="Pilih atau kelola siswa" class="flex items-center space-x-2 bg-gradient-to-r from-amber-100 to-yellow-200 hover:from-amber-200 hover:to-yellow-300 text-amber-900 px-3 sm:px-4 py-2 rounded-2xl border-2 border-yellow-400 text-sm font-bold shadow-sm transition transform active:scale-95">
+                    <span id="active-student-avatar" class="w-7 h-7 rounded-xl bg-amber-400 text-white flex items-center justify-center text-xs font-black shadow-inner">B</span>
+                    <span id="active-student-display" class="max-w-[130px] truncate">Pilih Siswa</span>
+                    <i class="fa-solid fa-chevron-down text-xs" aria-hidden="true"></i>
                 </button>
 
                 <!-- API Key Config Button -->
-                <button onclick="openApiKeyModal()" title="Pengaturan AI Gemini" class="bg-purple-100 hover:bg-purple-200 text-purple-800 p-2.5 rounded-2xl border-2 border-purple-300 transition shadow-sm transform active:scale-95">
-                    <i class="fa-solid fa-key text-lg"></i>
+                <button onclick="openApiKeyModal()" title="Pengaturan AI Gemini" class="relative bg-purple-100 hover:bg-purple-200 text-purple-800 p-2.5 rounded-2xl border-2 border-purple-300 transition shadow-sm transform active:scale-95">
+                    <i class="fa-solid fa-key text-lg" aria-hidden="true"></i>
+                    <span id="api-key-status" class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-slate-300 border-2 border-white" title="API key belum diatur"></span>
                 </button>
             </div>
         </div>
 
         <!-- Main Navigation Bar -->
-        <nav class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-3 py-2 shadow-inner">
-            <div class="max-w-7xl mx-auto flex items-center justify-start space-x-2 overflow-x-auto text-sm font-bold py-1">
+        <nav class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-3 py-2 shadow-inner" aria-label="Navigasi utama">
+            <div class="max-w-7xl mx-auto flex items-center justify-start space-x-2 overflow-x-auto text-sm font-bold py-1 nav-scroll">
                 <button onclick="showSection('beranda')" class="nav-btn active px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/20 hover:bg-white/30 transition whitespace-nowrap" id="nav-beranda">
-                    <i class="fa-solid fa-house-chimney text-yellow-300"></i> <span>Beranda</span>
+                    <i class="fa-solid fa-house-chimney text-yellow-300" aria-hidden="true"></i> <span>Beranda</span>
                 </button>
                 <button onclick="showSection('materi')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-materi">
-                    <i class="fa-solid fa-book-open-reader text-sky-300"></i> <span>Materi Pembelajaran</span>
+                    <i class="fa-solid fa-book-open-reader text-sky-300" aria-hidden="true"></i> <span>Materi</span>
                 </button>
                 <button onclick="showSection('kuis')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-kuis">
-                    <i class="fa-solid fa-gamepad text-emerald-300"></i> <span>Kuis / Ujian</span>
+                    <i class="fa-solid fa-gamepad text-emerald-300" aria-hidden="true"></i> <span>Kuis / Ujian</span>
                 </button>
                 <button onclick="showSection('ai')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-ai">
-                    <i class="fa-solid fa-robot text-pink-300"></i> <span>Tanya AI Ninna</span>
+                    <i class="fa-solid fa-robot text-pink-300" aria-hidden="true"></i> <span>Tanya AI Ninna</span>
                 </button>
                 <button onclick="showSection('modul-ai')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-modul-ai">
-                    <i class="fa-solid fa-file-pen text-amber-300"></i> <span>Modul Ajar AI</span>
+                    <i class="fa-solid fa-file-pen text-amber-300" aria-hidden="true"></i> <span>Modul Ajar AI</span>
                 </button>
                 <button onclick="showSection('editor-kuis')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-editor-kuis">
-                    <i class="fa-solid fa-folder-plus text-yellow-300"></i> <span>Bank Soal Guru</span>
+                    <i class="fa-solid fa-folder-plus text-yellow-300" aria-hidden="true"></i> <span>Bank Soal Guru</span>
                 </button>
                 <button onclick="showSection('rapor')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-rapor">
-                    <i class="fa-solid fa-chart-line text-yellow-300"></i> <span>Diagnosis & Rapor</span>
+                    <i class="fa-solid fa-chart-line text-yellow-300" aria-hidden="true"></i> <span>Diagnosis & Rapor</span>
                 </button>
             </div>
         </nav>
@@ -83,73 +105,134 @@
             <div class="bg-gradient-to-r from-amber-400 via-pink-500 to-indigo-600 rounded-3xl p-6 md:p-10 text-white shadow-2xl relative overflow-hidden border-4 border-white">
                 <!-- Elemen Hiasan Latar Belakang Animasi -->
                 <div class="absolute -right-6 -bottom-6 opacity-20 text-9xl text-white select-none pointer-events-none">
-                    <i class="fa-solid fa-rocket float-anim"></i>
+                    <i class="fa-solid fa-rocket float-anim" aria-hidden="true"></i>
                 </div>
                 <div class="absolute left-1/2 top-2 opacity-20 text-6xl text-yellow-200 select-none pointer-events-none">
-                    <i class="fa-solid fa-star spin-slow"></i>
+                    <i class="fa-solid fa-star spin-slow" aria-hidden="true"></i>
                 </div>
 
-                <div class="relative z-10 max-w-2xl">
+                <div class="relative z-10 max-w-3xl">
                     <span class="inline-flex items-center gap-2 bg-yellow-300 text-indigo-950 font-extrabold text-xs px-4 py-1.5 rounded-full shadow-md uppercase tracking-wider mb-2">
-                        <i class="fa-solid fa-sparkles"></i> Selamat Datang Pendidik & Siswa!
+                        <i class="fa-solid fa-sparkles" aria-hidden="true"></i> Selamat Datang Pendidik & Siswa!
                     </span>
                     <h2 class="text-3xl md:text-5xl font-extrabold font-fredoka mt-2 drop-shadow-md" id="welcome-heading">Halo Anak Pintar! 👋</h2>
                     <p class="mt-3 text-amber-50 text-base md:text-lg leading-relaxed font-medium">
-                        Platform pembelajaran interaktif SD Kurikulum Merdeka. Dilengkapi Kuis, Fitur Ujian Berwaktu, Modul Ajar AI Guru, Cetak LKPD, dan Analisis Diagnosis Belajar! 🚀
+                        Platform pembelajaran interaktif SD Kurikulum Merdeka. Dilengkapi kuis, ujian berwaktu, modul ajar AI, bank soal guru, cetak LKPD, dan analisis diagnosis belajar! 🚀
                     </p>
-                    <div class="mt-6 flex flex-wrap gap-4">
+                    <div class="mt-6 flex flex-wrap gap-3">
                         <button onclick="showSection('kuis')" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-950 font-extrabold px-6 py-3 rounded-2xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-1 flex items-center space-x-2 text-base border-2 border-yellow-200">
-                            <i class="fa-solid fa-circle-play text-2xl text-red-600"></i> <span>Mulai Kuis / Ujian</span>
+                            <i class="fa-solid fa-circle-play text-2xl text-red-600" aria-hidden="true"></i> <span>Mulai Kuis / Ujian</span>
                         </button>
                         <button onclick="showSection('modul-ai')" class="bg-white/20 hover:bg-white/30 text-white font-bold px-5 py-3 rounded-2xl transition backdrop-blur-sm border border-white/40 flex items-center space-x-2">
-                            <i class="fa-solid fa-file-signature text-xl"></i> <span>Buat Modul Ajar RPP</span>
+                            <i class="fa-solid fa-file-signature text-xl" aria-hidden="true"></i> <span>Buat Modul Ajar</span>
                         </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ringkasan Cepat -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white rounded-3xl border-4 border-emerald-200 p-5 shadow-md flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div>
+                    <div>
+                        <p class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700">Rata-rata Nilai</p>
+                        <p id="home-stat-average" class="text-2xl font-black text-slate-800">--</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl border-4 border-sky-200 p-5 shadow-md flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-list-check" aria-hidden="true"></i></div>
+                    <div>
+                        <p class="text-[11px] font-extrabold uppercase tracking-wider text-sky-700">Kuis Dikerjakan</p>
+                        <p id="home-stat-attempts" class="text-2xl font-black text-slate-800">0</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl border-4 border-amber-200 p-5 shadow-md flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-medal" aria-hidden="true"></i></div>
+                    <div>
+                        <p class="text-[11px] font-extrabold uppercase tracking-wider text-amber-700">Lencana Terbaik</p>
+                        <p id="home-stat-badge" class="text-sm font-black text-slate-800">Belum ada</p>
                     </div>
                 </div>
             </div>
 
             <!-- Grid Mata Pelajaran -->
             <div>
-                <div class="flex items-center space-x-3 mb-5">
-                    <div class="w-10 h-10 bg-pink-500 text-white rounded-2xl flex items-center justify-center text-xl shadow-md">
-                        <i class="fa-solid fa-shapes"></i>
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-pink-500 text-white rounded-2xl flex items-center justify-center text-xl shadow-md">
+                            <i class="fa-solid fa-shapes" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-extrabold font-fredoka text-indigo-950">Pilih Pelajaran Favoritmu!</h3>
+                            <p class="text-xs font-semibold text-slate-500">Materi dan bank soal tersedia untuk Fase A, B, dan C.</p>
+                        </div>
                     </div>
-                    <h3 class="text-2xl font-extrabold font-fredoka text-indigo-950">Pilih Pelajaran Favoritmu!</h3>
+                    <label class="flex items-center gap-2 text-xs font-bold text-slate-600 bg-white border-2 border-slate-200 rounded-2xl px-3 py-2">
+                        <span>Fase:</span>
+                        <select id="home-phase-select" onchange="setPhase(this.value)" class="bg-transparent font-extrabold text-indigo-700 focus:outline-none">
+                            <option value="faseA">Fase A (Kelas 1-2)</option>
+                            <option value="faseB">Fase B (Kelas 3-4)</option>
+                            <option value="faseC">Fase C (Kelas 5-6)</option>
+                        </select>
+                    </label>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div onclick="selectSubject('mtk')" class="subject-card bg-gradient-to-br from-sky-100 to-sky-200 border-4 border-sky-300 hover:border-sky-500 p-6 rounded-3xl cursor-pointer transition shadow-lg hover:shadow-xl transform hover:-translate-y-2">
+                    <div onclick="selectSubject('mtk')" class="subject-card bg-gradient-to-br from-sky-100 to-sky-200 border-4 border-sky-300 hover:border-sky-500 p-6 rounded-3xl cursor-pointer transition shadow-lg hover:shadow-xl transform hover:-translate-y-2" role="button" tabindex="0" onkeydown="if(event.key==='Enter'){selectSubject('mtk')}">
                         <div class="w-14 h-14 bg-sky-500 text-white rounded-2xl flex items-center justify-center text-3xl font-extrabold shadow-lg mb-4">
-                            <i class="fa-solid fa-calculator"></i>
+                            <i class="fa-solid fa-calculator" aria-hidden="true"></i>
                         </div>
                         <h4 class="font-extrabold text-xl text-sky-950 font-fredoka">Matematika</h4>
                         <p class="text-xs text-sky-800 font-semibold mt-2 leading-relaxed">Hitung cepat, geometri, pecahan, dan penalaran logika! 📐</p>
+                        <p class="mt-3 inline-flex items-center gap-1 text-[11px] font-extrabold text-sky-700 bg-white/60 px-2.5 py-1 rounded-full"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> <span id="count-mtk">15 soal</span></p>
                     </div>
 
-                    <div onclick="selectSubject('ipas')" class="subject-card bg-gradient-to-br from-emerald-100 to-emerald-200 border-4 border-emerald-300 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition shadow-lg hover:shadow-xl transform hover:-translate-y-2">
+                    <div onclick="selectSubject('ipas')" class="subject-card bg-gradient-to-br from-emerald-100 to-emerald-200 border-4 border-emerald-300 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition shadow-lg hover:shadow-xl transform hover:-translate-y-2" role="button" tabindex="0" onkeydown="if(event.key==='Enter'){selectSubject('ipas')}">
                         <div class="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-3xl font-extrabold shadow-lg mb-4">
-                            <i class="fa-solid fa-leaf"></i>
+                            <i class="fa-solid fa-leaf" aria-hidden="true"></i>
                         </div>
                         <h4 class="font-extrabold text-xl text-emerald-950 font-fredoka">IPAS</h4>
                         <p class="text-xs text-emerald-800 font-semibold mt-2 leading-relaxed">Eksplorasi organ tubuh, alam, listrik, dan sains! 🦁</p>
+                        <p class="mt-3 inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-700 bg-white/60 px-2.5 py-1 rounded-full"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> <span id="count-ipas">15 soal</span></p>
                     </div>
 
-                    <div onclick="selectSubject('indo')" class="subject-card bg-gradient-to-br from-amber-100 to-amber-200 border-4 border-amber-300 hover:border-amber-500 p-6 rounded-3xl cursor-pointer transition shadow-lg hover:shadow-xl transform hover:-translate-y-2">
+                    <div onclick="selectSubject('indo')" class="subject-card bg-gradient-to-br from-amber-100 to-amber-200 border-4 border-amber-300 hover:border-amber-500 p-6 rounded-3xl cursor-pointer transition shadow-lg hover:shadow-xl transform hover:-translate-y-2" role="button" tabindex="0" onkeydown="if(event.key==='Enter'){selectSubject('indo')}">
                         <div class="w-14 h-14 bg-amber-500 text-white rounded-2xl flex items-center justify-center text-3xl font-extrabold shadow-lg mb-4">
-                            <i class="fa-solid fa-book"></i>
+                            <i class="fa-solid fa-book" aria-hidden="true"></i>
                         </div>
                         <h4 class="font-extrabold text-xl text-amber-950 font-fredoka">Bahasa Indonesia</h4>
                         <p class="text-xs text-amber-800 font-semibold mt-2 leading-relaxed">Literasi, ide pokok, dongeng, dan tata bahasa! 📖</p>
+                        <p class="mt-3 inline-flex items-center gap-1 text-[11px] font-extrabold text-amber-700 bg-white/60 px-2.5 py-1 rounded-full"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> <span id="count-indo">15 soal</span></p>
                     </div>
 
-                    <div onclick="selectSubject('inggris')" class="subject-card bg-gradient-to-br from-purple-100 to-purple-200 border-4 border-purple-300 hover:border-purple-500 p-6 rounded-3xl cursor-pointer transition shadow-lg hover:shadow-xl transform hover:-translate-y-2">
+                    <div onclick="selectSubject('inggris')" class="subject-card bg-gradient-to-br from-purple-100 to-purple-200 border-4 border-purple-300 hover:border-purple-500 p-6 rounded-3xl cursor-pointer transition shadow-lg hover:shadow-xl transform hover:-translate-y-2" role="button" tabindex="0" onkeydown="if(event.key==='Enter'){selectSubject('inggris')}">
                         <div class="w-14 h-14 bg-purple-500 text-white rounded-2xl flex items-center justify-center text-3xl font-extrabold shadow-lg mb-4">
-                            <i class="fa-solid fa-language"></i>
+                            <i class="fa-solid fa-language" aria-hidden="true"></i>
                         </div>
                         <h4 class="font-extrabold text-xl text-purple-950 font-fredoka">Bahasa Inggris</h4>
                         <p class="text-xs text-purple-800 font-semibold mt-2 leading-relaxed">Vocabulary, daily routines, time, dan grammar! 🔤</p>
+                        <p class="mt-3 inline-flex items-center gap-1 text-[11px] font-extrabold text-purple-700 bg-white/60 px-2.5 py-1 rounded-full"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> <span id="count-inggris">15 soal</span></p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Fitur Unggulan -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button onclick="showSection('ai')" class="text-left bg-white p-5 rounded-3xl border-2 border-pink-200 hover:border-pink-400 shadow-sm hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-lg mb-3"><i class="fa-solid fa-robot" aria-hidden="true"></i></div>
+                    <h4 class="font-extrabold text-indigo-950">Tanya AI Ninna</h4>
+                    <p class="text-xs font-semibold text-slate-500 mt-1">Minta penjelasan materi dengan bahasa sederhana dan ramah anak.</p>
+                </button>
+                <button onclick="showSection('editor-kuis')" class="text-left bg-white p-5 rounded-3xl border-2 border-sky-200 hover:border-sky-400 shadow-sm hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-lg mb-3"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
+                    <h4 class="font-extrabold text-indigo-950">Generator Soal AI</h4>
+                    <p class="text-xs font-semibold text-slate-500 mt-1">Buat paket soal baru otomatis, lalu simpan ke bank soal guru.</p>
+                </button>
+                <button onclick="showSection('rapor')" class="text-left bg-white p-5 rounded-3xl border-2 border-amber-200 hover:border-amber-400 shadow-sm hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg mb-3"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
+                    <h4 class="font-extrabold text-indigo-950">Rapor & Diagnosis</h4>
+                    <p class="text-xs font-semibold text-slate-500 mt-1">Pantau perkembangan, lencana, dan rekomendasi belajar anak.</p>
+                </button>
             </div>
         </section>
 
@@ -160,205 +243,79 @@
                     <h2 class="text-3xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
                         <span>📚</span> <span>Materi Pembelajaran</span>
                     </h2>
-                    <p class="text-sm font-semibold text-slate-600">Pilih Fase Kurikulum Merdeka dan topik yang mau dibaca!</p>
+                    <p class="text-sm font-semibold text-slate-600">Pilih fase, mata pelajaran, lalu topik yang mau dibaca.</p>
                 </div>
-                <div class="flex bg-indigo-100 p-1.5 rounded-2xl border-2 border-indigo-300 text-sm font-bold">
-                    <button onclick="setPhase('faseA')" id="btn-faseA" class="phase-btn active px-4 py-2 rounded-xl transition">Fase A (Kelas 1-2)</button>
-                    <button onclick="setPhase('faseB')" id="btn-faseB" class="phase-btn px-4 py-2 rounded-xl transition">Fase B (Kelas 3-4)</button>
-                    <button onclick="setPhase('faseC')" id="btn-faseC" class="phase-btn px-4 py-2 rounded-xl transition">Fase C (Kelas 5-6)</button>
+                <div class="flex bg-indigo-100 p-1.5 rounded-2xl border-2 border-indigo-300 text-sm font-bold" role="tablist" aria-label="Pilih fase">
+                    <button onclick="setPhase('faseA')" id="btn-faseA" class="phase-btn active px-4 py-2 rounded-xl transition">Fase A (1-2)</button>
+                    <button onclick="setPhase('faseB')" id="btn-faseB" class="phase-btn px-4 py-2 rounded-xl transition">Fase B (3-4)</button>
+                    <button onclick="setPhase('faseC')" id="btn-faseC" class="phase-btn px-4 py-2 rounded-xl transition">Fase C (5-6)</button>
                 </div>
             </div>
 
+            <div id="materi-subject-tabs" class="flex flex-wrap gap-2" role="tablist" aria-label="Pilih mata pelajaran"></div>
+
             <div id="materi-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-5 rounded-3xl border-4 border-indigo-200 shadow-md space-y-2" id="materi-topic-list"></div>
-                <div class="md:col-span-2 bg-white p-6 md:p-8 rounded-3xl border-4 border-pink-200 shadow-md relative min-h-[350px]">
-                    <div class="flex justify-between items-start border-b-2 border-pink-100 pb-4 mb-4">
-                        <h3 class="text-2xl font-extrabold text-indigo-900 font-fredoka flex items-center gap-2" id="materi-title">
-                            <span>✨</span> <span>Pilih Topik Materi</span>
-                        </h3>
-                        <button onclick="readAloudMateri()" title="Dengarkan Suara" class="bg-pink-100 hover:bg-pink-200 text-pink-700 border-2 border-pink-300 px-4 py-2 rounded-2xl text-xs font-extrabold flex items-center space-x-2 transition shadow-sm">
-                            <i class="fa-solid fa-volume-high text-base"></i> <span>Bacakan Suara 🔊</span>
+                <div class="bg-white p-5 rounded-3xl border-4 border-indigo-200 shadow-md space-y-2">
+                    <div class="flex items-center justify-between gap-2 border-b border-indigo-100 pb-3 mb-2">
+                        <h3 class="font-extrabold text-indigo-950 text-sm">Daftar Topik</h3>
+                        <span id="materi-topic-count" class="text-[10px] font-extrabold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">0 topik</span>
+                    </div>
+                    <div id="materi-topic-list" class="space-y-1.5"></div>
+                </div>
+                <div class="md:col-span-2 bg-white p-6 md:p-8 rounded-3xl border-4 border-pink-200 shadow-md relative min-h-[420px]">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 border-b-2 border-pink-100 pb-4 mb-4">
+                        <div>
+                            <p id="materi-subject-label" class="text-[11px] font-extrabold uppercase tracking-wider text-pink-600">Matematika • Fase A</p>
+                            <h3 class="text-2xl font-extrabold text-indigo-900 font-fredoka flex items-center gap-2 mt-1" id="materi-title">
+                                <span>✨</span> <span>Pilih Topik Materi</span>
+                            </h3>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button onclick="toggleReadAloudMateri()" id="btn-read-materi" title="Dengarkan Suara" class="bg-pink-100 hover:bg-pink-200 text-pink-700 border-2 border-pink-300 px-3 py-2 rounded-2xl text-xs font-extrabold flex items-center space-x-2 transition shadow-sm">
+                                <i class="fa-solid fa-volume-high text-base" aria-hidden="true"></i> <span>Bacakan</span>
+                            </button>
+                            <button onclick="stopSpeaking()" title="Hentikan suara" class="bg-slate-100 hover:bg-slate-200 text-slate-600 border-2 border-slate-300 p-2.5 rounded-2xl transition shadow-sm">
+                                <i class="fa-solid fa-stop text-sm" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="materi-body" class="prose max-w-none text-slate-700 space-y-4 text-base leading-relaxed font-medium whitespace-pre-wrap"></div>
+                    <div class="mt-8 pt-4 border-t border-slate-100 flex flex-wrap gap-2">
+                        <button onclick="practiceCurrentSubject()" class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-2xl shadow-md transition flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad" aria-hidden="true"></i> Latihan Soal Mapel Ini
+                        </button>
+                        <button onclick="showSection('ai')" class="bg-pink-100 hover:bg-pink-200 text-pink-700 text-xs font-extrabold px-4 py-2.5 rounded-2xl border-2 border-pink-200 transition flex items-center gap-2">
+                            <i class="fa-solid fa-robot" aria-hidden="true"></i> Tanya Ninna AI
                         </button>
                     </div>
-                    <div id="materi-body" class="prose max-w-none text-slate-700 space-y-4 text-base leading-relaxed font-medium"></div>
                 </div>
             </div>
         </section>
 
         <!-- SECTION 3: KUIS / UJIAN INTERAKTIF -->
         <section id="sec-kuis" class="hidden space-y-6">
-            <div class="bg-white p-6 md:p-8 rounded-3xl border-4 border-yellow-400 shadow-2xl max-w-2xl mx-auto space-y-6 relative overflow-hidden">
-                <!-- Mode Ujian Controls for Teacher/Student -->
-                <div class="flex flex-wrap justify-between items-center gap-2 bg-amber-50 p-3 rounded-2xl border-2 border-amber-200 text-xs font-bold">
-                    <div class="flex items-center space-x-2">
-                        <label class="flex items-center cursor-pointer space-x-2">
-                            <input type="checkbox" id="chk-mode-ujian" onchange="toggleExamMode()" class="w-4 h-4 rounded text-indigo-600">
-                            <span class="text-indigo-900">⏱️ Mode Ujian Berwaktu</span>
-                        </label>
-                        <select id="select-exam-time" class="border rounded-xl px-2 py-1 bg-white hidden">
-                            <option value="5">5 Menit</option>
-                            <option value="10" selected>10 Menit</option>
-                            <option value="15">15 Menit</option>
-                        </select>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <button onclick="printCurrentQuizLKPD()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold transition flex items-center space-x-1">
-                            <i class="fa-solid fa-print"></i> <span>Cetak LKPD Offline</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex justify-between items-center border-b-2 border-yellow-200 pb-2">
-                    <span class="text-xs md:text-sm font-extrabold text-indigo-900 bg-yellow-300 px-4 py-1.5 rounded-full shadow-sm" id="quiz-subject-tag">Matematika - Fase A</span>
-                    <span class="text-xs md:text-sm text-pink-600 font-extrabold bg-pink-100 px-3 py-1 rounded-full border border-pink-200" id="quiz-progress-num">Soal 1 dari 15</span>
-                </div>
-
-                <!-- Timer Bar (Appears in Mode Ujian) -->
-                <div id="quiz-timer-container" class="hidden bg-rose-100 border border-rose-300 p-2 rounded-xl flex justify-between items-center text-xs font-bold text-rose-800">
-                    <span>⏳ Sisa Waktu Ujian:</span>
-                    <span id="quiz-timer-display" class="text-sm font-extrabold">10:00</span>
-                </div>
-
-                <!-- Progress Bar -->
-                <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden border-2 border-slate-200 p-0.5">
-                    <div id="quiz-progress-bar" class="bg-gradient-to-r from-yellow-400 via-pink-500 to-indigo-500 h-full rounded-full w-1/15 transition-all duration-300"></div>
-                </div>
-
-                <!-- Question Text -->
-                <div class="space-y-3 bg-amber-50 p-4 rounded-2xl border-2 border-amber-200">
-                    <div class="flex justify-between items-start gap-3">
-                        <h3 id="quiz-question" class="text-lg md:text-xl font-extrabold text-slate-800 font-fredoka leading-relaxed">Loading Soal...</h3>
-                        <button onclick="readAloudQuiz()" title="Dengarkan Soal" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 p-2.5 rounded-2xl border border-indigo-300 transition">
-                            <i class="fa-solid fa-volume-high text-lg"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Answer Choices -->
-                <div id="quiz-options" class="space-y-3"></div>
-
-                <!-- Explanation Box -->
-                <div id="quiz-explanation" class="hidden p-4 rounded-2xl text-sm border-2 space-y-1"></div>
-
-                <!-- Footer Navigation -->
-                <div class="flex justify-end pt-2">
-                    <button id="btn-next-quiz" onclick="nextQuestion()" disabled class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 disabled:opacity-50 text-white font-extrabold px-8 py-3 rounded-2xl transition transform active:scale-95 shadow-lg flex items-center space-x-2 text-base border-2 border-emerald-300">
-                        <span>Lanjut Soal Berikutnya</span> <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: TANYA AI NINNA -->
-        <section id="sec-ai" class="hidden space-y-6">
-            <div class="bg-white rounded-3xl border-4 border-pink-300 shadow-xl max-w-3xl mx-auto flex flex-col h-[580px]">
-                <div class="p-4 border-b-2 border-pink-200 flex items-center space-x-3 bg-gradient-to-r from-pink-100 to-purple-100 rounded-t-2xl">
-                    <div class="w-12 h-12 bg-pink-500 text-white rounded-2xl flex items-center justify-center font-extrabold text-2xl shadow-md">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-extrabold text-indigo-950 font-fredoka text-lg">Ninna AI - Guru Pintar Ceria 🤖</h3>
-                        <p class="text-xs text-pink-700 font-semibold">Tanyakan materi atau minta penjelasan konsep pelajaran!</p>
-                    </div>
-                </div>
-
-                <div id="chat-window" class="flex-grow p-4 overflow-y-auto space-y-4">
-                    <div class="flex items-start space-x-2">
-                        <div class="bg-indigo-100 text-indigo-950 p-4 rounded-3xl rounded-tl-none max-w-md text-sm font-medium leading-relaxed shadow-sm">
-                            Halo Teman Cilik & Bapak/Ibu Guru! Saya Ninna Guru AI. Ada materi yang perlu dijelaskan atau didiskusikan hari ini? 😊
-                        </div>
-                    </div>
-                </div>
-
-                <div class="p-3 border-t-2 border-pink-100 flex items-center space-x-2 bg-slate-50 rounded-b-3xl">
-                    <input type="text" id="chat-input" placeholder="Tanyakan soal pelajaranmu di sini... (Tekan Enter)" class="flex-grow border-2 border-pink-200 rounded-2xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-pink-500 bg-white">
-                    <button onclick="handleSendChat()" class="bg-pink-500 hover:bg-pink-600 text-white px-5 py-3 rounded-2xl font-extrabold transition shadow-md flex items-center space-x-1">
-                        <i class="fa-solid fa-paper-plane text-base"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 5: GENERATOR MODUL AJAR AI (RPP KURIKULUM MERDEKA) -->
-        <section id="sec-modul-ai" class="hidden space-y-6">
-            <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-3xl border-4 border-amber-300 shadow-xl space-y-6">
-                <div class="border-b-2 border-amber-200 pb-3 flex justify-between items-center flex-wrap gap-2">
-                    <div>
-                        <h2 class="text-2xl font-extrabold font-fredoka text-indigo-950 flex items-center space-x-2">
-                            <i class="fa-solid fa-file-signature text-amber-500 text-3xl"></i>
-                            <span>Generator Modul Ajar & RPP AI Guru</span>
+            <div class="max-w-3xl mx-auto space-y-5">
+                <!-- Quiz Setup -->
+                <div id="quiz-setup" class="bg-white p-6 md:p-8 rounded-3xl border-4 border-yellow-400 shadow-2xl space-y-5">
+                    <div class="border-b-2 border-yellow-200 pb-3">
+                        <h2 class="text-2xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad text-yellow-500" aria-hidden="true"></i> Kuis & Ujian Interaktif
                         </h2>
-                        <p class="text-xs font-semibold text-slate-600 mt-1">Susun rancangan pembelajaran Kurikulum Merdeka secara otomatis & siap cetak!</p>
+                        <p class="text-xs font-semibold text-slate-500 mt-1">Pilih fase dan mata pelajaran, lalu mulai kuis. Nilai otomatis masuk ke rapor.</p>
                     </div>
-                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm font-semibold">
-                    <div>
-                        <label class="block mb-1 text-slate-700">Mata Pelajaran</label>
-                        <select id="modul-subject" class="w-full border-2 border-amber-200 rounded-2xl p-3 bg-amber-50">
-                            <option value="Matematika">Matematika</option>
-                            <option value="IPAS">IPAS</option>
-                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                            <option value="Bahasa Inggris">Bahasa Inggris</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-slate-700">Fase Kelas</label>
-                        <select id="modul-phase" class="w-full border-2 border-amber-200 rounded-2xl p-3 bg-amber-50">
-                            <option value="Fase A (Kelas 1-2 SD)">Fase A (Kelas 1-2 SD)</option>
-                            <option value="Fase B (Kelas 3-4 SD)">Fase B (Kelas 3-4 SD)</option>
-                            <option value="Fase C (Kelas 5-6 SD)">Fase C (Kelas 5-6 SD)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-slate-700">Topik / Capaian Pembelajaran</label>
-                        <input type="text" id="modul-topic" placeholder="Contoh: Operasi Perkalian / Panca Indra" class="w-full border-2 border-amber-200 rounded-2xl p-3">
-                    </div>
-                </div>
-
-                <button onclick="handleGenerateModulAjar()" id="btn-generate-modul" class="w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-indigo-950 font-extrabold py-3.5 rounded-2xl transition shadow-lg border-2 border-yellow-200 text-base flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-xl"></i> <span>Buat Modul Ajar Otomatis</span>
-                </button>
-
-                <!-- Result Container for Generated Modul Ajar -->
-                <div id="modul-output-container" class="hidden border-2 border-slate-200 rounded-2xl p-6 bg-slate-50 space-y-4">
-                    <div class="flex justify-between items-center border-b pb-3 no-print">
-                        <h3 class="font-extrabold text-indigo-900 font-fredoka text-lg">Hasil Modul Ajar AI:</h3>
-                        <button onclick="printModulAjar()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1">
-                            <i class="fa-solid fa-print"></i> <span>Cetak Modul Ajar (PDF)</span>
-                        </button>
-                    </div>
-                    <div id="modul-content-body" class="prose max-w-none text-slate-800 text-sm leading-relaxed font-medium bg-white p-6 rounded-2xl border">
-                        <!-- Rendered Modul Ajar Content -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 6: EDITOR BANK SOAL GURU -->
-        <section id="sec-editor-kuis" class="hidden space-y-6">
-            <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-3xl border-4 border-sky-300 shadow-xl space-y-6">
-                <div class="border-b-2 border-sky-200 pb-3">
-                    <h2 class="text-2xl font-extrabold font-fredoka text-indigo-950 flex items-center space-x-2">
-                        <i class="fa-solid fa-folder-plus text-sky-500 text-3xl"></i>
-                        <span>Editor Bank Soal Guru</span>
-                    </h2>
-                    <p class="text-xs font-semibold text-slate-600 mt-1">Tambah atau buat soal kuis buatan Bapak/Ibu Guru sendiri!</p>
-                </div>
-
-                <form onsubmit="handleSaveCustomQuestion(event)" class="space-y-4 text-xs font-bold">
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-bold">
                         <div>
-                            <label class="block mb-1 text-slate-700">Fase Kelas</label>
-                            <select id="custom-phase" class="w-full border-2 border-slate-200 rounded-xl p-2.5 bg-white">
+                            <label for="quiz-phase" class="block mb-1 text-slate-700">Fase Kelas</label>
+                            <select id="quiz-phase" class="w-full border-2 border-yellow-200 rounded-2xl p-3 bg-amber-50 font-bold">
                                 <option value="faseA">Fase A (Kelas 1-2)</option>
                                 <option value="faseB">Fase B (Kelas 3-4)</option>
                                 <option value="faseC">Fase C (Kelas 5-6)</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block mb-1 text-slate-700">Mata Pelajaran</label>
-                            <select id="custom-subject" class="w-full border-2 border-slate-200 rounded-xl p-2.5 bg-white">
+                            <label for="quiz-subject" class="block mb-1 text-slate-700">Mata Pelajaran</label>
+                            <select id="quiz-subject" class="w-full border-2 border-yellow-200 rounded-2xl p-3 bg-amber-50 font-bold">
                                 <option value="mtk">Matematika</option>
                                 <option value="ipas">IPAS</option>
                                 <option value="indo">Bahasa Indonesia</option>
@@ -367,50 +324,411 @@
                         </div>
                     </div>
 
+                    <div class="flex flex-wrap items-center justify-between gap-3 bg-amber-50 p-3 rounded-2xl border-2 border-amber-200 text-xs font-bold">
+                        <label class="flex items-center cursor-pointer space-x-2">
+                            <input type="checkbox" id="chk-mode-ujian" onchange="toggleExamMode()" class="w-4 h-4 rounded text-indigo-600">
+                            <span class="text-indigo-900">⏱️ Mode Ujian Berwaktu</span>
+                        </label>
+                        <select id="select-exam-time" class="border-2 border-amber-200 rounded-xl px-3 py-1.5 bg-white font-bold hidden">
+                            <option value="5">5 Menit</option>
+                            <option value="10" selected>10 Menit</option>
+                            <option value="15">15 Menit</option>
+                            <option value="20">20 Menit</option>
+                        </select>
+                    </div>
+
+                    <p id="quiz-setup-info" class="text-xs font-semibold text-slate-500 bg-slate-50 rounded-2xl p-3 border border-slate-200"></p>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="startQuizFromSetup()" class="flex-grow bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold px-6 py-3.5 rounded-2xl transition transform active:scale-95 shadow-lg flex items-center justify-center space-x-2 text-base border-2 border-emerald-300">
+                            <i class="fa-solid fa-circle-play text-xl" aria-hidden="true"></i> <span>Mulai Kuis Sekarang</span>
+                        </button>
+                        <button onclick="printCurrentQuizLKPD()" class="bg-white hover:bg-emerald-50 text-emerald-700 px-4 py-3.5 rounded-2xl font-extrabold transition border-2 border-emerald-200 flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-print" aria-hidden="true"></i> <span>Cetak LKPD</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Play -->
+                <div id="quiz-play" class="hidden bg-white p-6 md:p-8 rounded-3xl border-4 border-yellow-400 shadow-2xl space-y-5 relative overflow-hidden">
+                    <div class="flex justify-between items-center gap-2 border-b-2 border-yellow-200 pb-2">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <span class="text-xs md:text-sm font-extrabold text-indigo-900 bg-yellow-300 px-3 py-1.5 rounded-full shadow-sm truncate" id="quiz-subject-tag">Matematika • Fase A</span>
+                            <span class="text-[10px] font-extrabold text-indigo-700 bg-indigo-100 px-2 py-1 rounded-full hidden sm:inline" id="quiz-mode-tag">Latihan</span>
+                        </div>
+                        <button onclick="exitQuiz()" class="text-xs font-extrabold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-xl border border-rose-200 transition shrink-0" title="Keluar dari kuis">
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i> Keluar
+                        </button>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-500">
+                        <span id="quiz-progress-num">Soal 1 dari 15</span>
+                        <span id="quiz-score-live" class="text-emerald-600">Benar: 0</span>
+                    </div>
+
+                    <div id="quiz-timer-container" class="hidden bg-rose-100 border border-rose-300 p-2.5 rounded-xl flex justify-between items-center text-xs font-bold text-rose-800">
+                        <span><i class="fa-solid fa-hourglass-half mr-1" aria-hidden="true"></i> Sisa Waktu Ujian:</span>
+                        <span id="quiz-timer-display" class="text-sm font-extrabold tabular-nums">10:00</span>
+                    </div>
+
+                    <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden border-2 border-slate-200 p-0.5">
+                        <div id="quiz-progress-bar" class="bg-gradient-to-r from-yellow-400 via-pink-500 to-indigo-500 h-full rounded-full w-0 transition-all duration-300"></div>
+                    </div>
+
+                    <div class="space-y-3 bg-amber-50 p-4 rounded-2xl border-2 border-amber-200">
+                        <div class="flex justify-between items-start gap-3">
+                            <h3 id="quiz-question" class="text-lg md:text-xl font-extrabold text-slate-800 font-fredoka leading-relaxed">Loading Soal...</h3>
+                            <button onclick="readAloudQuiz()" title="Dengarkan Soal" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 p-2.5 rounded-2xl border border-indigo-300 transition shrink-0">
+                                <i class="fa-solid fa-volume-high text-lg" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="quiz-options" class="space-y-3"></div>
+
+                    <div id="quiz-explanation" class="hidden p-4 rounded-2xl text-sm border-2 space-y-1"></div>
+
+                    <div class="flex justify-end pt-2">
+                        <button id="btn-next-quiz" onclick="nextQuestion()" disabled class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-extrabold px-8 py-3 rounded-2xl transition transform active:scale-95 shadow-lg flex items-center space-x-2 text-base border-2 border-emerald-300">
+                            <span id="btn-next-label">Lanjut Soal Berikutnya</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Result -->
+                <div id="quiz-result" class="hidden bg-white p-6 md:p-8 rounded-3xl border-4 border-emerald-300 shadow-2xl">
+                    <div id="quiz-result-body"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: TANYA AI NINNA -->
+        <section id="sec-ai" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl border-4 border-pink-300 shadow-xl max-w-3xl mx-auto flex flex-col h-[620px] overflow-hidden">
+                <div class="p-4 border-b-2 border-pink-200 flex items-center justify-between gap-3 bg-gradient-to-r from-pink-100 to-purple-100">
+                    <div class="flex items-center space-x-3 min-w-0">
+                        <div class="w-12 h-12 bg-pink-500 text-white rounded-2xl flex items-center justify-center font-extrabold text-2xl shadow-md shrink-0">
+                            <i class="fa-solid fa-robot" aria-hidden="true"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <h3 class="font-extrabold text-indigo-950 font-fredoka text-lg truncate">Ninna AI - Guru Pintar Ceria 🤖</h3>
+                            <p class="text-xs text-pink-700 font-semibold truncate">Tanyakan materi atau minta penjelasan konsep pelajaran!</p>
+                        </div>
+                    </div>
+                    <button onclick="clearChat()" title="Bersihkan percakapan" class="text-xs font-extrabold text-pink-700 bg-white/70 hover:bg-white px-3 py-2 rounded-xl border border-pink-200 transition shrink-0">
+                        <i class="fa-solid fa-broom" aria-hidden="true"></i> <span class="hidden sm:inline">Bersihkan</span>
+                    </button>
+                </div>
+
+                <div id="chat-window" class="flex-grow p-4 overflow-y-auto space-y-4 bg-gradient-to-b from-white to-pink-50/40">
+                    <div class="flex items-start space-x-2">
+                        <div class="w-8 h-8 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center text-sm shrink-0"><i class="fa-solid fa-robot" aria-hidden="true"></i></div>
+                        <div class="bg-indigo-100 text-indigo-950 p-4 rounded-3xl rounded-tl-none max-w-[85%] text-sm font-medium leading-relaxed shadow-sm">
+                            Halo Teman Cilik & Bapak/Ibu Guru! Saya Ninna Guru AI. Ada materi yang perlu dijelaskan atau didiskusikan hari ini? 😊
+                        </div>
+                    </div>
+                </div>
+
+                <div id="chat-api-warning" class="hidden mx-3 mb-2 text-[11px] font-bold text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 flex items-center justify-between gap-2">
+                    <span><i class="fa-solid fa-key mr-1" aria-hidden="true"></i> API Key Gemini belum diatur.</span>
+                    <button onclick="openApiKeyModal()" class="underline hover:text-amber-950">Atur sekarang</button>
+                </div>
+
+                <div class="px-3 pb-2 flex gap-2 overflow-x-auto">
+                    <button onclick="sendChatSuggestion('Jelaskan perkalian dengan cara yang mudah untuk anak SD')" class="suggestion-chip">✖️ Perkalian mudah</button>
+                    <button onclick="sendChatSuggestion('Apa perbedaan siang dan malam?')" class="suggestion-chip">🌞 Siang & malam</button>
+                    <button onclick="sendChatSuggestion('Buatkan 3 contoh kalimat efektif')" class="suggestion-chip">✍️ Kalimat efektif</button>
+                </div>
+
+                <div class="p-3 border-t-2 border-pink-100 flex items-center space-x-2 bg-slate-50">
+                    <input type="text" id="chat-input" placeholder="Tanyakan soal pelajaranmu di sini... (Tekan Enter)" class="flex-grow border-2 border-pink-200 rounded-2xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 bg-white" autocomplete="off">
+                    <button id="btn-send-chat" onclick="handleSendChat()" class="bg-pink-500 hover:bg-pink-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-5 py-3 rounded-2xl font-extrabold transition shadow-md flex items-center space-x-1" aria-label="Kirim pesan">
+                        <i class="fa-solid fa-paper-plane text-base" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="text-center text-[11px] text-slate-500 font-semibold max-w-2xl mx-auto">
+                🔒 API key disimpan hanya di browser perangkat ini. Jawaban AI bisa saja keliru — tetap dampingi anak saat belajar.
+            </p>
+        </section>
+
+        <!-- SECTION 5: GENERATOR MODUL AJAR AI (RPP KURIKULUM MERDEKA) -->
+        <section id="sec-modul-ai" class="hidden space-y-6">
+            <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-3xl border-4 border-amber-300 shadow-xl space-y-6">
+                <div class="border-b-2 border-amber-200 pb-3 flex justify-between items-center flex-wrap gap-2 no-print">
                     <div>
-                        <label class="block mb-1 text-slate-700">Teks Pertanyaan Soal</label>
-                        <textarea id="custom-q-text" required rows="2" placeholder="Tuliskan pertanyaan di sini..." class="w-full border-2 border-slate-200 rounded-xl p-2.5"></textarea>
+                        <h2 class="text-2xl font-extrabold font-fredoka text-indigo-950 flex items-center space-x-2">
+                            <i class="fa-solid fa-file-signature text-amber-500 text-3xl" aria-hidden="true"></i>
+                            <span>Generator Modul Ajar & RPP AI</span>
+                        </h2>
+                        <p class="text-xs font-semibold text-slate-600 mt-1">Susun rancangan pembelajaran Kurikulum Merdeka secara otomatis & siap cetak.</p>
+                    </div>
+                    <span id="modul-api-badge" class="text-[10px] font-extrabold px-3 py-1.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200">AI belum aktif</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm font-semibold no-print">
+                    <div>
+                        <label for="modul-subject" class="block mb-1 text-slate-700">Mata Pelajaran</label>
+                        <select id="modul-subject" class="w-full border-2 border-amber-200 rounded-2xl p-3 bg-amber-50">
+                            <option value="Matematika">Matematika</option>
+                            <option value="IPAS">IPAS</option>
+                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                            <option value="Bahasa Inggris">Bahasa Inggris</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="modul-phase" class="block mb-1 text-slate-700">Fase Kelas</label>
+                        <select id="modul-phase" class="w-full border-2 border-amber-200 rounded-2xl p-3 bg-amber-50">
+                            <option value="Fase A (Kelas 1-2 SD)">Fase A (Kelas 1-2 SD)</option>
+                            <option value="Fase B (Kelas 3-4 SD)">Fase B (Kelas 3-4 SD)</option>
+                            <option value="Fase C (Kelas 5-6 SD)">Fase C (Kelas 5-6 SD)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="modul-topic" class="block mb-1 text-slate-700">Topik / Capaian Pembelajaran</label>
+                        <input type="text" id="modul-topic" placeholder="Contoh: Operasi Perkalian / Panca Indra" class="w-full border-2 border-amber-200 rounded-2xl p-3">
+                    </div>
+                    <div>
+                        <label for="modul-model" class="block mb-1 text-slate-700">Model Pembelajaran</label>
+                        <select id="modul-model" class="w-full border-2 border-amber-200 rounded-2xl p-3 bg-amber-50">
+                            <option value="Problem Based Learning">Problem Based Learning</option>
+                            <option value="Project Based Learning">Project Based Learning</option>
+                            <option value="Discovery Learning">Discovery Learning</option>
+                            <option value="Cooperative Learning">Cooperative Learning</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="modul-meeting" class="block mb-1 text-slate-700">Jumlah Pertemuan</label>
+                        <select id="modul-meeting" class="w-full border-2 border-amber-200 rounded-2xl p-3 bg-amber-50">
+                            <option value="1 pertemuan">1 Pertemuan</option>
+                            <option value="2 pertemuan">2 Pertemuan</option>
+                            <option value="3 pertemuan">3 Pertemuan</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="modul-time" class="block mb-1 text-slate-700">Alokasi Waktu</label>
+                        <select id="modul-time" class="w-full border-2 border-amber-200 rounded-2xl p-3 bg-amber-50">
+                            <option value="2 x 35 menit">2 x 35 menit</option>
+                            <option value="2 x 40 menit">2 x 40 menit</option>
+                            <option value="3 x 35 menit">3 x 35 menit</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button onclick="handleGenerateModulAjar()" id="btn-generate-modul" class="w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 disabled:opacity-60 disabled:cursor-not-allowed text-indigo-950 font-extrabold py-3.5 rounded-2xl transition shadow-lg border-2 border-yellow-200 text-base flex items-center justify-center space-x-2 no-print">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xl" aria-hidden="true"></i> <span>Buat Modul Ajar Otomatis</span>
+                </button>
+
+                <!-- Result Container for Generated Modul Ajar -->
+                <div id="modul-output-container" class="hidden border-2 border-slate-200 rounded-2xl p-6 bg-slate-50 space-y-4">
+                    <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-3 no-print">
+                        <h3 class="font-extrabold text-indigo-900 font-fredoka text-lg">Hasil Modul Ajar AI:</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="printModulAjar()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1">
+                                <i class="fa-solid fa-print" aria-hidden="true"></i> <span>Cetak / PDF</span>
+                            </button>
+                            <button onclick="copyModulAjar()" class="bg-white hover:bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition border border-slate-300 flex items-center space-x-1">
+                                <i class="fa-solid fa-copy" aria-hidden="true"></i> <span>Salin</span>
+                            </button>
+                            <button onclick="downloadModulAjar()" class="bg-white hover:bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition border border-slate-300 flex items-center space-x-1">
+                                <i class="fa-solid fa-download" aria-hidden="true"></i> <span>Unduh HTML</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="modul-content-body" class="prose max-w-none text-slate-800 text-sm leading-relaxed font-medium bg-white p-6 rounded-2xl border">
+                        <!-- Rendered Modul Ajar Content -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: BANK SOAL GURU + GENERATOR SOAL AI -->
+        <section id="sec-editor-kuis" class="hidden space-y-6">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-2xl font-extrabold font-fredoka text-indigo-950 flex items-center space-x-2">
+                            <i class="fa-solid fa-folder-plus text-sky-500 text-3xl" aria-hidden="true"></i>
+                            <span>Bank Soal Guru</span>
+                        </h2>
+                        <p class="text-xs font-semibold text-slate-600 mt-1">Tambah soal manual, buat soal dengan AI, dan kelola bank soal sendiri.</p>
+                    </div>
+                    <span id="bank-total-badge" class="self-start text-[11px] font-extrabold px-3 py-1.5 rounded-full bg-sky-100 text-sky-700 border border-sky-200">0 soal buatan guru</span>
+                </div>
+
+                <!-- Manual Form -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl border-4 border-sky-300 shadow-xl space-y-5">
+                    <div class="border-b-2 border-sky-200 pb-3">
+                        <h3 class="text-xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square text-sky-500" aria-hidden="true"></i> Tambah Soal Manual
+                        </h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-1">Soal akan otomatis masuk ke kuis sesuai fase dan mata pelajaran.</p>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block mb-1 text-slate-700">Pilihan A</label>
-                            <input type="text" id="custom-opt-0" required class="w-full border-2 border-slate-200 rounded-xl p-2">
+                    <form onsubmit="handleSaveCustomQuestion(event)" class="space-y-4 text-xs font-bold">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="custom-phase" class="block mb-1 text-slate-700">Fase Kelas</label>
+                                <select id="custom-phase" class="w-full border-2 border-slate-200 rounded-xl p-2.5 bg-white">
+                                    <option value="faseA">Fase A (Kelas 1-2)</option>
+                                    <option value="faseB">Fase B (Kelas 3-4)</option>
+                                    <option value="faseC">Fase C (Kelas 5-6)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="custom-subject" class="block mb-1 text-slate-700">Mata Pelajaran</label>
+                                <select id="custom-subject" class="w-full border-2 border-slate-200 rounded-xl p-2.5 bg-white">
+                                    <option value="mtk">Matematika</option>
+                                    <option value="ipas">IPAS</option>
+                                    <option value="indo">Bahasa Indonesia</option>
+                                    <option value="inggris">Bahasa Inggris</option>
+                                </select>
+                            </div>
                         </div>
+
                         <div>
-                            <label class="block mb-1 text-slate-700">Pilihan B</label>
-                            <input type="text" id="custom-opt-1" required class="w-full border-2 border-slate-200 rounded-xl p-2">
+                            <label for="custom-q-text" class="block mb-1 text-slate-700">Teks Pertanyaan Soal</label>
+                            <textarea id="custom-q-text" required rows="2" placeholder="Tuliskan pertanyaan di sini..." class="w-full border-2 border-slate-200 rounded-xl p-2.5"></textarea>
                         </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label for="custom-opt-0" class="block mb-1 text-slate-700">Pilihan A</label>
+                                <input type="text" id="custom-opt-0" required class="w-full border-2 border-slate-200 rounded-xl p-2">
+                            </div>
+                            <div>
+                                <label for="custom-opt-1" class="block mb-1 text-slate-700">Pilihan B</label>
+                                <input type="text" id="custom-opt-1" required class="w-full border-2 border-slate-200 rounded-xl p-2">
+                            </div>
+                            <div>
+                                <label for="custom-opt-2" class="block mb-1 text-slate-700">Pilihan C</label>
+                                <input type="text" id="custom-opt-2" required class="w-full border-2 border-slate-200 rounded-xl p-2">
+                            </div>
+                            <div>
+                                <label for="custom-opt-3" class="block mb-1 text-slate-700">Pilihan D</label>
+                                <input type="text" id="custom-opt-3" required class="w-full border-2 border-slate-200 rounded-xl p-2">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="custom-correct-idx" class="block mb-1 text-slate-700">Kunci Jawaban Benar</label>
+                                <select id="custom-correct-idx" class="w-full border-2 border-slate-200 rounded-xl p-2.5 bg-white">
+                                    <option value="0">Pilihan A</option>
+                                    <option value="1">Pilihan B</option>
+                                    <option value="2">Pilihan C</option>
+                                    <option value="3">Pilihan D</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="custom-exp" class="block mb-1 text-slate-700">Pembahasan Ringkas</label>
+                                <input type="text" id="custom-exp" required placeholder="Penjelasan singkat..." class="w-full border-2 border-slate-200 rounded-xl p-2.5">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-extrabold py-3 rounded-2xl transition shadow-md text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Soal ke Bank Soal
+                        </button>
+                    </form>
+                </div>
+
+                <!-- AI Generator -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl border-4 border-purple-300 shadow-xl space-y-5">
+                    <div class="border-b-2 border-purple-200 pb-3 flex flex-wrap justify-between items-center gap-2">
                         <div>
-                            <label class="block mb-1 text-slate-700">Pilihan C</label>
-                            <input type="text" id="custom-opt-2" required class="w-full border-2 border-slate-200 rounded-xl p-2">
+                            <h3 class="text-xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-purple-500" aria-hidden="true"></i> Generator Soal AI
+                            </h3>
+                            <p class="text-xs font-semibold text-slate-500 mt-1">Buat paket soal baru, lalu mulai kuis atau simpan ke bank soal.</p>
                         </div>
-                        <div>
-                            <label class="block mb-1 text-slate-700">Pilihan D</label>
-                            <input type="text" id="custom-opt-3" required class="w-full border-2 border-slate-200 rounded-xl p-2">
-                        </div>
+                        <span class="text-[10px] font-extrabold px-3 py-1.5 rounded-full bg-purple-100 text-purple-700 border border-purple-200">Butuh API Key Gemini</span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-bold">
                         <div>
-                            <label class="block mb-1 text-slate-700">Kunci Jawaban Benar</label>
-                            <select id="custom-correct-idx" class="w-full border-2 border-slate-200 rounded-xl p-2.5 bg-white">
-                                <option value="0">Pilihan A</option>
-                                <option value="1">Pilihan B</option>
-                                <option value="2">Pilihan C</option>
-                                <option value="3">Pilihan D</option>
+                            <label for="gen-phase" class="block mb-1 text-slate-700">Fase</label>
+                            <select id="gen-phase" class="w-full border-2 border-purple-100 rounded-xl p-2.5 bg-purple-50">
+                                <option value="faseA">Fase A (1-2)</option>
+                                <option value="faseB">Fase B (3-4)</option>
+                                <option value="faseC">Fase C (5-6)</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block mb-1 text-slate-700">Pembahasan Ringkas</label>
-                            <input type="text" id="custom-exp" required placeholder="Penjelasan singkat..." class="w-full border-2 border-slate-200 rounded-xl p-2.5">
+                            <label for="gen-subject" class="block mb-1 text-slate-700">Mapel</label>
+                            <select id="gen-subject" class="w-full border-2 border-purple-100 rounded-xl p-2.5 bg-purple-50">
+                                <option value="mtk">Matematika</option>
+                                <option value="ipas">IPAS</option>
+                                <option value="indo">Bahasa Indonesia</option>
+                                <option value="inggris">Bahasa Inggris</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="gen-count" class="block mb-1 text-slate-700">Jumlah Soal</label>
+                            <select id="gen-count" class="w-full border-2 border-purple-100 rounded-xl p-2.5 bg-purple-50">
+                                <option value="5">5 soal</option>
+                                <option value="10">10 soal</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="gen-difficulty" class="block mb-1 text-slate-700">Tingkat</label>
+                            <select id="gen-difficulty" class="w-full border-2 border-purple-100 rounded-xl p-2.5 bg-purple-50">
+                                <option value="Mudah">Mudah</option>
+                                <option value="Sedang" selected>Sedang</option>
+                                <option value="HOTS">HOTS</option>
+                            </select>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-extrabold py-3 rounded-2xl transition shadow-md text-sm">
-                        Simpan Soal ke Bank Soal
+                    <div class="text-xs font-bold">
+                        <label for="gen-topic" class="block mb-1 text-slate-700">Topik Khusus</label>
+                        <input type="text" id="gen-topic" placeholder="Contoh: Perkalian dua digit / Tata Surya" class="w-full border-2 border-purple-100 rounded-xl p-2.5">
+                    </div>
+
+                    <button onclick="handleGenerateQuiz()" id="btn-generate-ai" class="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold py-3 rounded-2xl transition shadow-md text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-gears text-lg" aria-hidden="true"></i> <span>Buat Soal Sekarang</span>
                     </button>
-                </form>
+
+                    <div id="gen-result-area" class="hidden border-2 border-purple-200 rounded-2xl p-4 bg-purple-50/60 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h4 class="font-extrabold text-indigo-950 text-sm">Soal yang Dihasilkan AI</h4>
+                            <span id="gen-result-count" class="text-[10px] font-extrabold bg-white text-purple-700 border border-purple-200 px-2.5 py-1 rounded-full">0 soal</span>
+                        </div>
+                        <div id="gen-questions-list" class="space-y-2 max-h-80 overflow-y-auto pr-1"></div>
+                        <div class="flex flex-col sm:flex-row gap-2 pt-1">
+                            <button onclick="startCustomGeneratedQuiz()" class="flex-grow bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-circle-play" aria-hidden="true"></i> Mulai Kuis AI
+                            </button>
+                            <button onclick="saveGeneratedToBank()" class="flex-grow bg-white hover:bg-slate-100 text-slate-700 font-extrabold py-2.5 rounded-xl text-xs transition border-2 border-slate-200 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Semua ke Bank Soal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom question list -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl border-4 border-slate-200 shadow-lg space-y-4">
+                    <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
+                        <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-list-ol text-slate-500" aria-hidden="true"></i> Daftar Soal Buatan Guru
+                        </h3>
+                        <div class="flex flex-wrap gap-2 text-[11px] font-bold">
+                            <select id="filter-bank-phase" onchange="renderCustomQuestions()" class="border-2 border-slate-200 rounded-xl px-2.5 py-1.5 bg-white">
+                                <option value="">Semua Fase</option>
+                                <option value="faseA">Fase A</option>
+                                <option value="faseB">Fase B</option>
+                                <option value="faseC">Fase C</option>
+                            </select>
+                            <select id="filter-bank-subject" onchange="renderCustomQuestions()" class="border-2 border-slate-200 rounded-xl px-2.5 py-1.5 bg-white">
+                                <option value="">Semua Mapel</option>
+                                <option value="mtk">Matematika</option>
+                                <option value="ipas">IPAS</option>
+                                <option value="indo">Bahasa Indonesia</option>
+                                <option value="inggris">Bahasa Inggris</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="custom-questions-list" class="space-y-2"></div>
+                </div>
             </div>
         </section>
 
@@ -419,19 +737,24 @@
             <div class="max-w-4xl mx-auto space-y-6">
                 <!-- Diagnostic Dashboard Card -->
                 <div class="bg-white p-6 md:p-8 rounded-3xl border-4 border-indigo-200 shadow-lg space-y-4">
-                    <h3 class="text-xl font-extrabold font-fredoka text-indigo-950 flex items-center space-x-2">
-                        <i class="fa-solid fa-chart-pie text-indigo-600"></i>
-                        <span>Dashboard Diagnosis Perkembangan Belajar</span>
-                    </h3>
-                    <div id="diagnostic-summary-box" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-bold">
-                        <!-- Diagnostic cards populated by JS -->
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <h3 class="text-xl font-extrabold font-fredoka text-indigo-950 flex items-center space-x-2">
+                            <i class="fa-solid fa-chart-pie text-indigo-600" aria-hidden="true"></i>
+                            <span>Dashboard Diagnosis Perkembangan Belajar</span>
+                        </h3>
+                        <button onclick="renderRaporAndDiagnostic()" class="text-xs font-extrabold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-xl border border-indigo-200 transition">
+                            <i class="fa-solid fa-rotate" aria-hidden="true"></i> Segarkan
+                        </button>
                     </div>
+                    <div id="diagnostic-summary-box" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs font-bold"></div>
+                    <div id="diagnostic-insight" class="text-xs font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded-2xl p-4 leading-relaxed"></div>
                 </div>
 
                 <!-- Printable Rapor -->
-                <div class="no-print flex justify-end">
-                    <button onclick="window.print()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold px-6 py-2.5 rounded-2xl flex items-center space-x-2 shadow-lg transition border-2 border-indigo-300">
-                        <i class="fa-solid fa-print text-lg"></i> <span>Cetak Rapor Digital (PDF)</span>
+                <div class="no-print flex flex-wrap justify-between items-center gap-2">
+                    <p class="text-xs font-semibold text-slate-500"><i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i> Rapor dicetak sesuai siswa aktif di header.</p>
+                    <button onclick="printRapor()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold px-6 py-2.5 rounded-2xl flex items-center space-x-2 shadow-lg transition border-2 border-indigo-300">
+                        <i class="fa-solid fa-print text-lg" aria-hidden="true"></i> <span>Cetak Rapor Digital (PDF)</span>
                     </button>
                 </div>
 
@@ -441,30 +764,34 @@
                         <p class="text-xs font-bold text-indigo-600 uppercase mt-1">Ruang Belajar Abah - Kurikulum Merdeka</p>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 text-sm font-semibold border-b-2 border-slate-200 pb-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-semibold border-b-2 border-slate-200 pb-4">
                         <div>
                             <p><span class="text-slate-500">Nama Siswa:</span> <strong id="rap-nama" class="text-indigo-900 text-lg">---</strong></p>
                             <p><span class="text-slate-500">Kelas / Fase:</span> <strong id="rap-kelas">---</strong></p>
                         </div>
-                        <div class="text-right">
+                        <div class="sm:text-right">
                             <p><span class="text-slate-500">No. Absen / NISN:</span> <strong id="rap-nisn">---</strong></p>
                             <p><span class="text-slate-500">Sekolah:</span> <strong id="rap-sekolah">---</strong></p>
+                            <p><span class="text-slate-500">Tanggal Cetak:</span> <strong id="rap-tanggal">---</strong></p>
                         </div>
                     </div>
 
                     <div>
                         <h3 class="font-extrabold text-sm text-indigo-900 uppercase tracking-wider mb-3">Nilai Perkembangan Kuis & Ujian</h3>
-                        <table class="w-full border-collapse border-2 border-indigo-200 text-sm">
-                            <thead>
-                                <tr class="bg-indigo-100 text-indigo-950 font-extrabold">
-                                    <th class="border border-indigo-200 px-3 py-2.5 text-left">Mata Pelajaran</th>
-                                    <th class="border border-indigo-200 px-3 py-2.5 text-center">Skor Terakhir</th>
-                                    <th class="border border-indigo-200 px-3 py-2.5 text-center">Bintang</th>
-                                    <th class="border border-indigo-200 px-3 py-2.5 text-center">Predikat</th>
-                                </tr>
-                            </thead>
-                            <tbody id="rap-scores-body" class="font-medium"></tbody>
-                        </table>
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse border-2 border-indigo-200 text-sm min-w-[560px]">
+                                <thead>
+                                    <tr class="bg-indigo-100 text-indigo-950 font-extrabold">
+                                        <th class="border border-indigo-200 px-3 py-2.5 text-left">Mata Pelajaran</th>
+                                        <th class="border border-indigo-200 px-3 py-2.5 text-center">Skor Terakhir</th>
+                                        <th class="border border-indigo-200 px-3 py-2.5 text-center">Terbaik</th>
+                                        <th class="border border-indigo-200 px-3 py-2.5 text-center">Bintang</th>
+                                        <th class="border border-indigo-200 px-3 py-2.5 text-center">Predikat</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rap-scores-body" class="font-medium"></tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div>
@@ -472,7 +799,12 @@
                         <div id="rap-badges-list" class="flex flex-wrap gap-2"></div>
                     </div>
 
-                    <div class="pt-8 grid grid-cols-2 text-center text-xs font-bold">
+                    <div>
+                        <h3 class="font-extrabold text-sm text-indigo-900 uppercase tracking-wider mb-2">Riwayat Kuis Terakhir</h3>
+                        <div id="rap-history" class="space-y-1.5 text-xs font-semibold text-slate-600"></div>
+                    </div>
+
+                    <div class="pt-8 grid grid-cols-2 gap-4 text-center text-xs font-bold">
                         <div>
                             <p class="mb-14">Mengetahui,<br>Orang Tua / Wali (Abah/Bunda)</p>
                             <p class="border-t-2 border-slate-400 w-3/4 mx-auto pt-1">( ......................................... )</p>
@@ -486,27 +818,48 @@
             </div>
         </section>
 
-        <!-- PRINT CONTAINER FOR OFFLINE LKPD -->
-        <div id="lkpd-print-area" class="hidden print:block p-8 bg-white space-y-6">
-            <!-- Populated via JS for offline printing -->
-        </div>
-
     </main>
 
+    <footer class="no-print mt-8 border-t-4 border-yellow-400 bg-white/80 backdrop-blur">
+        <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-semibold text-slate-500">
+            <p>© <span id="footer-year">2026</span> <strong class="text-indigo-700">Ruang Belajar Abah</strong> — Belajar ceria, tumbuh bersama.</p>
+            <div class="flex items-center gap-3">
+                <button onclick="showSection('beranda')" class="hover:text-indigo-700 transition">Beranda</button>
+                <span class="text-slate-300">•</span>
+                <button onclick="openApiKeyModal()" class="hover:text-purple-700 transition">Pengaturan AI</button>
+                <span class="text-slate-300">•</span>
+                <span class="text-slate-400">v2.0</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PRINT AREA (hanya tampil saat mencetak) -->
+    <div id="print-area" aria-hidden="true"></div>
+
     <!-- MODAL: KELOLA NAMA SISWA -->
-    <div id="modal-siswa" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-3xl p-6 space-y-4 shadow-2xl border-4 border-yellow-400">
+    <div id="modal-siswa" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-siswa-title">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-6 space-y-4 shadow-2xl border-4 border-yellow-400 max-h-[92vh] overflow-y-auto modal-panel">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="font-extrabold text-xl text-indigo-950 font-fredoka flex items-center gap-2">
-                    <i class="fa-solid fa-users text-amber-500"></i> <span>Kelola Daftar Siswa</span>
+                <h3 id="modal-siswa-title" class="font-extrabold text-xl text-indigo-950 font-fredoka flex items-center gap-2">
+                    <i class="fa-solid fa-users text-amber-500" aria-hidden="true"></i> <span>Kelola Daftar Siswa</span>
                 </h3>
-                <button onclick="closeStudentModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-circle-xmark text-2xl"></i></button>
+                <button onclick="closeStudentModal()" class="text-slate-400 hover:text-slate-600" aria-label="Tutup">
+                    <i class="fa-solid fa-circle-xmark text-2xl" aria-hidden="true"></i>
+                </button>
             </div>
 
             <div class="space-y-2">
-                <label class="block text-xs font-bold text-slate-600">Pilih Siswa Aktif:</label>
+                <label for="student-select" class="block text-xs font-bold text-slate-600">Pilih Siswa Aktif:</label>
                 <select id="student-select" onchange="changeActiveStudent()" class="w-full border-2 border-yellow-300 rounded-2xl p-2.5 text-sm font-bold bg-amber-50">
                 </select>
+                <div class="flex flex-wrap gap-2 pt-1">
+                    <button onclick="resetActiveStudentProgress()" class="text-[11px] font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-xl px-3 py-1.5 transition">
+                        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reset Nilai Aktif
+                    </button>
+                    <button onclick="deleteActiveStudent()" class="text-[11px] font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl px-3 py-1.5 transition">
+                        <i class="fa-solid fa-trash-can" aria-hidden="true"></i> Hapus Siswa Aktif
+                    </button>
+                </div>
             </div>
 
             <hr class="border-yellow-200">
@@ -514,12 +867,12 @@
             <form onsubmit="handleSaveStudent(event)" class="space-y-3 text-xs font-bold">
                 <h4 class="font-extrabold text-slate-800 text-sm">Tambah Siswa Baru</h4>
                 <div>
-                    <label class="block mb-1 text-slate-700">Nama Lengkap Anak</label>
+                    <label for="input-nama" class="block mb-1 text-slate-700">Nama Lengkap Anak</label>
                     <input type="text" id="input-nama" required placeholder="Contoh: Budi Santoso" class="w-full border-2 border-slate-200 rounded-xl p-2.5">
                 </div>
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                        <label class="block mb-1 text-slate-700">Kelas / Fase</label>
+                        <label for="input-kelas" class="block mb-1 text-slate-700">Kelas / Fase</label>
                         <select id="input-kelas" required class="w-full border-2 border-slate-200 rounded-xl p-2.5 bg-white">
                             <option value="Kelas 1 SD / Fase A">Kelas 1 SD / Fase A</option>
                             <option value="Kelas 2 SD / Fase A">Kelas 2 SD / Fase A</option>
@@ -530,35 +883,68 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-1 text-slate-700">No. Absen / NISN</label>
+                        <label for="input-nisn" class="block mb-1 text-slate-700">No. Absen / NISN</label>
                         <input type="text" id="input-nisn" placeholder="05" class="w-full border-2 border-slate-200 rounded-xl p-2.5">
                     </div>
                 </div>
                 <div>
-                    <label class="block mb-1 text-slate-700">Nama Sekolah</label>
+                    <label for="input-sekolah" class="block mb-1 text-slate-700">Nama Sekolah</label>
                     <input type="text" id="input-sekolah" placeholder="SD Negeri 1 Merdeka" class="w-full border-2 border-slate-200 rounded-xl p-2.5">
                 </div>
                 <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-500 text-indigo-950 font-extrabold py-2.5 rounded-xl transition shadow-md">
                     Simpan Siswa Baru ✨
                 </button>
             </form>
+
+            <hr class="border-yellow-200">
+
+            <div class="space-y-2">
+                <h4 class="font-extrabold text-slate-800 text-sm">Cadangkan Data</h4>
+                <p class="text-[11px] text-slate-500 font-semibold">Data siswa, nilai, dan bank soal tersimpan di browser ini. Ekspor secara berkala agar aman.</p>
+                <div class="flex flex-wrap gap-2 text-[11px] font-bold">
+                    <button onclick="exportAppData()" class="text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl px-3 py-1.5 transition">
+                        <i class="fa-solid fa-download" aria-hidden="true"></i> Ekspor JSON
+                    </button>
+                    <button onclick="document.getElementById('import-file').click()" class="text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl px-3 py-1.5 transition">
+                        <i class="fa-solid fa-upload" aria-hidden="true"></i> Impor JSON
+                    </button>
+                    <button onclick="handleResetAllAppData()" class="text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl px-3 py-1.5 transition">
+                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reset Semua
+                    </button>
+                </div>
+                <input type="file" id="import-file" accept="application/json,.json" class="hidden" onchange="importAppData(event)">
+            </div>
         </div>
     </div>
 
     <!-- MODAL: SETTING API KEY GEMINI -->
-    <div id="modal-apikey" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-3xl p-6 space-y-4 shadow-2xl border-4 border-purple-400">
+    <div id="modal-apikey" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-apikey-title">
+        <div class="bg-white w-full max-w-md rounded-3xl p-6 space-y-4 shadow-2xl border-4 border-purple-400 modal-panel">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="font-extrabold text-xl text-purple-900 font-fredoka flex items-center space-x-2">
-                    <i class="fa-solid fa-key text-purple-600"></i> <span>Pengaturan API Key Gemini</span>
+                <h3 id="modal-apikey-title" class="font-extrabold text-xl text-purple-900 font-fredoka flex items-center space-x-2">
+                    <i class="fa-solid fa-key text-purple-600" aria-hidden="true"></i> <span>Pengaturan API Key Gemini</span>
                 </h3>
-                <button onclick="closeApiKeyModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-circle-xmark text-2xl"></i></button>
+                <button onclick="closeApiKeyModal()" class="text-slate-400 hover:text-slate-600" aria-label="Tutup">
+                    <i class="fa-solid fa-circle-xmark text-2xl" aria-hidden="true"></i>
+                </button>
             </div>
             <p class="text-xs text-slate-600 font-semibold leading-relaxed">
-                Masukkan Gemini API Key untuk mengaktifkan fitur <strong>Tanya AI</strong>, <strong>Modul Ajar AI</strong>, dan <strong>Generator Soal Otomatis</strong>.
+                Masukkan Gemini API Key untuk mengaktifkan <strong>Tanya AI</strong>, <strong>Modul Ajar AI</strong>, dan <strong>Generator Soal Otomatis</strong>.
             </p>
-            <input type="password" id="input-api-key" placeholder="AIzaSy..." class="w-full border-2 border-purple-200 rounded-2xl p-3 text-sm">
-            <div class="flex justify-end space-x-2">
+            <div class="relative">
+                <input type="password" id="input-api-key" placeholder="AIzaSy..." class="w-full border-2 border-purple-200 rounded-2xl p-3 pr-12 text-sm" autocomplete="off">
+                <button onclick="toggleApiKeyVisibility()" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-purple-600 p-2" title="Tampilkan / sembunyikan" aria-label="Tampilkan atau sembunyikan API key">
+                    <i id="api-key-eye" class="fa-solid fa-eye" aria-hidden="true"></i>
+                </button>
+            </div>
+            <p class="text-[11px] text-slate-500 font-semibold leading-relaxed">
+                Dapatkan API key gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-purple-700 underline font-bold">Google AI Studio</a>. Key disimpan lokal di browser, tidak dikirim ke server lain selain Google.
+            </p>
+            <div id="api-test-result" class="hidden text-[11px] font-bold rounded-xl p-3 border"></div>
+            <div class="flex flex-wrap justify-end gap-2">
+                <button onclick="handleTestApiKey()" id="btn-test-api" class="text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-4 py-2.5 rounded-2xl transition">
+                    <i class="fa-solid fa-plug-circle-check" aria-hidden="true"></i> Tes Koneksi
+                </button>
                 <button onclick="closeApiKeyModal()" class="px-4 py-2 text-xs font-bold text-slate-500">Batal</button>
                 <button onclick="handleSaveApiKey()" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-2xl text-xs font-extrabold transition shadow-md">Simpan API Key</button>
             </div>
@@ -566,21 +952,27 @@
     </div>
 
     <!-- MODAL: REMEDIAL / PENGAYAAN AI -->
-    <div id="modal-remedial" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-3xl p-6 space-y-4 shadow-2xl border-4 border-indigo-400">
+    <div id="modal-remedial" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="remedial-modal-title">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-6 space-y-4 shadow-2xl border-4 border-indigo-400 modal-panel">
             <div class="flex justify-between items-center border-b pb-2">
                 <h3 id="remedial-modal-title" class="font-extrabold text-lg font-fredoka text-indigo-900">Program Remedial / Pengayaan</h3>
-                <button onclick="closeRemedialModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-circle-xmark text-xl"></i></button>
+                <button onclick="closeRemedialModal()" class="text-slate-400 hover:text-slate-600" aria-label="Tutup">
+                    <i class="fa-solid fa-circle-xmark text-xl" aria-hidden="true"></i>
+                </button>
             </div>
             <div id="remedial-modal-body" class="text-xs text-slate-700 space-y-3 leading-relaxed font-semibold"></div>
             <button onclick="closeRemedialModal()" class="w-full bg-indigo-600 text-white font-extrabold py-2.5 rounded-xl">Mengerti & Tutup</button>
         </div>
     </div>
 
-    <script src="js/data.js"></script>
-    <script src="js/storage.js"></script>
-    <script src="js/audio.js"></script>
-    <script src="js/ai.js"></script>
-    <script src="js/app.js"></script>
+    <!-- TOAST -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-[70] space-y-2 w-[calc(100%-2rem)] max-w-sm no-print" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
+    <script src="js/data.js?v=2.1.0"></script>
+    <script src="js/storage.js?v=2.1.0"></script>
+    <script src="js/audio.js?v=2.1.0"></script>
+    <script src="js/ai.js?v=2.1.0"></script>
+    <script src="js/app.js?v=2.1.0"></script>
 </body>
 </html>

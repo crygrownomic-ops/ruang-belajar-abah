@@ -1,23 +1,48 @@
-/* Custom Styles for Ruang Belajar Abah Ceria & Portal Pendidik */
+/* ============================================================
+   Ruang Belajar Abah - Custom Styles
+   ============================================================ */
+
+:root {
+    --rba-indigo: #4f46e5;
+    --rba-pink: #ec4899;
+    --rba-amber: #f59e0b;
+}
+
+html {
+    scroll-behavior: smooth;
+}
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .font-fredoka {
     font-family: 'Fredoka', cursive;
 }
 
+/* Fokus keyboard yang jelas */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible {
+    outline: 3px solid #6366f1;
+    outline-offset: 2px;
+}
+
 /* Navigasi & Tombol Aktif */
 .nav-btn.active {
     background-color: rgba(255, 255, 255, 0.3) !important;
-    border: 2px solid #fde047; /* Yellow 300 */
+    border: 2px solid #fde047;
     font-weight: 800;
 }
 
 .phase-btn.active {
-    background-color: #6366f1; /* Indigo 500 */
-    color: white;
+    background-color: #6366f1;
+    color: #fff;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
@@ -25,74 +50,311 @@ body {
     transform: translateY(-6px) rotate(1deg);
 }
 
+.subject-card:active {
+    transform: translateY(-2px) scale(0.99);
+}
+
+/* Scrollbar ramah anak */
+.nav-scroll::-webkit-scrollbar,
+#chat-window::-webkit-scrollbar,
+#gen-questions-list::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+.nav-scroll::-webkit-scrollbar-thumb,
+#chat-window::-webkit-scrollbar-thumb,
+#gen-questions-list::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.35);
+    border-radius: 999px;
+}
+
+/* Chip saran pertanyaan */
+.suggestion-chip {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9d174d;
+    background: #fff;
+    border: 1px solid #fbcfe8;
+    border-radius: 999px;
+    padding: 6px 12px;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.suggestion-chip:hover {
+    background: #fdf2f8;
+    transform: translateY(-1px);
+}
+
 /* ==========================================
-   EFEK ANIMASI LENGKAP BERMAIN & CERIA
+   EFEK ANIMASI BERMAIN & CERIA
    ========================================== */
 
-/* 1. Animasi Mengapung (Floating Rocket / Mascot) */
 @keyframes float {
-    0%, 100% { 
-        transform: translateY(0px) rotate(0deg); 
-    }
-    50% { 
-        transform: translateY(-12px) rotate(4deg); 
-    }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(4deg); }
 }
 
 .float-anim {
     animation: float 4s ease-in-out infinite;
 }
 
-/* 2. Animasi Berputar Pelan (Spinning Star / Badge) */
 @keyframes spinSlow {
-    from { 
-        transform: rotate(0deg); 
-    }
-    to { 
-        transform: rotate(360deg); 
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 .spin-slow {
     animation: spinSlow 12s linear infinite;
 }
 
-/* 3. Animasi Denyut Ceria (Pulse Effect) */
 @keyframes pulseSlow {
-    0%, 100% { 
-        transform: scale(1); 
-    }
-    50% { 
-        transform: scale(1.05); 
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 .pulse-anim {
     animation: pulseSlow 3s ease-in-out infinite;
 }
 
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.toast-item {
+    animation: toastIn 0.2s ease-out;
+    box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.35);
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-panel {
+    animation: modalIn 0.18s ease-out;
+}
+
+@keyframes resultPop {
+    0% { transform: scale(0.85); opacity: 0; }
+    70% { transform: scale(1.04); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.result-pop {
+    animation: resultPop 0.35s ease-out;
+}
+
+/* Materi */
+#materi-body {
+    line-height: 1.85;
+}
+
+.materi-topic-btn {
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.materi-topic-btn.active {
+    background: #eef2ff;
+    color: #3730a3;
+    border-color: #a5b4fc;
+    font-weight: 800;
+}
+
+/* Opsi kuis */
+.quiz-opt-btn {
+    transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+}
+
+.quiz-opt-btn:hover:not(:disabled) {
+    transform: translateX(2px);
+}
+
+.quiz-opt-btn:disabled {
+    cursor: default;
+}
+
+/* Loading shimmer */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.ai-loading {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 37%, #f1f5f9 63%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease infinite;
+}
+
+/* Prose sederhana untuk hasil modul ajar */
+.prose h1,
+.prose h2,
+.prose h3 {
+    color: #312e81;
+    font-weight: 800;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.35;
+}
+
+.prose h1 { font-size: 1.35rem; }
+.prose h2 { font-size: 1.2rem; }
+.prose h3 { font-size: 1.05rem; }
+
+.prose p {
+    margin-bottom: 0.6rem;
+    line-height: 1.75;
+}
+
+.prose ul,
+.prose ol {
+    margin: 0.4rem 0 0.8rem 1.25rem;
+}
+
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li { margin-bottom: 0.25rem; }
+
+.prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0 1rem;
+    font-size: 0.8rem;
+}
+
+.prose th,
+.prose td {
+    border: 1px solid #c7d2fe;
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.prose th {
+    background: #eef2ff;
+    font-weight: 800;
+}
+
+.prose strong { font-weight: 800; }
+
+.prose blockquote {
+    border-left: 4px solid #f9a8d4;
+    padding-left: 0.8rem;
+    color: #475569;
+    font-style: italic;
+}
+
+/* Ruang chat */
+.chat-bubble-ai,
+.chat-bubble-user {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.chat-bubble-ai {
+    white-space: pre-wrap;
+}
+
+.chat-bubble-user {
+    white-space: pre-wrap;
+}
+
+/* Print area: tidak terlihat di layar */
+#print-area {
+    display: none;
+}
 
 /* ==========================================
    FORMAT KHUSUS CETAK (PRINT RULES)
    ========================================== */
 @media print {
-    .no-print {
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
+
+    html,
+    body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 12px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Sembunyikan seluruh UI saat print-area digunakan */
+    body.printing > *:not(#print-area) {
         display: none !important;
     }
-    body {
-        background: white !important;
-        color: black !important;
+
+    #print-area {
+        display: block !important;
+        width: 100%;
     }
-    main {
-        max-width: 100% !important;
-        padding: 0 !important;
+
+    #print-area .no-print,
+    #print-area button {
+        display: none !important;
     }
-    .rapor-paper, #modul-output-container, #lkpd-print-area {
+
+    #print-area .rapor-paper,
+    #print-area .print-sheet {
         border: none !important;
         box-shadow: none !important;
+        border-radius: 0 !important;
         padding: 0 !important;
+        margin: 0 !important;
     }
-    #sec-rapor, #sec-modul-ai, #lkpd-print-area {
-        display: block !important;
+
+    #print-area .print-sheet {
+        page-break-after: avoid;
+    }
+
+    #print-area .prose {
+        font-size: 11.5px;
+        line-height: 1.6;
+    }
+
+    #print-area .prose h1,
+    #print-area .prose h2,
+    #print-area .prose h3 {
+        page-break-after: avoid;
+    }
+
+    #print-area .prose table {
+        page-break-inside: auto;
+    }
+
+    #print-area .prose tr {
+        page-break-inside: avoid;
+    }
+
+    /* Fallback jika user menekan Ctrl+P tanpa tombol aplikasi */
+    body:not(.printing) .no-print {
+        display: none !important;
+    }
+
+    body:not(.printing) header,
+    body:not(.printing) footer,
+    body:not(.printing) nav,
+    body:not(.printing) #toast-container,
+    body:not(.printing) #modal-siswa,
+    body:not(.printing) #modal-apikey,
+    body:not(.printing) #modal-remedial {
+        display: none !important;
+    }
+}
+
+/* Hormati preferensi pengguna yang mengurangi animasi */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
     }
 }

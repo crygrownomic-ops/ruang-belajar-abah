@@ -1,0 +1,12 @@
+{
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "files.encoding": "utf8",
+    "files.eol": "\n",
+    "html.format.wrapLineLength": 0,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "liveServer.settings.port": 5173,
+    "search.exclude": {
+        "**/.git": true
+    }
+}
