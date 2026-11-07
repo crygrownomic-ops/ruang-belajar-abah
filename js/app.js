@@ -16,7 +16,7 @@ const PHASES = {
     faseC: { label: 'Fase C (Kelas 5-6)', short: 'Fase C', modulValue: 'Fase C (Kelas 5-6 SD)' }
 };
 
-const SECTION_IDS = ['beranda', 'materi', 'kuis', 'ai', 'modul-ai', 'editor-kuis', 'rapor'];
+const SECTION_IDS = ['beranda', 'materi', 'kuis', 'bermain', 'petualangan', 'ai', 'modul-ai', 'editor-kuis', 'kelas', 'rapor', 'orangtua'];
 
 const DEFAULT_CHAT_HTML = `
     <div class="flex items-start space-x-2">
@@ -47,6 +47,7 @@ const quiz = {
     subject: 'mtk',
     phase: 'faseA',
     examMode: false,
+    adaptive: false,
     timeLimit: 0,
     remaining: 0,
     startedAt: 0,
@@ -80,6 +81,11 @@ function initApp() {
     setupModalBackdrops();
     setupSelectListeners();
     setupNetworkListeners();
+    applyAccessibilitySettings();
+    renderGamification();
+
+    const journalDate = document.getElementById('journal-date');
+    if (journalDate && !journalDate.value) journalDate.value = new Date().toISOString().slice(0, 10);
 
     const footerYear = document.getElementById('footer-year');
     if (footerYear) footerYear.textContent = String(new Date().getFullYear());
@@ -116,10 +122,11 @@ function setupModalBackdrops() {
 
     document.addEventListener('keydown', (event) => {
         if (event.key !== 'Escape') return;
-        ['modal-siswa', 'modal-apikey', 'modal-remedial'].forEach((id) => {
+        ['modal-siswa', 'modal-apikey', 'modal-remedial', 'modal-profil', 'modal-petualangan', 'modal-aksesibilitas', 'modal-proyektor'].forEach((id) => {
             const modal = document.getElementById(id);
             if (modal) modal.classList.add('hidden');
         });
+        if (typeof closeFocusModal === 'function') closeFocusModal();
     });
 }
 
@@ -152,8 +159,15 @@ function showSection(sectionId, options = {}) {
     const activeNav = document.getElementById(`nav-${sectionId}`);
     if (activeNav) activeNav.classList.add('active');
 
+    if (sectionId === 'beranda') renderGamification();
     if (sectionId === 'materi') renderMateri();
     if (sectionId === 'kuis') renderQuizSection();
+    if (sectionId === 'petualangan') {
+        renderAdventure();
+        renderStoryLibrary();
+    }
+    if (sectionId === 'kelas') renderTeacherDashboard();
+    if (sectionId === 'orangtua') renderParentMode();
     if (sectionId === 'rapor') renderRaporAndDiagnostic();
     if (sectionId === 'editor-kuis') {
         renderCustomQuestions();
@@ -249,7 +263,11 @@ function updateStudentDisplay() {
     if (display) display.textContent = active.nama;
 
     const avatar = document.getElementById('active-student-avatar');
-    if (avatar) avatar.textContent = (active.nama || '?').trim().charAt(0).toUpperCase() || '?';
+    if (avatar) {
+        const profile = typeof getGamificationProfile === 'function' ? getGamificationProfile() : null;
+        avatar.textContent = profile?.avatar || (active.nama || '?').trim().charAt(0).toUpperCase() || '?';
+        avatar.classList.add('bg-amber-400');
+    }
 
     const welcome = document.getElementById('welcome-heading');
     if (welcome) welcome.textContent = `Halo ${active.nama}! 👋`;
@@ -424,6 +442,11 @@ function refreshAllUI() {
     updateApiKeyStatus();
     updateBankBadge();
     updateQuizSetupInfo();
+    renderGamification();
+    renderAdventure();
+    renderStoryLibrary();
+    renderParentMode();
+    renderTeacherDashboard();
 }
 
 // ------------------------------------------------------------
@@ -476,7 +499,7 @@ function renderMateri() {
 
     if (topicList) {
         topicList.innerHTML = topics.map((topic, index) => `
-            <button onclick="displayMateriContent('${escapeHtml(topic.id)}')" data-topic-id="${escapeHtml(topic.id)}" class="materi-topic-btn w-full text-left p-3 rounded-2xl text-xs font-bold border border-transparent hover:bg-indigo-50 hover:text-indigo-900 transition flex items-start gap-2">
+            <button onclick="displayMateriContent('${escapeHtml(topic.id)}', true)" data-topic-id="${escapeHtml(topic.id)}" class="materi-topic-btn w-full text-left p-3 rounded-2xl text-xs font-bold border border-transparent hover:bg-indigo-50 hover:text-indigo-900 transition flex items-start gap-2">
                 <span class="w-6 h-6 shrink-0 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-[10px] font-black">${index + 1}</span>
                 <span>${escapeHtml(topic.name)}</span>
             </button>
@@ -487,7 +510,7 @@ function renderMateri() {
     updateSubjectCounts();
 }
 
-function displayMateriContent(topicId) {
+function displayMateriContent(topicId, fromUser = false) {
     const subjectData = KURIKULUM_DATA?.[currentPhase]?.[currentSubject];
     if (!subjectData || !Array.isArray(subjectData.topics)) return;
 
@@ -506,6 +529,13 @@ function displayMateriContent(topicId) {
     });
 
     stopSpeaking();
+
+    if (fromUser) {
+        if (typeof markMaterialRead === 'function') markMaterialRead(topic.id);
+        if (getAccessibilitySettings().autoRead) {
+            speakText(`${topic.name}. ${topic.content}`);
+        }
+    }
 }
 
 function toggleReadAloudMateri() {
@@ -540,9 +570,21 @@ function practiceCurrentSubject() {
 function toggleExamMode() {
     const checkbox = document.getElementById('chk-mode-ujian');
     const timeSelect = document.getElementById('select-exam-time');
+    const adaptive = document.getElementById('chk-mode-adaptif');
     const enabled = Boolean(checkbox?.checked);
 
     if (timeSelect) timeSelect.classList.toggle('hidden', !enabled);
+
+    // Ujian berwaktu selalu acak, jadi latihan adaptif dinonaktifkan.
+    if (adaptive && enabled) {
+        adaptive.checked = false;
+        adaptive.disabled = true;
+        adaptive.closest('label')?.classList.add('opacity-50');
+    } else if (adaptive) {
+        adaptive.disabled = false;
+        adaptive.closest('label')?.classList.remove('opacity-50');
+    }
+
     updateQuizSetupInfo();
 }
 
@@ -554,6 +596,7 @@ function updateQuizSetupInfo() {
     const subject = document.getElementById('quiz-subject')?.value || currentSubject;
     const count = getQuizBank(phase, subject).length;
     const examMode = Boolean(document.getElementById('chk-mode-ujian')?.checked);
+    const adaptive = !examMode && Boolean(document.getElementById('chk-mode-adaptif')?.checked);
     const minutes = parseInt(document.getElementById('select-exam-time')?.value, 10) || 10;
 
     if (count === 0) {
@@ -563,7 +606,12 @@ function updateQuizSetupInfo() {
     }
 
     info.className = 'text-xs font-semibold text-slate-600 bg-slate-50 rounded-2xl p-3 border border-slate-200';
-    info.innerHTML = `<i class="fa-solid fa-circle-info mr-1 text-indigo-500"></i> <strong>${count} soal</strong> tersedia untuk ${escapeHtml(SUBJECTS[subject]?.label || subject)} • ${escapeHtml(PHASES[phase]?.short || phase)}. ${examMode ? `Mode ujian: soal diacak dan waktu ${minutes} menit.` : 'Mode latihan: tanpa batas waktu, pembahasan langsung muncul.'}`;
+    const modeText = examMode
+        ? `Mode ujian: soal diacak dan waktu ${minutes} menit.`
+        : adaptive
+            ? 'Latihan adaptif: soal yang sering salah akan muncul lebih dulu.'
+            : 'Mode latihan: tanpa batas waktu, pembahasan langsung muncul.';
+    info.innerHTML = `<i class="fa-solid fa-circle-info mr-1 text-indigo-500"></i> <strong>${count} soal</strong> tersedia untuk ${escapeHtml(SUBJECTS[subject]?.label || subject)} • ${escapeHtml(PHASES[phase]?.short || phase)}. ${modeText}`;
 }
 
 function getQuizBank(phase = currentPhase, subject = currentSubject) {
@@ -600,10 +648,47 @@ function shuffleArray(list) {
     return array;
 }
 
+// ------------------------------------------------------------
+// Latihan adaptif: urutkan soal berdasarkan riwayat jawaban.
+// Soal yang sering salah didahulukan, lalu soal baru, lalu yang sudah dikuasai.
+// ------------------------------------------------------------
+function buildAdaptiveQuestionList(list) {
+    if (typeof getItemStats !== 'function' || typeof getQuestionKey !== 'function') {
+        return [...list];
+    }
+
+    const stats = getItemStats();
+
+    return [...list]
+        .map((item) => {
+            const entry = stats[getQuestionKey(item.q)] || {};
+            const attempts = Number(entry.attempts) || 0;
+            const correct = Number(entry.correct) || 0;
+            return {
+                item,
+                attempts,
+                accuracy: attempts > 0 ? correct / attempts : null
+            };
+        })
+        .sort((a, b) => {
+            const group = (entry) => {
+                if (entry.attempts === 0) return 1;       // belum pernah dicoba
+                if (entry.accuracy < 0.6) return 0;        // perlu diperkuat
+                return 2;                                   // sudah dikuasai
+            };
+            const diff = group(a) - group(b);
+            if (diff !== 0) return diff;
+            if (group(a) === 0) return a.accuracy - b.accuracy;
+            return 0;
+        })
+        .map((entry) => entry.item);
+}
+
 function startQuizFromSetup() {
     const phase = document.getElementById('quiz-phase')?.value || currentPhase;
     const subject = document.getElementById('quiz-subject')?.value || currentSubject;
     const examMode = Boolean(document.getElementById('chk-mode-ujian')?.checked);
+    const adaptive = !examMode && Boolean(document.getElementById('chk-mode-adaptif')?.checked);
     const minutes = parseInt(document.getElementById('select-exam-time')?.value, 10) || 10;
 
     if (!PHASES[phase] || !SUBJECTS[subject]) return;
@@ -615,13 +700,14 @@ function startQuizFromSetup() {
     renderSubjectTabs();
     renderMateri();
 
-    startQuiz(subject, phase, { examMode, minutes, source: 'bank' });
+    startQuiz(subject, phase, { examMode, adaptive, minutes, source: 'bank' });
 }
 
 function startQuiz(subjectKey, phaseKey, options = {}) {
     const subject = SUBJECTS[subjectKey] ? subjectKey : 'mtk';
     const phase = PHASES[phaseKey] ? phaseKey : 'faseA';
     const examMode = Boolean(options.examMode);
+    const adaptive = !examMode && Boolean(options.adaptive);
     const minutes = Math.max(1, parseInt(options.minutes, 10) || 10);
     const source = options.source === 'ai' ? 'ai' : 'bank';
 
@@ -640,11 +726,13 @@ function startQuiz(subjectKey, phaseKey, options = {}) {
 
     stopQuizTimer();
     stopSpeaking();
+    if (typeof lastQuizReward !== 'undefined') lastQuizReward = null;
 
     quiz.active = true;
     quiz.finished = false;
     quiz.autoSubmitted = false;
-    quiz.list = examMode ? shuffleArray(list) : list;
+    quiz.adaptive = adaptive;
+    quiz.list = examMode ? shuffleArray(list) : adaptive ? buildAdaptiveQuestionList(list) : list;
     quiz.index = 0;
     quiz.score = 0;
     quiz.answers = new Array(quiz.list.length).fill(null);
@@ -683,6 +771,7 @@ function resetQuizState() {
     quiz.subject = currentSubject;
     quiz.phase = currentPhase;
     quiz.examMode = false;
+    quiz.adaptive = false;
     quiz.timeLimit = 0;
     quiz.remaining = 0;
     quiz.startedAt = 0;
@@ -747,10 +836,16 @@ function renderQuizQuestion() {
 
     const modeTag = document.getElementById('quiz-mode-tag');
     if (modeTag) {
-        modeTag.textContent = quiz.examMode ? 'Mode Ujian' : 'Latihan';
-        modeTag.className = quiz.examMode
-            ? 'text-[10px] font-extrabold text-rose-700 bg-rose-100 px-2 py-1 rounded-full hidden sm:inline'
-            : 'text-[10px] font-extrabold text-indigo-700 bg-indigo-100 px-2 py-1 rounded-full hidden sm:inline';
+        if (quiz.examMode) {
+            modeTag.textContent = 'Mode Ujian';
+            modeTag.className = 'text-[10px] font-extrabold text-rose-700 bg-rose-100 px-2 py-1 rounded-full hidden sm:inline';
+        } else if (quiz.adaptive) {
+            modeTag.textContent = 'Latihan Adaptif';
+            modeTag.className = 'text-[10px] font-extrabold text-purple-700 bg-purple-100 px-2 py-1 rounded-full hidden sm:inline';
+        } else {
+            modeTag.textContent = 'Latihan';
+            modeTag.className = 'text-[10px] font-extrabold text-indigo-700 bg-indigo-100 px-2 py-1 rounded-full hidden sm:inline';
+        }
     }
 
     const progressNum = document.getElementById('quiz-progress-num');
@@ -814,6 +909,10 @@ function checkAnswer(selectedIndex) {
         soundFX.playCorrect();
     } else {
         soundFX.playWrong();
+    }
+
+    if (typeof recordQuestionAttempt === 'function') {
+        recordQuestionAttempt(question, isCorrect, { subject: quiz.subject, phase: quiz.phase });
     }
 
     const selectedButton = buttons[selectedIndex];
@@ -883,6 +982,18 @@ function finishQuiz(autoSubmitted = false) {
         saveQuizScore(active.id, quiz.subject, quiz.score, total, {
             durationSeconds,
             mode: quiz.examMode ? 'exam' : 'practice',
+            source: quiz.source
+        });
+    }
+
+    if (typeof handleQuizCompletion === 'function' && total) {
+        handleQuizCompletion({
+            correct: quiz.score,
+            total,
+            percentage,
+            durationSeconds,
+            subject: quiz.subject,
+            examMode: quiz.examMode,
             source: quiz.source
         });
     }
@@ -1011,6 +1122,8 @@ function renderQuizResult() {
             ${advice}
         </div>
 
+        <div id="quiz-reward-box" class="mt-4"></div>
+
         <div class="flex flex-col sm:flex-row gap-2 mt-5">
             <button onclick="retryQuiz()" class="flex-grow bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold py-3 rounded-2xl text-sm transition shadow-md flex items-center justify-center gap-2">
                 <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Ulangi Kuis
@@ -1031,6 +1144,7 @@ function renderQuizResult() {
         </details>
     `;
 
+    if (typeof renderQuizRewards === 'function') renderQuizRewards();
     showQuizResult();
     document.getElementById('quiz-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }

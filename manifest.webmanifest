@@ -1,0 +1,50 @@
+{
+  "name": "Ruang Belajar Abah - Belajar Ceria",
+  "short_name": "RB Abah",
+  "description": "Aplikasi pembelajaran SD Kurikulum Merdeka: materi, kuis, petualangan Nusantara, mini-games, modul ajar, dan laporan belajar.",
+  "id": "./index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#fffbeb",
+  "theme_color": "#4f46e5",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["education", "kids", "productivity"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mulai Kuis",
+      "short_name": "Kuis",
+      "url": "./index.html#kuis",
+      "description": "Langsung membuka halaman kuis."
+    },
+    {
+      "name": "Petualangan Nusantara",
+      "short_name": "Petualangan",
+      "url": "./index.html#petualangan",
+      "description": "Jelajahi misi belajar di 7 wilayah Indonesia."
+    },
+    {
+      "name": "Laporan Orang Tua",
+      "short_name": "Laporan",
+      "url": "./index.html#orangtua",
+      "description": "Lihat laporan belajar anak."
+    }
+  ]
+}

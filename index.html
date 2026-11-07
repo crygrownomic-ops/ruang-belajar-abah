@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Ruang Belajar Abah - aplikasi pembelajaran interaktif SD Kurikulum Merdeka dengan kuis, modul ajar AI, bank soal guru, LKPD cetak, dan rapor digital.">
     <meta name="theme-color" content="#4f46e5">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icons/icon.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="RB Abah">
     <meta property="og:title" content="Ruang Belajar Abah - Belajar Ceria & Portal Pendidik Merdeka">
     <meta property="og:description" content="Kuis interaktif, materi Fase A-C, AI Ninna, modul ajar otomatis, bank soal, dan rapor digital dalam satu aplikasi.">
     <meta property="og:type" content="website">
@@ -30,7 +35,7 @@
     <!-- Google Fonts Ceria -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=2.1.0">
+    <link rel="stylesheet" href="css/style.css?v=2.2.0">
 </head>
 <body class="bg-gradient-to-b from-amber-50 via-sky-50 to-pink-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-pink-200">
 
@@ -52,8 +57,31 @@
                 </div>
             </div>
 
+            <!-- Strip Gamifikasi -->
+            <div class="order-3 sm:order-2 flex items-center gap-2 bg-gradient-to-r from-indigo-50 to-pink-50 border-2 border-indigo-200 px-3 py-1.5 rounded-2xl text-[10px] font-extrabold text-indigo-900" aria-label="Progres belajar siswa">
+                <span id="header-level" class="bg-indigo-600 text-white px-2 py-1 rounded-lg">Lv 1</span>
+                <div class="w-16 sm:w-24">
+                    <div class="h-2.5 rounded-full bg-white border border-indigo-200 overflow-hidden">
+                        <div id="header-xp-bar" class="h-full rounded-full bg-gradient-to-r from-yellow-400 to-pink-500 transition-all" style="width:0%"></div>
+                    </div>
+                    <span id="header-xp" class="block text-[9px] font-bold text-indigo-500 mt-0.5">0/100 XP</span>
+                </div>
+                <span class="flex items-center gap-1 text-amber-700" title="Koin"><i class="fa-solid fa-coins" aria-hidden="true"></i><span id="header-coins">0</span></span>
+                <span class="flex items-center gap-1 text-rose-600" title="Streak harian"><i class="fa-solid fa-fire" aria-hidden="true"></i><span id="header-streak">0</span></span>
+            </div>
+
             <!-- Active Student Selector & Nav Actions -->
-            <div class="flex items-center space-x-2 sm:space-x-3 flex-wrap">
+            <div class="order-2 sm:order-3 flex items-center space-x-2 sm:space-x-3 flex-wrap">
+                <!-- Aksesibilitas -->
+                <button onclick="openAccessibilityModal()" title="Aksesibilitas & bahasa" class="bg-sky-100 hover:bg-sky-200 text-sky-800 p-2.5 rounded-2xl border-2 border-sky-300 transition shadow-sm transform active:scale-95" aria-label="Buka pengaturan aksesibilitas dan bahasa">
+                    <i class="fa-solid fa-universal-access text-lg" aria-hidden="true"></i>
+                </button>
+
+                <!-- Instal Aplikasi (muncul jika didukung) -->
+                <button onclick="installPwa()" id="btn-install-app" title="Pasang aplikasi" class="hidden bg-emerald-100 hover:bg-emerald-200 text-emerald-800 p-2.5 rounded-2xl border-2 border-emerald-300 transition shadow-sm transform active:scale-95" aria-label="Pasang aplikasi di perangkat">
+                    <i class="fa-solid fa-download text-lg" aria-hidden="true"></i>
+                </button>
+
                 <!-- Select Active Student Button -->
                 <button onclick="openStudentModal()" title="Pilih atau kelola siswa" class="flex items-center space-x-2 bg-gradient-to-r from-amber-100 to-yellow-200 hover:from-amber-200 hover:to-yellow-300 text-amber-900 px-3 sm:px-4 py-2 rounded-2xl border-2 border-yellow-400 text-sm font-bold shadow-sm transition transform active:scale-95">
                     <span id="active-student-avatar" class="w-7 h-7 rounded-xl bg-amber-400 text-white flex items-center justify-center text-xs font-black shadow-inner">B</span>
@@ -73,29 +101,47 @@
         <nav class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-3 py-2 shadow-inner" aria-label="Navigasi utama">
             <div class="max-w-7xl mx-auto flex items-center justify-start space-x-2 overflow-x-auto text-sm font-bold py-1 nav-scroll">
                 <button onclick="showSection('beranda')" class="nav-btn active px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/20 hover:bg-white/30 transition whitespace-nowrap" id="nav-beranda">
-                    <i class="fa-solid fa-house-chimney text-yellow-300" aria-hidden="true"></i> <span>Beranda</span>
+                    <i class="fa-solid fa-house-chimney text-yellow-300" aria-hidden="true"></i> <span data-i18n="nav.beranda">Beranda</span>
                 </button>
                 <button onclick="showSection('materi')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-materi">
-                    <i class="fa-solid fa-book-open-reader text-sky-300" aria-hidden="true"></i> <span>Materi</span>
+                    <i class="fa-solid fa-book-open-reader text-sky-300" aria-hidden="true"></i> <span data-i18n="nav.materi">Materi</span>
                 </button>
                 <button onclick="showSection('kuis')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-kuis">
-                    <i class="fa-solid fa-gamepad text-emerald-300" aria-hidden="true"></i> <span>Kuis / Ujian</span>
+                    <i class="fa-solid fa-gamepad text-emerald-300" aria-hidden="true"></i> <span data-i18n="nav.kuis">Kuis / Ujian</span>
+                </button>
+                <button onclick="showSection('bermain')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-bermain">
+                    <i class="fa-solid fa-dice text-orange-300" aria-hidden="true"></i> <span data-i18n="nav.bermain">Bermain</span>
+                </button>
+                <button onclick="showSection('petualangan')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-petualangan">
+                    <i class="fa-solid fa-map-location-dot text-teal-300" aria-hidden="true"></i> <span data-i18n="nav.petualangan">Petualangan</span>
                 </button>
                 <button onclick="showSection('ai')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-ai">
-                    <i class="fa-solid fa-robot text-pink-300" aria-hidden="true"></i> <span>Tanya AI Ninna</span>
+                    <i class="fa-solid fa-robot text-pink-300" aria-hidden="true"></i> <span data-i18n="nav.ai">Tanya AI Ninna</span>
                 </button>
                 <button onclick="showSection('modul-ai')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-modul-ai">
-                    <i class="fa-solid fa-file-pen text-amber-300" aria-hidden="true"></i> <span>Modul Ajar AI</span>
+                    <i class="fa-solid fa-file-pen text-amber-300" aria-hidden="true"></i> <span data-i18n="nav.modul">Modul Ajar AI</span>
                 </button>
                 <button onclick="showSection('editor-kuis')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-editor-kuis">
-                    <i class="fa-solid fa-folder-plus text-yellow-300" aria-hidden="true"></i> <span>Bank Soal Guru</span>
+                    <i class="fa-solid fa-folder-plus text-yellow-300" aria-hidden="true"></i> <span data-i18n="nav.bank">Bank Soal Guru</span>
+                </button>
+                <button onclick="showSection('kelas')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-kelas">
+                    <i class="fa-solid fa-chalkboard-user text-lime-300" aria-hidden="true"></i> <span data-i18n="nav.kelas">Kelas</span>
                 </button>
                 <button onclick="showSection('rapor')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-rapor">
-                    <i class="fa-solid fa-chart-line text-yellow-300" aria-hidden="true"></i> <span>Diagnosis & Rapor</span>
+                    <i class="fa-solid fa-chart-line text-yellow-300" aria-hidden="true"></i> <span data-i18n="nav.rapor">Diagnosis & Rapor</span>
+                </button>
+                <button onclick="showSection('orangtua')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-orangtua">
+                    <i class="fa-solid fa-people-roof text-rose-300" aria-hidden="true"></i> <span data-i18n="nav.orangtua">Orang Tua</span>
                 </button>
             </div>
         </nav>
     </header>
+
+    <!-- BANNER OFFLINE -->
+    <div id="offline-banner" class="hidden no-print bg-amber-100 border-b-2 border-amber-300 text-amber-900 text-xs font-bold px-4 py-2 text-center" role="status">
+        <i class="fa-solid fa-wifi-slash mr-1" aria-hidden="true"></i>
+        Kamu sedang offline. Materi dan fitur belajar tetap bisa dipakai; fitur AI dan sinkronisasi online tidak tersedia.
+    </div>
 
     <!-- MAIN CONTAINER -->
     <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
@@ -129,6 +175,9 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Dashboard Gamifikasi -->
+            <div id="learn-dashboard"></div>
 
             <!-- Ringkasan Cepat -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -233,6 +282,16 @@
                     <h4 class="font-extrabold text-indigo-950">Rapor & Diagnosis</h4>
                     <p class="text-xs font-semibold text-slate-500 mt-1">Pantau perkembangan, lencana, dan rekomendasi belajar anak.</p>
                 </button>
+                <button onclick="showSection('bermain')" class="text-left bg-white p-5 rounded-3xl border-2 border-orange-200 hover:border-orange-400 shadow-sm hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg mb-3"><i class="fa-solid fa-dice" aria-hidden="true"></i></div>
+                    <h4 class="font-extrabold text-indigo-950">Mini-Games Edukatif</h4>
+                    <p class="text-xs font-semibold text-slate-500 mt-1">Flashcard, matematika cepat, susun kata, dan jodohkan sambil dapat XP.</p>
+                </button>
+                <button onclick="showSection('petualangan')" class="text-left bg-white p-5 rounded-3xl border-2 border-teal-200 hover:border-teal-400 shadow-sm hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center text-lg mb-3"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></div>
+                    <h4 class="font-extrabold text-indigo-950">Petualangan Nusantara</h4>
+                    <p class="text-xs font-semibold text-slate-500 mt-1">Jelajahi 7 wilayah, baca cerita rakyat, dan selesaikan misi seru.</p>
+                </button>
             </div>
         </section>
 
@@ -325,10 +384,16 @@
                     </div>
 
                     <div class="flex flex-wrap items-center justify-between gap-3 bg-amber-50 p-3 rounded-2xl border-2 border-amber-200 text-xs font-bold">
-                        <label class="flex items-center cursor-pointer space-x-2">
-                            <input type="checkbox" id="chk-mode-ujian" onchange="toggleExamMode()" class="w-4 h-4 rounded text-indigo-600">
-                            <span class="text-indigo-900">⏱️ Mode Ujian Berwaktu</span>
-                        </label>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                            <label class="flex items-center cursor-pointer space-x-2">
+                                <input type="checkbox" id="chk-mode-ujian" onchange="toggleExamMode()" class="w-4 h-4 rounded text-indigo-600">
+                                <span class="text-indigo-900">⏱️ Mode Ujian Berwaktu</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer space-x-2" title="Soal yang sering salah muncul lebih dulu">
+                                <input type="checkbox" id="chk-mode-adaptif" onchange="updateQuizSetupInfo()" class="w-4 h-4 rounded text-purple-600">
+                                <span class="text-purple-900">🎯 Latihan Adaptif</span>
+                            </label>
+                        </div>
                         <select id="select-exam-time" class="border-2 border-amber-200 rounded-xl px-3 py-1.5 bg-white font-bold hidden">
                             <option value="5">5 Menit</option>
                             <option value="10" selected>10 Menit</option>
@@ -818,6 +883,313 @@
             </div>
         </section>
 
+        <!-- SECTION 8: BERMAIN / MINI-GAMES -->
+        <section id="sec-bermain" class="hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b-2 border-orange-200 pb-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                        <span>🎲</span> <span>Bermain Sambil Belajar</span>
+                    </h2>
+                    <p class="text-sm font-semibold text-slate-600">Pilih mini-game, kumpulkan XP dan koin, lalu klaim misi harianmu.</p>
+                </div>
+                <span class="self-start text-[11px] font-extrabold px-3 py-1.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200">
+                    <i class="fa-solid fa-bolt mr-1" aria-hidden="true"></i> Setiap permainan memberi hadiah
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <button onclick="startMiniGame('flashcard')" class="text-left bg-white rounded-3xl border-4 border-sky-200 hover:border-sky-400 p-5 shadow-md hover:shadow-lg transition transform hover:-translate-y-1">
+                    <span class="inline-flex w-12 h-12 rounded-2xl bg-sky-100 text-sky-600 items-center justify-center text-2xl"><i class="fa-solid fa-clone" aria-hidden="true"></i></span>
+                    <h3 class="text-base font-extrabold font-fredoka text-indigo-950 mt-3">Flashcard Materi</h3>
+                    <p class="text-[11px] font-semibold text-slate-500 mt-1">Balik kartu untuk mengingat istilah dan konsep penting.</p>
+                    <p class="text-[10px] font-extrabold text-sky-700 mt-3">+10 XP • +5 koin</p>
+                </button>
+                <button onclick="startMiniGame('math')" class="text-left bg-white rounded-3xl border-4 border-emerald-200 hover:border-emerald-400 p-5 shadow-md hover:shadow-lg transition transform hover:-translate-y-1">
+                    <span class="inline-flex w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 items-center justify-center text-2xl"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span>
+                    <h3 class="text-base font-extrabold font-fredoka text-indigo-950 mt-3">Matematika Cepat</h3>
+                    <p class="text-[11px] font-semibold text-slate-500 mt-1">Jawab sebanyak mungkin soal dalam 60 detik.</p>
+                    <p class="text-[10px] font-extrabold text-emerald-700 mt-3">Hingga +25 XP</p>
+                </button>
+                <button onclick="startMiniGame('scramble')" class="text-left bg-white rounded-3xl border-4 border-violet-200 hover:border-violet-400 p-5 shadow-md hover:shadow-lg transition transform hover:-translate-y-1">
+                    <span class="inline-flex w-12 h-12 rounded-2xl bg-violet-100 text-violet-600 items-center justify-center text-2xl"><i class="fa-solid fa-spell-check" aria-hidden="true"></i></span>
+                    <h3 class="text-base font-extrabold font-fredoka text-indigo-950 mt-3">Susun Kata</h3>
+                    <p class="text-[11px] font-semibold text-slate-500 mt-1">Susun huruf acak menjadi kata yang sesuai petunjuk.</p>
+                    <p class="text-[10px] font-extrabold text-violet-700 mt-3">+18 XP • +9 koin</p>
+                </button>
+                <button onclick="startMiniGame('match')" class="text-left bg-white rounded-3xl border-4 border-amber-200 hover:border-amber-400 p-5 shadow-md hover:shadow-lg transition transform hover:-translate-y-1">
+                    <span class="inline-flex w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 items-center justify-center text-2xl"><i class="fa-solid fa-link" aria-hidden="true"></i></span>
+                    <h3 class="text-base font-extrabold font-fredoka text-indigo-950 mt-3">Jodohkan</h3>
+                    <p class="text-[11px] font-semibold text-slate-500 mt-1">Pasangkan istilah dengan arti atau jawaban yang tepat.</p>
+                    <p class="text-[10px] font-extrabold text-amber-700 mt-3">+15 XP • +8 koin</p>
+                </button>
+            </div>
+
+            <div id="game-stage" class="max-w-3xl mx-auto">
+                <div class="bg-white rounded-3xl border-4 border-dashed border-orange-200 p-8 text-center">
+                    <div class="text-6xl mb-2">🎮</div>
+                    <h3 class="text-xl font-extrabold font-fredoka text-indigo-950">Pilih permainan di atas</h3>
+                    <p class="text-xs font-semibold text-slate-500 mt-1">Permainan mengikuti fase dan mata pelajaran yang sedang aktif.</p>
+                </div>
+            </div>
+            <p class="text-center text-[11px] font-semibold text-slate-400">Tips untuk guru: gunakan mini-game sebagai pemanasan 5 menit sebelum materi baru.</p>
+        </section>
+
+        <!-- SECTION 9: PETUALANGAN NUSANTARA & CERITA -->
+        <section id="sec-petualangan" class="hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b-2 border-teal-200 pb-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                        <span>🗺️</span> <span>Petualangan Nusantara</span>
+                    </h2>
+                    <p class="text-sm font-semibold text-slate-600">Jelajahi 7 wilayah Indonesia, selesaikan misi, dan baca cerita rakyat.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span id="story-progress" class="text-[11px] font-extrabold px-3 py-1.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">0/5 cerita selesai</span>
+                    <button onclick="startFocusSession()" class="text-[11px] font-extrabold px-3 py-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white transition">
+                        <i class="fa-solid fa-hourglass-half mr-1" aria-hidden="true"></i> Belajar 10 Menit
+                    </button>
+                </div>
+            </div>
+
+            <div id="adventure-progress" class="bg-gradient-to-r from-teal-50 to-emerald-50 border-4 border-teal-200 rounded-3xl p-5 shadow-md"></div>
+            <div id="adventure-map" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+
+            <div class="pt-2">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div>
+                        <h3 class="text-2xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-book-open text-amber-500" aria-hidden="true"></i> Perpustakaan Cerita Rakyat
+                        </h3>
+                        <p class="text-xs font-semibold text-slate-500">Baca, dengarkan, lalu jawab pertanyaan untuk mengumpulkan lencana.</p>
+                    </div>
+                </div>
+                <div id="story-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 10: PORTAL GURU / KELAS -->
+        <section id="sec-kelas" class="hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b-2 border-lime-200 pb-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                        <span>🏫</span> <span>Portal Guru & Kelas</span>
+                    </h2>
+                    <p class="text-sm font-semibold text-slate-600">Pantau kelas, analisis butir soal, catat jurnal, dan siapkan modul ajar.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="renderTeacherDashboard()" class="bg-white hover:bg-lime-50 text-slate-700 text-xs font-extrabold px-3 py-2 rounded-xl border-2 border-slate-200 transition">
+                        <i class="fa-solid fa-rotate" aria-hidden="true"></i> Segarkan
+                    </button>
+                    <button onclick="exportClassCsv()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold px-3 py-2 rounded-xl transition">
+                        <i class="fa-solid fa-file-csv" aria-hidden="true"></i> Rekap CSV
+                    </button>
+                    <button onclick="openProjector('Mode Proyektor', '<h2 style=&quot;font-size:1.6em;font-weight:900&quot;>Selamat belajar!</h2><p style=&quot;margin-top:0.5em&quot;>Tampilkan materi, soal, atau hasil kerja di depan kelas.</p>')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold px-3 py-2 rounded-xl transition">
+                        <i class="fa-solid fa-tv" aria-hidden="true"></i> Proyektor
+                    </button>
+                </div>
+            </div>
+
+            <div id="class-summary" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs font-bold"></div>
+
+            <div class="bg-white rounded-3xl border-4 border-lime-200 shadow-md overflow-hidden">
+                <div class="p-4 border-b-2 border-lime-100 flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                        <i class="fa-solid fa-users text-lime-600" aria-hidden="true"></i> Ringkasan Kelas
+                    </h3>
+                    <p class="text-[11px] font-semibold text-slate-400">Data dari siswa yang terdaftar di perangkat ini.</p>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs min-w-[640px]">
+                        <thead class="bg-lime-50 text-lime-900 font-extrabold">
+                            <tr>
+                                <th class="px-3 py-2.5 text-left">Siswa</th>
+                                <th class="px-3 py-2.5 text-center">Rata-rata</th>
+                                <th class="px-3 py-2.5 text-center">Terbaik</th>
+                                <th class="px-3 py-2.5 text-center">Kuis</th>
+                                <th class="px-3 py-2.5 text-center">Terakhir</th>
+                                <th class="px-3 py-2.5 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="class-table-body" class="font-semibold"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <div class="bg-white rounded-3xl border-4 border-indigo-100 p-5 shadow-md space-y-3">
+                    <div class="flex items-center justify-between gap-2">
+                        <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass-chart text-indigo-500" aria-hidden="true"></i> Analisis Butir Soal
+                        </h3>
+                        <span class="text-[10px] font-bold text-slate-400">Terendah lebih dulu</span>
+                    </div>
+                    <p class="text-[11px] font-semibold text-slate-500">Soal dengan persentase benar rendah perlu dijelaskan ulang.</p>
+                    <div id="item-analysis" class="space-y-2 max-h-[420px] overflow-y-auto pr-1"></div>
+                </div>
+
+                <div class="bg-white rounded-3xl border-4 border-amber-100 p-5 shadow-md space-y-3">
+                    <div class="flex items-center justify-between gap-2">
+                        <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square text-amber-500" aria-hidden="true"></i> Jurnal Mengajar
+                        </h3>
+                        <span id="journal-count" class="text-[10px] font-extrabold bg-amber-100 text-amber-700 px-2 py-1 rounded-full">0 catatan</span>
+                    </div>
+                    <form onsubmit="handleSaveJournal(event)" class="space-y-2.5 text-xs font-bold">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label for="journal-date" class="block mb-1 text-slate-600">Tanggal</label>
+                                <input type="date" id="journal-date" class="w-full border-2 border-amber-100 rounded-xl p-2 font-bold">
+                            </div>
+                            <div>
+                                <label for="journal-type" class="block mb-1 text-slate-600">Jenis</label>
+                                <select id="journal-type" class="w-full border-2 border-amber-100 rounded-xl p-2 bg-amber-50">
+                                    <option value="jurnal">Jurnal harian</option>
+                                    <option value="observasi">Observasi siswa</option>
+                                    <option value="refleksi">Refleksi guru</option>
+                                    <option value="tindak-lanjut">Tindak lanjut</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label for="journal-student" class="block mb-1 text-slate-600">Siswa</label>
+                                <select id="journal-student" class="w-full border-2 border-amber-100 rounded-xl p-2 bg-amber-50"></select>
+                            </div>
+                            <div>
+                                <label for="journal-mood" class="block mb-1 text-slate-600">Suasana Kelas</label>
+                                <select id="journal-mood" class="w-full border-2 border-amber-100 rounded-xl p-2 bg-amber-50">
+                                    <option value="aktif">Aktif & semangat</option>
+                                    <option value="tenang">Tenang</option>
+                                    <option value="campuran">Campuran</option>
+                                    <option value="menantang">Menantang</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="journal-title" class="block mb-1 text-slate-600">Judul Catatan</label>
+                            <input type="text" id="journal-title" required placeholder="Contoh: Latihan perkalian dengan kartu" class="w-full border-2 border-amber-100 rounded-xl p-2 font-medium">
+                        </div>
+                        <div>
+                            <label for="journal-topic" class="block mb-1 text-slate-600">Topik</label>
+                            <input type="text" id="journal-topic" placeholder="Contoh: Perkalian dua digit" class="w-full border-2 border-amber-100 rounded-xl p-2 font-medium">
+                        </div>
+                        <div>
+                            <label for="journal-activity" class="block mb-1 text-slate-600">Aktivitas Pembelajaran</label>
+                            <textarea id="journal-activity" rows="2" class="w-full border-2 border-amber-100 rounded-xl p-2 font-medium" placeholder="Apa yang dilakukan guru dan siswa?"></textarea>
+                        </div>
+                        <div>
+                            <label for="journal-reflection" class="block mb-1 text-slate-600">Refleksi</label>
+                            <textarea id="journal-reflection" rows="2" class="w-full border-2 border-amber-100 rounded-xl p-2 font-medium" placeholder="Apa yang berhasil dan perlu diperbaiki?"></textarea>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="col-span-2">
+                                <label for="journal-followup" class="block mb-1 text-slate-600">Tindak Lanjut</label>
+                                <input type="text" id="journal-followup" class="w-full border-2 border-amber-100 rounded-xl p-2 font-medium" placeholder="Contoh: remedial 5 siswa">
+                            </div>
+                            <div>
+                                <label for="journal-minutes" class="block mb-1 text-slate-600">Menit</label>
+                                <input type="number" id="journal-minutes" min="0" max="300" value="35" class="w-full border-2 border-amber-100 rounded-xl p-2 font-bold">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-2.5 rounded-xl transition">
+                            <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Catatan
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl border-4 border-slate-200 p-5 shadow-md space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                        <i class="fa-solid fa-book text-slate-500" aria-hidden="true"></i> Catatan Terbaru
+                    </h3>
+                    <button onclick="exportJournalCsv()" class="text-[11px] font-extrabold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl px-3 py-1.5 transition">
+                        <i class="fa-solid fa-file-csv" aria-hidden="true"></i> Ekspor Jurnal
+                    </button>
+                </div>
+                <div id="journal-list" class="space-y-2 max-h-[420px] overflow-y-auto pr-1"></div>
+            </div>
+
+            <div>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div>
+                        <h3 class="text-2xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-box-open text-amber-500" aria-hidden="true"></i> Paket Modul Ajar Siap Pakai
+                        </h3>
+                        <p class="text-xs font-semibold text-slate-500">Pratinjau di proyektor, cetak, atau simpan ke perpustakaan.</p>
+                    </div>
+                </div>
+                <div id="lesson-pack-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+            </div>
+
+            <div class="bg-white rounded-3xl border-4 border-indigo-100 p-5 shadow-md space-y-3">
+                <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                    <i class="fa-solid fa-folder-open text-indigo-500" aria-hidden="true"></i> Perpustakaan Modul Tersimpan
+                </h3>
+                <div id="lesson-plan-list" class="space-y-2"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 11: MODE ORANG TUA -->
+        <section id="sec-orangtua" class="hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b-2 border-rose-200 pb-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                        <span>👨‍👩‍👧</span> <span>Laporan Orang Tua</span>
+                    </h2>
+                    <p class="text-sm font-semibold text-slate-600">Lihat perkembangan anak, rekomendasi pendampingan, dan aktivitas belajar.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span id="parent-range-label" class="text-[11px] font-extrabold px-3 py-1.5 rounded-full bg-rose-100 text-rose-700 border border-rose-200">7 hari terakhir</span>
+                    <button data-days="7" onclick="setParentReportRange(7)" class="parent-range-btn px-3 py-1.5 rounded-xl text-[11px] font-extrabold transition bg-indigo-600 text-white shadow">7 Hari</button>
+                    <button data-days="30" onclick="setParentReportRange(30)" class="parent-range-btn px-3 py-1.5 rounded-xl text-[11px] font-extrabold transition bg-white text-slate-600 border border-slate-200 hover:border-indigo-300">30 Hari</button>
+                    <button onclick="printParentReport()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold px-3 py-2 rounded-xl transition">
+                        <i class="fa-solid fa-print" aria-hidden="true"></i> Cetak
+                    </button>
+                </div>
+            </div>
+
+            <div id="parent-dashboard" class="space-y-5">
+                <div id="parent-summary" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs font-bold"></div>
+
+                <div class="bg-white rounded-3xl border-4 border-rose-100 p-5 shadow-md">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-column text-rose-500" aria-hidden="true"></i> Grafik Nilai
+                        </h3>
+                        <span class="text-[10px] font-bold text-slate-400">Tinggi batang = rata-rata nilai</span>
+                    </div>
+                    <div id="parent-chart" class="mt-4 h-48 flex items-end gap-1.5 sm:gap-3 border-b-2 border-slate-100 pb-1"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div class="bg-white rounded-3xl border-4 border-indigo-100 p-5 shadow-md space-y-3">
+                        <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-book-open-reader text-indigo-500" aria-hidden="true"></i> Perkembangan per Mapel
+                        </h3>
+                        <div id="parent-subjects" class="space-y-2.5"></div>
+                    </div>
+                    <div class="bg-white rounded-3xl border-4 border-emerald-100 p-5 shadow-md space-y-3">
+                        <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-emerald-500" aria-hidden="true"></i> Rekomendasi Pendampingan
+                        </h3>
+                        <ul id="parent-recommendations" class="space-y-2 text-xs font-semibold text-slate-600 leading-relaxed"></ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl border-4 border-slate-200 p-5 shadow-md">
+                    <h3 class="text-lg font-extrabold font-fredoka text-indigo-950 flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-clock-rotate-left text-slate-500" aria-hidden="true"></i> Aktivitas Terakhir
+                    </h3>
+                    <div id="parent-activity" class="text-xs font-semibold text-slate-600"></div>
+                </div>
+            </div>
+
+            <p class="text-center text-[11px] font-semibold text-slate-400 max-w-3xl mx-auto">
+                Laporan ini disusun dari data di perangkat ini. Diskusikan hasilnya dengan anak secara hangat, bukan untuk membandingkan dengan teman.
+            </p>
+        </section>
+
     </main>
 
     <footer class="no-print mt-8 border-t-4 border-yellow-400 bg-white/80 backdrop-blur">
@@ -826,9 +1198,11 @@
             <div class="flex items-center gap-3">
                 <button onclick="showSection('beranda')" class="hover:text-indigo-700 transition">Beranda</button>
                 <span class="text-slate-300">•</span>
+                <button onclick="openAccessibilityModal()" class="hover:text-sky-700 transition">Aksesibilitas</button>
+                <span class="text-slate-300">•</span>
                 <button onclick="openApiKeyModal()" class="hover:text-purple-700 transition">Pengaturan AI</button>
                 <span class="text-slate-300">•</span>
-                <span class="text-slate-400">v2.0</span>
+                <span class="text-slate-400" id="app-version">v2.2</span>
             </div>
         </div>
     </footer>
@@ -965,14 +1339,132 @@
         </div>
     </div>
 
+    <!-- MODAL: PROFIL, AVATAR, LENCANA -->
+    <div id="modal-profil" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-profil-title">
+        <div class="bg-white w-full max-w-2xl rounded-3xl p-5 md:p-6 space-y-4 shadow-2xl border-4 border-indigo-300 max-h-[92vh] overflow-y-auto modal-panel">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 id="modal-profil-title" class="font-extrabold text-xl text-indigo-950 font-fredoka flex items-center gap-2">
+                    <i class="fa-solid fa-user-astronaut text-indigo-500" aria-hidden="true"></i> <span>Profil & Toko Hadiah</span>
+                </h3>
+                <button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-600" aria-label="Tutup profil">
+                    <i class="fa-solid fa-circle-xmark text-2xl" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div id="profile-content" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- MODAL: PETUALANGAN & CERITA -->
+    <div id="modal-petualangan" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="adventure-modal-title">
+        <div class="bg-white w-full max-w-2xl rounded-3xl p-5 md:p-6 shadow-2xl border-4 border-teal-300 max-h-[92vh] overflow-y-auto modal-panel">
+            <div class="flex justify-between items-start gap-3 border-b pb-2">
+                <h3 id="adventure-modal-title" class="font-extrabold text-lg md:text-xl text-indigo-950 font-fredoka">Petualangan</h3>
+                <button onclick="closeAdventureModal()" class="text-slate-400 hover:text-slate-600 shrink-0" aria-label="Tutup petualangan">
+                    <i class="fa-solid fa-circle-xmark text-2xl" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div id="adventure-modal-body" class="pt-4 text-sm text-slate-700"></div>
+        </div>
+    </div>
+
+    <!-- MODAL: BELAJAR FOKUS 10 MENIT -->
+    <div id="modal-fokus" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-fokus-title">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-5 md:p-6 shadow-2xl border-4 border-indigo-300 max-h-[92vh] overflow-y-auto modal-panel">
+            <div class="flex justify-between items-center border-b pb-2 mb-3">
+                <h3 id="modal-fokus-title" class="font-extrabold text-lg text-indigo-950 font-fredoka flex items-center gap-2">
+                    <i class="fa-solid fa-hourglass-half text-indigo-500" aria-hidden="true"></i> <span>Belajar Fokus</span>
+                </h3>
+                <button onclick="closeFocusModal()" class="text-slate-400 hover:text-slate-600" aria-label="Tutup sesi fokus">
+                    <i class="fa-solid fa-circle-xmark text-2xl" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div id="focus-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- MODAL: AKSESIBILITAS & BAHASA -->
+    <div id="modal-aksesibilitas" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-aksesibilitas-title">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-5 md:p-6 space-y-4 shadow-2xl border-4 border-sky-300 max-h-[92vh] overflow-y-auto modal-panel">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 id="modal-aksesibilitas-title" class="font-extrabold text-xl text-indigo-950 font-fredoka flex items-center gap-2">
+                    <i class="fa-solid fa-universal-access text-sky-500" aria-hidden="true"></i> <span>Aksesibilitas & Bahasa</span>
+                </h3>
+                <button onclick="closeAccessibilityModal()" class="text-slate-400 hover:text-slate-600" aria-label="Tutup aksesibilitas">
+                    <i class="fa-solid fa-circle-xmark text-2xl" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <p class="text-xs font-semibold text-slate-500 leading-relaxed">Atur tampilan agar nyaman untuk setiap anak. Pengaturan disimpan di perangkat ini.</p>
+
+            <div class="space-y-2">
+                <label class="flex items-center justify-between gap-3 bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 cursor-pointer">
+                    <span class="text-xs font-extrabold text-slate-700"><i class="fa-solid fa-text-height text-indigo-500 mr-2" aria-hidden="true"></i>Teks lebih besar</span>
+                    <input id="a11y-large-text" type="checkbox" onchange="toggleA11y('largeText', this.checked)" class="w-5 h-5 rounded text-indigo-600">
+                </label>
+                <label class="flex items-center justify-between gap-3 bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 cursor-pointer">
+                    <span class="text-xs font-extrabold text-slate-700"><i class="fa-solid fa-font text-pink-500 mr-2" aria-hidden="true"></i>Font ramah disleksia</span>
+                    <input id="a11y-dyslexia" type="checkbox" onchange="toggleA11y('dyslexiaFont', this.checked)" class="w-5 h-5 rounded text-indigo-600">
+                </label>
+                <label class="flex items-center justify-between gap-3 bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 cursor-pointer">
+                    <span class="text-xs font-extrabold text-slate-700"><i class="fa-solid fa-circle-half-stroke text-amber-500 mr-2" aria-hidden="true"></i>Kontras tinggi</span>
+                    <input id="a11y-high-contrast" type="checkbox" onchange="toggleA11y('highContrast', this.checked)" class="w-5 h-5 rounded text-indigo-600">
+                </label>
+                <label class="flex items-center justify-between gap-3 bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 cursor-pointer">
+                    <span class="text-xs font-extrabold text-slate-700"><i class="fa-solid fa-wind text-emerald-500 mr-2" aria-hidden="true"></i>Kurangi animasi</span>
+                    <input id="a11y-reduce-motion" type="checkbox" onchange="toggleA11y('reduceMotion', this.checked)" class="w-5 h-5 rounded text-indigo-600">
+                </label>
+                <label class="flex items-center justify-between gap-3 bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 cursor-pointer">
+                    <span class="text-xs font-extrabold text-slate-700"><i class="fa-solid fa-volume-high text-purple-500 mr-2" aria-hidden="true"></i>Auto-baca materi</span>
+                    <input id="a11y-auto-read" type="checkbox" onchange="toggleA11y('autoRead', this.checked)" class="w-5 h-5 rounded text-indigo-600">
+                </label>
+            </div>
+
+            <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3">
+                <p class="text-[10px] font-extrabold uppercase tracking-widest text-sky-700">Bahasa antarmuka</p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <button onclick="setLanguage('id')" data-lang="id" class="lang-btn px-4 py-2 rounded-xl text-xs font-extrabold transition bg-indigo-600 text-white shadow">🇮🇩 Indonesia</button>
+                    <button onclick="setLanguage('en')" data-lang="en" class="lang-btn px-4 py-2 rounded-xl text-xs font-extrabold transition bg-white text-slate-600 border border-slate-200 hover:border-indigo-300">🇬🇧 English</button>
+                </div>
+            </div>
+
+            <p id="a11y-status" class="text-[11px] font-bold text-slate-400"></p>
+            <p class="text-[11px] font-semibold text-slate-400 leading-relaxed">Terjemahan mencakup menu utama dan sapaan. Materi pelajaran tetap dalam Bahasa Indonesia agar sesuai kurikulum.</p>
+        </div>
+    </div>
+
+    <!-- MODAL: MODE PROYEKTOR -->
+    <div id="modal-proyektor" class="fixed inset-0 bg-slate-950/95 z-[80] hidden p-2 md:p-5 no-print" role="dialog" aria-modal="true" aria-labelledby="projector-title">
+        <div class="bg-white w-full h-full rounded-3xl shadow-2xl flex flex-col overflow-hidden border-4 border-indigo-400">
+            <div class="bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2 no-print">
+                <h3 id="projector-title" class="font-extrabold font-fredoka text-base md:text-lg truncate">Mode Proyektor</h3>
+                <div class="flex items-center gap-1.5">
+                    <button onclick="projectorFontStep(-2)" class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded-xl text-xs font-extrabold transition" aria-label="Perkecil teks">A−</button>
+                    <button onclick="projectorFontStep(2)" class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded-xl text-xs font-extrabold transition" aria-label="Perbesar teks">A+</button>
+                    <button onclick="printProjector()" class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded-xl text-xs font-extrabold transition" aria-label="Cetak isi proyektor"><i class="fa-solid fa-print" aria-hidden="true"></i></button>
+                    <button onclick="closeProjector()" class="bg-white text-indigo-800 hover:bg-indigo-50 px-4 py-2 rounded-xl text-xs font-extrabold transition" aria-label="Tutup proyektor"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Tutup</button>
+                </div>
+            </div>
+            <div id="projector-body" class="prose max-w-none flex-grow overflow-y-auto p-4 md:p-8 text-slate-800 leading-relaxed"></div>
+        </div>
+    </div>
+
     <!-- TOAST -->
     <div id="toast-container" class="fixed bottom-4 right-4 z-[70] space-y-2 w-[calc(100%-2rem)] max-w-sm no-print" aria-live="polite" aria-atomic="true"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
-    <script src="js/data.js?v=2.1.0"></script>
-    <script src="js/storage.js?v=2.1.0"></script>
-    <script src="js/audio.js?v=2.1.0"></script>
-    <script src="js/ai.js?v=2.1.0"></script>
-    <script src="js/app.js?v=2.1.0"></script>
+    <script src="js/data.js?v=2.2.0"></script>
+    <script src="js/data-extra.js?v=2.2.0"></script>
+    <script src="js/storage.js?v=2.2.0"></script>
+    <script src="js/audio.js?v=2.2.0"></script>
+    <script src="js/ai.js?v=2.2.0"></script>
+    <script src="js/gamification.js?v=2.2.0"></script>
+    <script src="js/games.js?v=2.2.0"></script>
+    <script src="js/adventure.js?v=2.2.0"></script>
+    <script src="js/teacher.js?v=2.2.0"></script>
+    <script src="js/parent.js?v=2.2.0"></script>
+    <script src="js/focus.js?v=2.2.0"></script>
+    <script src="js/accessibility.js?v=2.2.0"></script>
+    <script src="js/pwa.js?v=2.2.0"></script>
+    <script src="js/app.js?v=2.2.0"></script>
 </body>
 </html>

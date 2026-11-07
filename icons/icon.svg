@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ruang Belajar Abah">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="0.5" stop-color="#ec4899"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="balloon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff7ed"/>
+      <stop offset="1" stop-color="#fde68a"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="212" r="118" fill="url(#balloon)"/>
+  <path d="M256 334l-26 32h52z" fill="#f59e0b"/>
+  <path d="M256 366c-10 24 10 36 0 60-10 24 10 36 0 60" fill="none" stroke="#fff7ed" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="210" cy="200" r="13" fill="#4f46e5"/>
+  <circle cx="302" cy="200" r="13" fill="#4f46e5"/>
+  <path d="M206 252c18 26 82 26 100 0" fill="none" stroke="#4f46e5" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="152" cy="152" r="14" fill="#f472b6" opacity="0.9"/>
+  <circle cx="360" cy="140" r="10" fill="#fde047"/>
+  <circle cx="378" cy="300" r="12" fill="#a5f3fc" opacity="0.9"/>
+</svg>

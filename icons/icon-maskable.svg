@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ruang Belajar Abah">
+  <defs>
+    <linearGradient id="bgm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="0.5" stop-color="#ec4899"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="balloonm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff7ed"/>
+      <stop offset="1" stop-color="#fde68a"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bgm)"/>
+  <circle cx="256" cy="208" r="96" fill="url(#balloonm)"/>
+  <path d="M256 306l-22 28h44z" fill="#f59e0b"/>
+  <path d="M256 334c-8 20 8 30 0 50-8 20 8 30 0 50" fill="none" stroke="#fff7ed" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="220" cy="198" r="11" fill="#4f46e5"/>
+  <circle cx="292" cy="198" r="11" fill="#4f46e5"/>
+  <path d="M216 242c15 22 65 22 80 0" fill="none" stroke="#4f46e5" stroke-width="12" stroke-linecap="round"/>
+</svg>

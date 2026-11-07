@@ -358,3 +358,162 @@ textarea:focus-visible,
         scroll-behavior: auto !important;
     }
 }
+
+/* ==========================================
+   GAMIFIKASI & KONFETI
+   ========================================== */
+.confetti-piece {
+    position: fixed;
+    top: -12px;
+    width: 10px;
+    height: 16px;
+    border-radius: 3px;
+    z-index: 90;
+    pointer-events: none;
+    animation: confettiFall 2.2s ease-in forwards;
+}
+
+@keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+}
+
+.adventure-card {
+    isolation: isolate;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ==========================================
+   BELAJAR FOKUS
+   ========================================== */
+#focus-timer-display {
+    letter-spacing: 0.04em;
+    line-height: 1;
+}
+
+#focus-progress-bar {
+    transition: width 0.4s linear;
+}
+
+/* ==========================================
+   MODE PROYEKTOR
+   ========================================== */
+#modal-proyektor #projector-body {
+    font-size: 22px;
+}
+
+#modal-proyektor #projector-body .print-sheet {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+#modal-proyektor #projector-body h1,
+#modal-proyektor #projector-body h2,
+#modal-proyektor #projector-body h3 {
+    color: #312e81;
+}
+
+#modal-proyektor #projector-body table {
+    font-size: 0.8em;
+}
+
+/* ==========================================
+   AKSESIBILITAS
+   ========================================== */
+html.a11y-large-text {
+    font-size: 18px;
+}
+
+.a11y-large-text body {
+    line-height: 1.7;
+}
+
+html.a11y-dyslexia body,
+html.a11y-dyslexia .font-fredoka,
+body.a11y-dyslexia,
+body.a11y-dyslexia .font-fredoka {
+    font-family: 'Comic Sans MS', 'Verdana', 'Trebuchet MS', sans-serif !important;
+    letter-spacing: 0.02em;
+    word-spacing: 0.08em;
+}
+
+html.a11y-high-contrast body {
+    filter: contrast(1.12) saturate(1.15);
+}
+
+html.a11y-high-contrast button,
+html.a11y-high-contrast a,
+html.a11y-high-contrast select,
+html.a11y-high-contrast input,
+html.a11y-high-contrast textarea {
+    border-width: 2px !important;
+}
+
+html.a11y-high-contrast .text-slate-400,
+html.a11y-high-contrast .text-slate-500,
+html.a11y-high-contrast .text-slate-600 {
+    color: #1e293b !important;
+}
+
+html.a11y-high-contrast .nav-btn:focus-visible,
+html.a11y-high-contrast button:focus-visible,
+html.a11y-high-contrast a:focus-visible {
+    outline: 4px solid #f59e0b !important;
+    outline-offset: 3px;
+}
+
+html.a11y-reduce-motion *,
+html.a11y-reduce-motion *::before,
+html.a11y-reduce-motion *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+}
+
+html.a11y-auto-read #btn-read-materi {
+    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.2);
+}
+
+/* Tombol rentang laporan orang tua */
+.parent-range-btn.active {
+    background: #4f46e5;
+    color: #fff;
+}
+
+/* Scrollbar untuk panel baru */
+#journal-list::-webkit-scrollbar,
+#item-analysis::-webkit-scrollbar,
+#profile-content::-webkit-scrollbar,
+#projector-body::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+#journal-list::-webkit-scrollbar-thumb,
+#item-analysis::-webkit-scrollbar-thumb,
+#profile-content::-webkit-scrollbar-thumb,
+#projector-body::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.35);
+    border-radius: 999px;
+}
+
+/* ==========================================
+   TAMBAHAN CETAK UNTUK FITUR BARU
+   ========================================== */
+@media print {
+    body:not(.printing) #modal-profil,
+    body:not(.printing) #modal-petualangan,
+    body:not(.printing) #modal-fokus,
+    body:not(.printing) #modal-aksesibilitas,
+    body:not(.printing) #modal-proyektor,
+    body:not(.printing) #offline-banner {
+        display: none !important;
+    }
+}
