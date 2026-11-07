@@ -35,7 +35,7 @@
     <!-- Google Fonts Ceria -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=2.2.2">
+    <link rel="stylesheet" href="css/style.css?v=2.3.0">
 </head>
 <body class="bg-gradient-to-b from-amber-50 via-sky-50 to-pink-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-pink-200">
 
@@ -98,41 +98,56 @@
         </div>
 
         <!-- Main Navigation Bar -->
-        <nav class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-3 py-2 shadow-inner" aria-label="Navigasi utama">
-            <div class="max-w-7xl mx-auto flex items-center justify-start space-x-2 overflow-x-auto text-sm font-bold py-1 nav-scroll">
-                <button onclick="showSection('beranda')" class="nav-btn active px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/20 hover:bg-white/30 transition whitespace-nowrap" id="nav-beranda">
-                    <i class="fa-solid fa-house-chimney text-yellow-300" aria-hidden="true"></i> <span data-i18n="nav.beranda">Beranda</span>
+        <nav class="relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-3 py-2 shadow-inner" aria-label="Navigasi utama">
+            <div class="max-w-7xl mx-auto relative">
+                <div id="nav-scroll" class="flex items-center justify-start space-x-2 overflow-x-auto text-sm font-bold py-1 nav-scroll" tabindex="0" role="group" aria-label="Menu aplikasi. Geser ke samping untuk melihat menu lainnya." data-i18n-aria="nav.scrollLabel">
+                    <button onclick="showSection('beranda')" class="nav-btn active px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/20 hover:bg-white/30 transition whitespace-nowrap" id="nav-beranda">
+                        <i class="fa-solid fa-house-chimney text-yellow-300" aria-hidden="true"></i> <span data-i18n="nav.beranda">Beranda</span>
+                    </button>
+                    <button onclick="showSection('materi')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-materi">
+                        <i class="fa-solid fa-book-open-reader text-sky-300" aria-hidden="true"></i> <span data-i18n="nav.materi">Materi</span>
+                    </button>
+                    <button onclick="showSection('kuis')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-kuis">
+                        <i class="fa-solid fa-gamepad text-emerald-300" aria-hidden="true"></i> <span data-i18n="nav.kuis">Kuis / Ujian</span>
+                    </button>
+                    <button onclick="showSection('bermain')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-bermain">
+                        <i class="fa-solid fa-dice text-orange-300" aria-hidden="true"></i> <span data-i18n="nav.bermain">Bermain</span>
+                    </button>
+                    <button onclick="showSection('petualangan')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-petualangan">
+                        <i class="fa-solid fa-map-location-dot text-teal-300" aria-hidden="true"></i> <span data-i18n="nav.petualangan">Petualangan</span>
+                    </button>
+                    <button onclick="showSection('ai')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-ai">
+                        <i class="fa-solid fa-robot text-pink-300" aria-hidden="true"></i> <span data-i18n="nav.ai">Tanya AI Ninna</span>
+                    </button>
+                    <button onclick="showSection('modul-ai')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-modul-ai">
+                        <i class="fa-solid fa-file-pen text-amber-300" aria-hidden="true"></i> <span data-i18n="nav.modul">Modul Ajar AI</span>
+                    </button>
+                    <button onclick="showSection('editor-kuis')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-editor-kuis">
+                        <i class="fa-solid fa-folder-plus text-yellow-300" aria-hidden="true"></i> <span data-i18n="nav.bank">Bank Soal Guru</span>
+                    </button>
+                    <button onclick="showSection('kelas')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-kelas">
+                        <i class="fa-solid fa-chalkboard-user text-lime-300" aria-hidden="true"></i> <span data-i18n="nav.kelas">Kelas</span>
+                    </button>
+                    <button onclick="showSection('rapor')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-rapor">
+                        <i class="fa-solid fa-chart-line text-yellow-300" aria-hidden="true"></i> <span data-i18n="nav.rapor">Diagnosis & Rapor</span>
+                    </button>
+                    <button onclick="showSection('orangtua')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-orangtua">
+                        <i class="fa-solid fa-people-roof text-rose-300" aria-hidden="true"></i> <span data-i18n="nav.orangtua">Orang Tua</span>
+                    </button>
+                </div>
+
+                <button type="button" id="nav-arrow-prev" class="nav-arrow nav-arrow-prev" aria-label="Geser menu ke kiri" aria-controls="nav-scroll" data-i18n-aria="nav.scrollLeft" hidden>
+                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
                 </button>
-                <button onclick="showSection('materi')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-materi">
-                    <i class="fa-solid fa-book-open-reader text-sky-300" aria-hidden="true"></i> <span data-i18n="nav.materi">Materi</span>
+                <button type="button" id="nav-arrow-next" class="nav-arrow nav-arrow-next" aria-label="Geser menu ke kanan" aria-controls="nav-scroll" data-i18n-aria="nav.scrollRight" hidden>
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
                 </button>
-                <button onclick="showSection('kuis')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-kuis">
-                    <i class="fa-solid fa-gamepad text-emerald-300" aria-hidden="true"></i> <span data-i18n="nav.kuis">Kuis / Ujian</span>
-                </button>
-                <button onclick="showSection('bermain')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-bermain">
-                    <i class="fa-solid fa-dice text-orange-300" aria-hidden="true"></i> <span data-i18n="nav.bermain">Bermain</span>
-                </button>
-                <button onclick="showSection('petualangan')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-petualangan">
-                    <i class="fa-solid fa-map-location-dot text-teal-300" aria-hidden="true"></i> <span data-i18n="nav.petualangan">Petualangan</span>
-                </button>
-                <button onclick="showSection('ai')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-ai">
-                    <i class="fa-solid fa-robot text-pink-300" aria-hidden="true"></i> <span data-i18n="nav.ai">Tanya AI Ninna</span>
-                </button>
-                <button onclick="showSection('modul-ai')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-modul-ai">
-                    <i class="fa-solid fa-file-pen text-amber-300" aria-hidden="true"></i> <span data-i18n="nav.modul">Modul Ajar AI</span>
-                </button>
-                <button onclick="showSection('editor-kuis')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-editor-kuis">
-                    <i class="fa-solid fa-folder-plus text-yellow-300" aria-hidden="true"></i> <span data-i18n="nav.bank">Bank Soal Guru</span>
-                </button>
-                <button onclick="showSection('kelas')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-kelas">
-                    <i class="fa-solid fa-chalkboard-user text-lime-300" aria-hidden="true"></i> <span data-i18n="nav.kelas">Kelas</span>
-                </button>
-                <button onclick="showSection('rapor')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-rapor">
-                    <i class="fa-solid fa-chart-line text-yellow-300" aria-hidden="true"></i> <span data-i18n="nav.rapor">Diagnosis & Rapor</span>
-                </button>
-                <button onclick="showSection('orangtua')" class="nav-btn px-4 py-2 rounded-2xl flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition whitespace-nowrap" id="nav-orangtua">
-                    <i class="fa-solid fa-people-roof text-rose-300" aria-hidden="true"></i> <span data-i18n="nav.orangtua">Orang Tua</span>
-                </button>
+
+                <div id="nav-scroll-hint" class="nav-hint" aria-hidden="true">
+                    <i class="fa-solid fa-hand-pointer" aria-hidden="true"></i>
+                    <span data-i18n="nav.scrollHint">Geser menu ke samping</span>
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </div>
             </div>
         </nav>
     </header>
@@ -1202,7 +1217,7 @@
                 <span class="text-slate-300">•</span>
                 <button onclick="openApiKeyModal()" class="hover:text-purple-700 transition">Pengaturan AI</button>
                 <span class="text-slate-300">•</span>
-                <span class="text-slate-400" id="app-version">v2.2.2</span>
+                <span class="text-slate-400" id="app-version">v2.3.0</span>
             </div>
         </div>
     </footer>
@@ -1452,19 +1467,20 @@
     <div id="toast-container" class="fixed bottom-4 right-4 z-[70] space-y-2 w-[calc(100%-2rem)] max-w-sm no-print" aria-live="polite" aria-atomic="true"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
-    <script src="js/data.js?v=2.2.2"></script>
-    <script src="js/data-extra.js?v=2.2.2"></script>
-    <script src="js/storage.js?v=2.2.2"></script>
-    <script src="js/audio.js?v=2.2.2"></script>
-    <script src="js/ai.js?v=2.2.2"></script>
-    <script src="js/gamification.js?v=2.2.2"></script>
-    <script src="js/games.js?v=2.2.2"></script>
-    <script src="js/adventure.js?v=2.2.2"></script>
-    <script src="js/teacher.js?v=2.2.2"></script>
-    <script src="js/parent.js?v=2.2.2"></script>
-    <script src="js/focus.js?v=2.2.2"></script>
-    <script src="js/accessibility.js?v=2.2.2"></script>
-    <script src="js/pwa.js?v=2.2.2"></script>
-    <script src="js/app.js?v=2.2.2"></script>
+    <script src="js/data.js?v=2.3.0"></script>
+    <script src="js/data-extra.js?v=2.3.0"></script>
+    <script src="js/storage.js?v=2.3.0"></script>
+    <script src="js/audio.js?v=2.3.0"></script>
+    <script src="js/ai.js?v=2.3.0"></script>
+    <script src="js/gamification.js?v=2.3.0"></script>
+    <script src="js/games.js?v=2.3.0"></script>
+    <script src="js/adventure.js?v=2.3.0"></script>
+    <script src="js/teacher.js?v=2.3.0"></script>
+    <script src="js/parent.js?v=2.3.0"></script>
+    <script src="js/focus.js?v=2.3.0"></script>
+    <script src="js/accessibility.js?v=2.3.0"></script>
+    <script src="js/pwa.js?v=2.3.0"></script>
+    <script src="js/nav-scroll.js?v=2.3.0"></script>
+    <script src="js/app.js?v=2.3.0"></script>
 </body>
 </html>

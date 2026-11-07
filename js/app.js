@@ -83,6 +83,7 @@ function initApp() {
     setupNetworkListeners();
     applyAccessibilitySettings();
     renderGamification();
+    if (typeof initNavScroll === 'function') initNavScroll();
 
     const journalDate = document.getElementById('journal-date');
     if (journalDate && !journalDate.value) journalDate.value = new Date().toISOString().slice(0, 10);
@@ -158,6 +159,7 @@ function showSection(sectionId, options = {}) {
     document.querySelectorAll('.nav-btn').forEach((button) => button.classList.remove('active'));
     const activeNav = document.getElementById(`nav-${sectionId}`);
     if (activeNav) activeNav.classList.add('active');
+    if (typeof ensureActiveNavVisible === 'function') ensureActiveNavVisible();
 
     if (sectionId === 'beranda') renderGamification();
     if (sectionId === 'materi') renderMateri();

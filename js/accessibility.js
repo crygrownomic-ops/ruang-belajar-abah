@@ -85,6 +85,12 @@ function applyLanguage(language = getAccessibilitySettings().language) {
         if (value) element.setAttribute('placeholder', value);
     });
 
+    document.querySelectorAll('[data-i18n-aria]').forEach((element) => {
+        const key = element.dataset.i18nAria;
+        const value = dictionary[key];
+        if (value) element.setAttribute('aria-label', value);
+    });
+
     const title = document.querySelector('title');
     if (title) {
         title.textContent = language === 'en'

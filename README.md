@@ -81,6 +81,8 @@ API key disimpan di `localStorage` browser dan hanya dikirim langsung ke Google 
 2. Buka **Orang Tua** untuk melihat laporan 7/30 hari, grafik, dan rekomendasi.
 3. Gunakan tombol **Cetak** untuk menyimpan laporan sebagai PDF.
 
+> **Tips navigasi:** di layar kecil, menu atas bisa digeser ke samping. Gunakan tombol panah di tepi menu atau geser dengan jari; menu yang aktif otomatis digulir agar terlihat.
+
 ## 📱 PWA & Mode Luring
 
 - Buka aplikasi melalui `http://` atau `https://` (Live Server / hosting statis) agar service worker aktif.
@@ -111,6 +113,7 @@ ruang-belajar-abah/
 │   ├── focus.js            # Sesi belajar fokus 10 menit
 │   ├── accessibility.js    # Aksesibilitas & dwibahasa
 │   ├── pwa.js              # Registrasi PWA & status online
+│   ├── nav-scroll.js       # Panah geser, fade tepi, dan petunjuk navigasi
 │   └── app.js              # Navigasi, kuis, timer, rapor, dan UI
 ├── icons/                  # Ikon PWA
 ├── docs/
