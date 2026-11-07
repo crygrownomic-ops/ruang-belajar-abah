@@ -452,8 +452,8 @@ function renderSavedLessonPlans() {
 
     container.innerHTML = plans.map((plan) => `
         <div class="flex flex-wrap items-center justify-between gap-2 border-2 border-slate-200 rounded-2xl p-3 bg-white">
-            <div class="min-w-0">
-                <p class="text-sm font-extrabold text-slate-800 truncate">${escapeHtml(plan.title)}</p>
+            <div class="min-w-0 flex-1">
+                <p class="text-sm font-extrabold text-slate-800 leading-snug break-words">${escapeHtml(plan.title)}</p>
                 <p class="text-[10px] font-semibold text-slate-400">${escapeHtml(SUBJECTS[plan.subject]?.label || plan.subject)} • ${escapeHtml(PHASES[plan.phase]?.short || plan.phase)} • ${new Date(plan.createdAt).toLocaleDateString('id-ID')}</p>
             </div>
             <div class="flex flex-wrap gap-1.5">

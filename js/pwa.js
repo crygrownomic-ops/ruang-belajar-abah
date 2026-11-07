@@ -25,9 +25,6 @@ function setupPwa() {
         if (typeof showToast === 'function') showToast('Aplikasi berhasil dipasang di perangkat.', 'success');
     });
 
-    const version = document.getElementById('app-version');
-    if (version) version.textContent = 'v2.2';
-
     if ('serviceWorker' in navigator && /^https?:$/.test(window.location.protocol)) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js').catch(() => {
