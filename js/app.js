@@ -117,15 +117,25 @@ function setupSelectListeners() {
 function setupModalBackdrops() {
     document.querySelectorAll('.modal-backdrop').forEach((backdrop) => {
         backdrop.addEventListener('click', (event) => {
-            if (event.target === backdrop) backdrop.classList.add('hidden');
+            if (event.target !== backdrop) return;
+            if (backdrop.id === 'modal-donasi' && typeof closeDonationModal === 'function') {
+                closeDonationModal();
+                return;
+            }
+            backdrop.classList.add('hidden');
         });
     });
 
     document.addEventListener('keydown', (event) => {
         if (event.key !== 'Escape') return;
-        ['modal-siswa', 'modal-apikey', 'modal-remedial', 'modal-profil', 'modal-petualangan', 'modal-aksesibilitas', 'modal-proyektor'].forEach((id) => {
+        ['modal-siswa', 'modal-apikey', 'modal-remedial', 'modal-profil', 'modal-petualangan', 'modal-aksesibilitas', 'modal-donasi', 'modal-proyektor'].forEach((id) => {
             const modal = document.getElementById(id);
-            if (modal) modal.classList.add('hidden');
+            if (!modal) return;
+            if (id === 'modal-donasi' && typeof closeDonationModal === 'function') {
+                if (!modal.classList.contains('hidden')) closeDonationModal();
+                return;
+            }
+            modal.classList.add('hidden');
         });
         if (typeof closeFocusModal === 'function') closeFocusModal();
     });

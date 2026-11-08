@@ -35,7 +35,7 @@
     <!-- Google Fonts Ceria -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=2.3.0">
+    <link rel="stylesheet" href="css/style.css?v=2.4.0">
 </head>
 <body class="bg-gradient-to-b from-amber-50 via-sky-50 to-pink-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-pink-200">
 
@@ -1200,6 +1200,21 @@
                 </div>
             </div>
 
+            <div class="bg-gradient-to-r from-rose-50 via-amber-50 to-yellow-50 rounded-3xl border-4 border-rose-200 p-5 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                    <span class="w-11 h-11 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-xl shrink-0 shadow-md">
+                        <i class="fa-solid fa-heart" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h3 class="text-base font-extrabold font-fredoka text-indigo-950">Dukung Pengembangan Aplikasi</h3>
+                        <p class="text-xs font-semibold text-slate-600 leading-relaxed">Ruang Belajar Abah gratis untuk semua. Jika bermanfaat, Bapak/Ibu bisa memberi dukungan sukarela untuk pemeliharaan dan fitur baru.</p>
+                    </div>
+                </div>
+                <button onclick="openDonationModal()" class="shrink-0 self-start sm:self-center bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
+                    <i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i> Lihat Cara Donasi
+                </button>
+            </div>
+
             <p class="text-center text-[11px] font-semibold text-slate-400 max-w-3xl mx-auto">
                 Laporan ini disusun dari data di perangkat ini. Diskusikan hasilnya dengan anak secara hangat, bukan untuk membandingkan dengan teman.
             </p>
@@ -1210,14 +1225,18 @@
     <footer class="no-print mt-8 border-t-4 border-yellow-400 bg-white/80 backdrop-blur">
         <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-semibold text-slate-500">
             <p>© <span id="footer-year">2026</span> <strong class="text-indigo-700">Ruang Belajar Abah</strong> — Belajar ceria, tumbuh bersama.</p>
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap items-center justify-center gap-3">
                 <button onclick="showSection('beranda')" class="hover:text-indigo-700 transition">Beranda</button>
                 <span class="text-slate-300">•</span>
                 <button onclick="openAccessibilityModal()" class="hover:text-sky-700 transition">Aksesibilitas</button>
                 <span class="text-slate-300">•</span>
                 <button onclick="openApiKeyModal()" class="hover:text-purple-700 transition">Pengaturan AI</button>
                 <span class="text-slate-300">•</span>
-                <span class="text-slate-400" id="app-version">v2.3.0</span>
+                <button onclick="openDonationModal()" class="hover:text-rose-600 transition inline-flex items-center gap-1 text-rose-500">
+                    <i class="fa-solid fa-heart" aria-hidden="true"></i> Dukung Developer
+                </button>
+                <span class="text-slate-300">•</span>
+                <span class="text-slate-400" id="app-version">v2.4.0</span>
             </div>
         </div>
     </footer>
@@ -1447,6 +1466,59 @@
         </div>
     </div>
 
+    <!-- MODAL: DUKUNGAN / DONASI DEVELOPER -->
+    <div id="modal-donasi" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-donasi-title">
+        <div class="bg-white w-full max-w-md rounded-3xl p-5 md:p-6 space-y-4 shadow-2xl border-4 border-rose-300 max-h-[92vh] overflow-y-auto modal-panel">
+            <div class="flex justify-between items-start border-b pb-3">
+                <h3 id="modal-donasi-title" class="font-extrabold text-xl text-rose-900 font-fredoka flex items-center gap-2">
+                    <span aria-hidden="true">❤️</span> <span>Dukung Pengembangan</span>
+                </h3>
+                <button type="button" data-donation-close onclick="closeDonationModal()" class="text-slate-400 hover:text-rose-600 transition" aria-label="Tutup dialog donasi">
+                    <i class="fa-solid fa-circle-xmark text-2xl" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <p class="text-sm font-semibold text-slate-600 leading-relaxed">
+                <strong>Ruang Belajar Abah gratis</strong> dipakai siapa saja. Jika aplikasi ini bermanfaat, dukungan sukarela dari Bapak/Ibu akan membantu biaya pengembangan, pemeliharaan, dan penambahan fitur baru, serta membuat developer makin semangat.
+            </p>
+
+            <div class="rounded-2xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-rose-50 p-4 space-y-3">
+                <div>
+                    <p class="text-[10px] uppercase tracking-widest font-extrabold text-amber-700">Nama Developer</p>
+                    <p class="text-base font-extrabold text-slate-800">Urai Ikhsan Fadhilah</p>
+                </div>
+                <div>
+                    <p class="text-[10px] uppercase tracking-widest font-extrabold text-amber-700">Nomor DANA</p>
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <p class="text-2xl font-black tracking-wide text-rose-700">0822 5412 7596</p>
+                        <button type="button" onclick="copyDonationNumber()" class="inline-flex items-center gap-1.5 bg-white hover:bg-rose-50 text-rose-700 border-2 border-rose-200 hover:border-rose-300 text-[11px] font-extrabold px-3 py-1.5 rounded-xl shadow-sm transition">
+                            <i class="fa-solid fa-copy" aria-hidden="true"></i> Salin Nomor
+                        </button>
+                    </div>
+                </div>
+                <p class="text-[10px] font-semibold text-slate-500 leading-relaxed">
+                    <i class="fa-solid fa-shield-halved text-emerald-600 mr-1" aria-hidden="true"></i>
+                    Pastikan nama penerima <strong>Urai Ikhsan Fadhilah</strong> muncul di aplikasi DANA sebelum mengirim. Hanya kirim ke nomor ini.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] font-bold text-slate-600">
+                <div class="rounded-xl bg-emerald-50 border border-emerald-200 p-2.5 flex items-start gap-1.5">
+                    <i class="fa-solid fa-heart-circle-check text-emerald-500 mt-0.5" aria-hidden="true"></i>
+                    <span>Donasi sukarela, tanpa paksaan.</span>
+                </div>
+                <div class="rounded-xl bg-sky-50 border border-sky-200 p-2.5 flex items-start gap-1.5">
+                    <i class="fa-solid fa-gift text-sky-500 mt-0.5" aria-hidden="true"></i>
+                    <span>Semua fitur tetap gratis untuk semua.</span>
+                </div>
+            </div>
+
+            <p class="text-center text-[11px] font-semibold text-slate-400 leading-relaxed">
+                Terima kasih sudah ikut menjaga semangat belajar anak Indonesia. 🙏
+            </p>
+        </div>
+    </div>
+
     <!-- MODAL: MODE PROYEKTOR -->
     <div id="modal-proyektor" class="fixed inset-0 bg-slate-950/95 z-[80] hidden p-2 md:p-5 no-print" role="dialog" aria-modal="true" aria-labelledby="projector-title">
         <div class="bg-white w-full h-full rounded-3xl shadow-2xl flex flex-col overflow-hidden border-4 border-indigo-400">
@@ -1467,20 +1539,21 @@
     <div id="toast-container" class="fixed bottom-4 right-4 z-[70] space-y-2 w-[calc(100%-2rem)] max-w-sm no-print" aria-live="polite" aria-atomic="true"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
-    <script src="js/data.js?v=2.3.0"></script>
-    <script src="js/data-extra.js?v=2.3.0"></script>
-    <script src="js/storage.js?v=2.3.0"></script>
-    <script src="js/audio.js?v=2.3.0"></script>
-    <script src="js/ai.js?v=2.3.0"></script>
-    <script src="js/gamification.js?v=2.3.0"></script>
-    <script src="js/games.js?v=2.3.0"></script>
-    <script src="js/adventure.js?v=2.3.0"></script>
-    <script src="js/teacher.js?v=2.3.0"></script>
-    <script src="js/parent.js?v=2.3.0"></script>
-    <script src="js/focus.js?v=2.3.0"></script>
-    <script src="js/accessibility.js?v=2.3.0"></script>
-    <script src="js/pwa.js?v=2.3.0"></script>
-    <script src="js/nav-scroll.js?v=2.3.0"></script>
-    <script src="js/app.js?v=2.3.0"></script>
+    <script src="js/data.js?v=2.4.0"></script>
+    <script src="js/data-extra.js?v=2.4.0"></script>
+    <script src="js/storage.js?v=2.4.0"></script>
+    <script src="js/audio.js?v=2.4.0"></script>
+    <script src="js/ai.js?v=2.4.0"></script>
+    <script src="js/gamification.js?v=2.4.0"></script>
+    <script src="js/games.js?v=2.4.0"></script>
+    <script src="js/adventure.js?v=2.4.0"></script>
+    <script src="js/teacher.js?v=2.4.0"></script>
+    <script src="js/parent.js?v=2.4.0"></script>
+    <script src="js/focus.js?v=2.4.0"></script>
+    <script src="js/accessibility.js?v=2.4.0"></script>
+    <script src="js/pwa.js?v=2.4.0"></script>
+    <script src="js/nav-scroll.js?v=2.4.0"></script>
+    <script src="js/donation.js?v=2.4.0"></script>
+    <script src="js/app.js?v=2.4.0"></script>
 </body>
 </html>

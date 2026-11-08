@@ -663,6 +663,7 @@ html.a11y-auto-read #btn-read-materi {
     body:not(.printing) #modal-petualangan,
     body:not(.printing) #modal-fokus,
     body:not(.printing) #modal-aksesibilitas,
+    body:not(.printing) #modal-donasi,
     body:not(.printing) #modal-proyektor,
     body:not(.printing) #offline-banner {
         display: none !important;

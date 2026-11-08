@@ -114,6 +114,7 @@ ruang-belajar-abah/
 │   ├── accessibility.js    # Aksesibilitas & dwibahasa
 │   ├── pwa.js              # Registrasi PWA & status online
 │   ├── nav-scroll.js       # Panah geser, fade tepi, dan petunjuk navigasi
+│   ├── donation.js         # Info donasi & salin nomor DANA
 │   └── app.js              # Navigasi, kuis, timer, rapor, dan UI
 ├── icons/                  # Ikon PWA
 ├── docs/
@@ -132,6 +133,15 @@ ruang-belajar-abah/
 - Google Gemini API (opsional)
 - Web Audio API, Web Speech API, `localStorage`
 - Service Worker + Web App Manifest untuk PWA/offline
+
+## 💖 Dukungan Developer
+
+Ruang Belajar Abah gratis dipakai siapa saja. Jika aplikasi ini bermanfaat, kamu bisa memberi dukungan sukarela melalui:
+
+- **Nama Developer:** Urai Ikhsan Fadhilah
+- **DANA:** 0822 5412 7596
+
+Donasi bersifat sukarela dan tidak mengunci fitur apa pun. Aplikasi tidak memproses pembayaran; transfer dilakukan langsung melalui aplikasi DANA. Pastikan nama penerima sesuai sebelum mengirim. Tombol **Dukung Developer** tersedia di footer dan halaman **Orang Tua**.
 
 ## 🔒 Catatan Backend
 
